@@ -3,20 +3,20 @@ package view;
 import java.util.List;
 import java.util.Objects;
 
-import model.HexagonalReversi;
-import model.Cell;
+import model.HexModel;
+import model.ReversiCell;
 
 public class TextualView implements ReversiView {
-  private final HexagonalReversi hexagonalReversi;
+  private final HexModel hexModel;
 
-  public TextualView(HexagonalReversi hexagonalReversi) {
-    this.hexagonalReversi = Objects.requireNonNull(hexagonalReversi);
+  public TextualView(HexModel hexModel) {
+    this.hexModel = Objects.requireNonNull(hexModel);
   }
 
   public String toString() {
     String output = "";
-    List<List<Cell>> cells = hexagonalReversi.getCells();
-    int boardSize = hexagonalReversi.getBoardSize();
+    List<List<ReversiCell>> cells = hexModel.getCells();
+    int boardSize = hexModel.getBoardSize();
     int maxWidth = (((boardSize * 2) - 1) * 2) - 1;
     int numSpacesOnEachSide = (maxWidth - (boardSize * 2) - 1) / 2;
 
@@ -26,11 +26,11 @@ public class TextualView implements ReversiView {
         output += " ";
         widthCount++;
       }
-      for (Cell c : cells.get(row)) {
-        if (hexagonalReversi.isBlack(c)) {
+      for (ReversiCell c : cells.get(row)) {
+        if (hexModel.isBlack(c)) {
           output += "X ";
           widthCount += 2;
-        } else if (hexagonalReversi.isWhite(c)) {
+        } else if (hexModel.isWhite(c)) {
           output += "O ";
           widthCount += 2;
         } else {
