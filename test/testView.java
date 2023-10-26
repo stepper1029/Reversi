@@ -1,15 +1,15 @@
 import org.junit.Test;
 
-import model.HexModel;
+import model.BasicReversi;
 import view.ReversiView;
-import view.TextualView;
+import view.HexTextView;
 
 public class testView {
   @Test
   public void testToString() {
-    HexModel model = new HexModel(3);
+    BasicReversi model = new BasicReversi(3);
     model.startGame();
-    ReversiView tv = new TextualView(model);
+    ReversiView tv = new HexTextView(model);
     System.out.println(tv);
   }
 

@@ -3,14 +3,14 @@ package view;
 import java.util.List;
 import java.util.Objects;
 
-import model.HexModel;
+import model.BasicReversi;
 import model.ReversiCell;
 
-public class TextualView implements ReversiView {
-  private final HexModel hexModel;
+public class HexTextView implements ReversiView {
+  private final HexBoard board;
 
-  public TextualView(HexModel hexModel) {
-    this.hexModel = Objects.requireNonNull(hexModel);
+  public HexTextView(HexBoard board) {
+    this.board = Objects.requireNonNull(board);
   }
 
   public String toString() {

@@ -46,4 +46,13 @@ class HexCell implements ReversiCell {
   public int hashCode() {
     return Objects.hash(q, r, s);
   }
+
+  public ReversiCell addVector(int[] directions)
+          throws IllegalArgumentException {
+    if (directions.length != 3) {
+      throw new IllegalArgumentException("Directional array length should be 3");
+    }
+    return new HexCell(this.q + directions[0], this.r +
+            directions[1], this.s + directions[2]);
+  }
 }
