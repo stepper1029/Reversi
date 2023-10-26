@@ -16,16 +16,18 @@ class HexCell implements ReversiCell {
     this.s = s;
   }
 
- int getQ() {
-    return this.q;
- }
-
-  int getR() {
-    return this.r;
-  }
-
-  int getS() {
-    return this.s;
+  @Override
+  public int getCoord(char plane) {
+    switch (plane) {
+      case 'q':
+        return this.q;
+      case 'r':
+        return this.r;
+      case 's':
+        return this.s;
+      default:
+        throw new IllegalArgumentException("plane must be q r or s for a hexagonal grid");
+    }
   }
 
   @Override
