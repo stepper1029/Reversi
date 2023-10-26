@@ -7,7 +7,7 @@ import model.HexagonalReversi;
 import model.Cell;
 
 public class TextualView implements ReversiView {
-  private HexagonalReversi hexagonalReversi;
+  private final HexagonalReversi hexagonalReversi;
 
   public TextualView(HexagonalReversi hexagonalReversi) {
     this.hexagonalReversi = Objects.requireNonNull(hexagonalReversi);
@@ -27,9 +27,6 @@ public class TextualView implements ReversiView {
         widthCount++;
       }
       for (Cell c : cells.get(row)) {
-        System.out.println(c.toString());
-        System.out.println("isBlack: " + hexagonalReversi.isBlack(c));
-        System.out.println("isWhite: " + hexagonalReversi.isWhite(c));
         if (hexagonalReversi.isBlack(c)) {
           output += "X ";
           widthCount += 2;
