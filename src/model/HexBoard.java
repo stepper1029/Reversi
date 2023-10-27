@@ -147,9 +147,6 @@ class HexBoard implements Board {
     }
   }
 
-  /**
-   * Todo implement this method
-   */
   private List<ReversiCell> getConnections(ReversiCell c) {
     ArrayList<ReversiCell> connections = new ArrayList<>();
     ReversiCell currCell = c;
@@ -157,7 +154,11 @@ class HexBoard implements Board {
       currCell = this.getNeighborCell(currCell, direction);
       while(!this.isEmpty(currCell) && !this.sameColor(c, currCell)) {
         try {
-
+          currCell = this.getNeighborCell(currCell, direction);
+          if(this.sameColor(currCell, c)) {
+            connections.add(currCell);
+            break;
+          }
         }
         catch (IllegalArgumentException e) {
           // do nothing because we want to continue through the for loop to
@@ -165,7 +166,7 @@ class HexBoard implements Board {
         }
       }
     }
-    return null;
+    return connections;
   }
 
   private void invalidCellException(ReversiCell cell) {
