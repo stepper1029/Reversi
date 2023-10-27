@@ -11,19 +11,18 @@ public class BasicReversi implements ReversiModel {
   public BasicReversi(Board board) {
     this.numPasses = 0;
     this.board = board;
+    this.setBoard(board);
   }
 
   private void setBoard(Board board) {
-    if (board.getBoardSize() > 2) {
-
-      board.placeDisc(new HexCell(0, -1, 1), DiscColor.Black);
-      board.placeDisc(new HexCell(1, 0, -1), DiscColor.Black);
-      board.placeDisc(new HexCell(-1, 1, 0), DiscColor.Black);
-      board.placeDisc(new HexCell(1, -1, 0), DiscColor.White);
-      board.placeDisc(new HexCell(0, 1, -1), DiscColor.White);
-      board.placeDisc(new HexCell(-1, 0, 1), DiscColor.White);
+      DiscColor[] colors = DiscColor.values();
+      List<ReversiCell> cells = board.getInitPositions();
+      for (int i = 0; i < cells.size(); i ++) {
+        ReversiCell cell = cells.get(i);
+        DiscColor color = colors[i % colors.length];
+        board.placeDisc(cell, color);
+      }
     }
-  }
 
   @Override
   public boolean validMoveInOneD(CellDirection direction, ReversiCell startingCell) {

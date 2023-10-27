@@ -2,14 +2,18 @@ package view;
 
 import java.util.Objects;
 
+import model.BasicReversi;
 import model.Board;
+import model.DiscColor;
 import model.ReversiCell;
+import model.ReversiModel;
 
 public class HexTextView implements ReversiView {
-  private final Board board;
+  private final ReversiModel model;
 
-  public HexTextView(Board board) {
-    this.board = Objects.requireNonNull(board);
+  public HexTextView(BasicReversi model) {
+
+    this.model = Objects.requireNonNull(model);
   }
 
   public String toString() {
@@ -26,19 +30,16 @@ public class HexTextView implements ReversiView {
         widthCount++;
       }
       for (ReversiCell c : board.getRow(row)) {
-        if (board.isBlack(c)) {
+        if (board.getColorAt(c).equals(DiscColor.Black)) {
           output += "X ";
           widthCount += 2;
-        } else if (board.isWhite(c)) {
+        } else if (board.getColorAt(c).equals(DiscColor.White)) {
           output += "O ";
           widthCount += 2;
         } else {
           output += "_ ";
           widthCount += 2;
         }
-      }
-      for (int i = 0; i < numSpacesOnEachSide; i++) {
-        output += " ";
       }
       if (row < cells/2) {
         numSpacesOnEachSide--;

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 class HexBoard implements Board {
   int boardSize;
-  List<List<ReversiCell>> cells;
+  ReversiCell[][] cells;
   List<ReversiCell> blackCells;
   List<ReversiCell> whiteCells;
 
@@ -14,23 +14,46 @@ class HexBoard implements Board {
     if (boardSize < 3) {
       throw new IllegalArgumentException("Board size must be at least 3");
     }
+    this.blackCells = new ArrayList<>(Arrays.asList());
+    this.whiteCells = new ArrayList<>(Arrays.asList());
     this.boardSize = boardSize;
-    this.cells = new ArrayList<>(Arrays.asList());
+    this.cells = new ReversiCell[(boardSize * 2) - 1][];
   }
 
-  public List<List<ReversiCell>> getBoard() {
-    for (int r = (this.boardSize - 1) * -1; r < this.boardSize; r++) {
-      List<ReversiCell> row = new ArrayList<>(Arrays.asList());
-      for (int q = (this.boardSize - 1) * -1; q <  this.boardSize; q++) {
-        for(int s = this.boardSize - 1; s > (this.boardSize - 1) * -1; s--) {
-          if (q + r + s == 0) {
-            row.add(new HexCell(q, r, s));
+  // todo TEST THIS!!!!!!!
+  public ReversiCell[][] getBoard() {
+    for (int outerArrayIndex = 0; outerArrayIndex < 2 * boardSize - 1; outerArrayIndex++) {
+      int width = boardSize - 1;
+      ReversiCell[] currRow;
+      if (outerArrayIndex <= boardSize) {
+        width++;
+        currRow = new ReversiCell[width];
+      } else {
+        currRow = new ReversiCell[width];
+        width--;
+      }
+      int innerArrayIndex = 0;
+
+      for (int r = (this.boardSize - 1) * -1; r < this.boardSize; r++) {
+        for (int q = (this.boardSize - 1) * -1; q < this.boardSize; q++) {
+          for (int s = this.boardSize - 1; s > (this.boardSize - 1) * -1; s--) {
+            if (q + r + s == 0 && innerArrayIndex < width) {
+              currRow[innerArrayIndex] = new HexCell(q, r, s);
+            }
           }
         }
       }
-      cells.add(row);
+      cells[outerArrayIndex] = currRow;
     }
     return cells;
+  }
+
+  @Override
+  public List<ReversiCell> getInitPositions() {
+    return new ArrayList<>(Arrays.asList(new HexCell(0, -1, 1),
+            new HexCell(1, -1, 0), new HexCell(1, 0, -1),
+            new HexCell(0, 1, -1), new HexCell(-1, 1, 0),
+            new HexCell(-1, 0, 1)));
   }
 
   @Override
@@ -39,8 +62,8 @@ class HexBoard implements Board {
   }
 
   @Override
-  public List<ReversiCell> getRow(int numRow) {
-    return this.cells.get(numRow);
+  public ReversiCell[] getRow(int numRow) {
+    return this.cells[numRow];
   }
 
   @Override
@@ -50,28 +73,37 @@ class HexBoard implements Board {
 
   @Override
   public int getNumTotalCells() {
-      return this.cells.size();
+    return this.cells.length;
   }
 
-  @Override
-  public boolean isBlack(ReversiCell c) {
-    return this.blackCells.contains(c);
-  }
-
-  @Override
-  public boolean isWhite(ReversiCell c) {
-    return this.whiteCells.contains(c);
+  public DiscColor getColorAt(ReversiCell c) {
+    if (this.isEmpty(c)) {
+      throw new IllegalArgumentException("No color, is empty");
+    } else if (this.blackCells.contains(c)) {
+      return DiscColor.Black;
+    } else {
+      return DiscColor.White;
+    }
   }
 
   @Override
   public boolean isEmpty(ReversiCell c) {
-    return !this.isWhite(c) && !this.isBlack(c);
+    return !this.whiteCells.contains(c) && !this.blackCells.contains(c);
   }
 
   @Override
   public boolean sameColor(ReversiCell c1, ReversiCell c2) {
     return (this.blackCells.contains(c1) && this.blackCells.contains(c2)) ||
             (this.whiteCells.contains(c1) && this.whiteCells.contains(c2));
+  }
+
+  @Override
+  public int getNumColor(DiscColor color) {
+    if (color.equals(DiscColor.Black)) {
+      return this.blackCells.size();
+    } else {
+      return this.whiteCells.size();
+    }
   }
 
   /**
@@ -84,33 +116,29 @@ class HexBoard implements Board {
     if (cell1.getCoord('q') <= cell1.getCoord('q')) {
       leftCell = cell1;
       rightCell = cell2;
-    }
-    else {
+    } else {
       leftCell = cell2;
       rightCell = cell1;
     }
     if (leftCell.getCoord('q') == rightCell.getCoord('q')) {
       int q = leftCell.getCoord('q');
-      for (int r = leftCell.getCoord('r') + 1, s  = leftCell.getCoord('s') - 1;
+      for (int r = leftCell.getCoord('r') + 1, s = leftCell.getCoord('s') - 1;
            r < rightCell.getCoord('r') && s > rightCell.getCoord('s'); r++, s--) {
         betweenCells.add(new HexCell(q, r, s));
       }
-    }
-    else if (leftCell.getCoord('r') == rightCell.getCoord('r')) {
+    } else if (leftCell.getCoord('r') == rightCell.getCoord('r')) {
       int r = leftCell.getCoord('r');
       for (int q = leftCell.getCoord('q') + 1, s = leftCell.getCoord('s') - 1;
            q < rightCell.getCoord('q') && s > rightCell.getCoord('s'); q++, s--) {
         betweenCells.add(new HexCell(q, r, s));
       }
-    }
-    else if (leftCell.getCoord('s') == rightCell.getCoord('s')) {
+    } else if (leftCell.getCoord('s') == rightCell.getCoord('s')) {
       int s = leftCell.getCoord('s');
       for (int q = leftCell.getCoord('q') + 1, r = leftCell.getCoord('r') - 1;
            q < rightCell.getCoord('q') && r > rightCell.getCoord('r'); q++, r--) {
         betweenCells.add(new HexCell(q, r, s));
       }
-    }
-    else {
+    } else {
       throw new IllegalArgumentException("Given cells are not in a row and do not have " +
               "cells in between");
     }
@@ -123,7 +151,7 @@ class HexBoard implements Board {
     if (!this.isEmpty(c)) {
       throw new IllegalStateException("You can only place discs in empty cells.");
     } else if (color.equals(DiscColor.Black)) {
-        this.blackCells.add(c);
+      this.blackCells.add(c);
     } else {
       this.whiteCells.add(c);
     }
@@ -147,20 +175,20 @@ class HexBoard implements Board {
     }
   }
 
+  // todo change to ReversiCell[] instead of List<ReversiCell>
   private List<ReversiCell> getConnections(ReversiCell c) {
     ArrayList<ReversiCell> connections = new ArrayList<>();
     ReversiCell currCell = c;
     for (CellDirection direction : CellDirection.values()) {
       currCell = this.getNeighborCell(currCell, direction);
-      while(!this.isEmpty(currCell) && !this.sameColor(c, currCell)) {
+      while (!this.isEmpty(currCell) && !this.sameColor(c, currCell)) {
         try {
           currCell = this.getNeighborCell(currCell, direction);
-          if(this.sameColor(currCell, c)) {
+          if (this.sameColor(currCell, c)) {
             connections.add(currCell);
             break;
           }
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
           // do nothing because we want to continue through the for loop to
           // check the other directions
         }
@@ -170,7 +198,7 @@ class HexBoard implements Board {
   }
 
   private void invalidCellException(ReversiCell cell) {
-    if (cell.getCoord('q') > this.boardSize -1
+    if (cell.getCoord('q') > this.boardSize - 1
             || cell.getCoord('q') < this.boardSize * -1
             || cell.getCoord('r') > this.boardSize
             || cell.getCoord('r') < this.boardSize * -1

@@ -25,6 +25,7 @@ public class packagePrivateModelTests {
   public void testToString() {
     Board board = new HexBoard(3);
     ReversiModel model = new BasicReversi(board);
+
     ReversiView tv = new HexTextView(board);
     String expected = tv.toString();
     System.out.println(expected);
