@@ -1,9 +1,10 @@
 package model;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 
-public class HexBoard implements Board {
+class HexBoard implements Board {
   int boardSize;
   List<List<ReversiCell>> cells;
   List<ReversiCell> blackCells;
@@ -14,6 +15,22 @@ public class HexBoard implements Board {
       throw new IllegalArgumentException("Board size must be at least 3");
     }
     this.boardSize = boardSize;
+    this.cells = new ArrayList<>(Arrays.asList());
+  }
+
+  public List<List<ReversiCell>> getBoard() {
+    for (int r = (this.boardSize - 1) * -1; r < this.boardSize; r++) {
+      List<ReversiCell> row = new ArrayList<>(Arrays.asList());
+      for (int q = (this.boardSize - 1) * -1; q <  this.boardSize; q++) {
+        for(int s = this.boardSize - 1; s > (this.boardSize - 1) * -1; s--) {
+          if (q + r + s == 0) {
+            row.add(new HexCell(q, r, s));
+          }
+        }
+      }
+      cells.add(row);
+    }
+    return cells;
   }
 
   @Override
@@ -104,6 +121,10 @@ public class HexBoard implements Board {
     } else {
       this.whiteCells.add(c);
     }
+  }
+
+  public int getScore(DiscColor color) {
+    return 0;
   }
 
   private void flipDisc(ReversiCell c) {

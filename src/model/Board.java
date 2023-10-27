@@ -3,6 +3,7 @@ package model;
 import java.util.List;
 
 public interface Board {
+  public List<List<ReversiCell>> getBoard();
   public ReversiCell getNeighborCell(ReversiCell cell, CellDirection direction);
   public List<ReversiCell> getRow(int numRow);
   public int getBoardSize();
