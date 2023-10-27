@@ -106,12 +106,21 @@ public class HexBoard implements Board {
     }
   }
 
-  /**
-   * Todo implement this method
-   */
   private void flipDisc(ReversiCell c) {
+    invalidCellException(c);
 
+    if (this.isEmpty(c)) {
+      throw new IllegalStateException("Empty cell cannot be flipped.");
+    } else if (this.whiteCells.contains(c)) {
+      this.whiteCells.remove(c);
+      this.blackCells.add(c);
+    } else {
+      this.blackCells.remove(c);
+      this.whiteCells.add(c);
+    }
   }
+
+
 
   /**
    * Todo implement this method
