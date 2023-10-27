@@ -10,9 +10,11 @@ public interface ReversiModel {
 
   List<ReversiCell> allPosibleMoves(DiscColor color);
 
-  int[] getScore();
+  int getScore(DiscColor color);
 
   boolean isGameOver();
 
   void pass();
+
+  void place(ReversiCell cell);
 }

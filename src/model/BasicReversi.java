@@ -8,9 +8,11 @@ public class BasicReversi implements ReversiModel {
 
   DiscColor currColor;
   private int numPasses;
+  Board board;
 
-  public BasicReversi() {
+  public BasicReversi(Board board) {
     this.numPasses = 0;
+    this.board = board;
   }
 
   private void setBoard(Board board) {
@@ -42,8 +44,8 @@ public class BasicReversi implements ReversiModel {
   }
 
   @Override
-  public int[] getScore() {
-    return null;
+  public int getScore(DiscColor color) {
+    return 0;
   }
 
   @Override
@@ -58,5 +60,10 @@ public class BasicReversi implements ReversiModel {
   @Override
   public void pass() {
     this.numPasses += 1;
+  }
+
+  @Override
+  public void place(ReversiCell cell) {
+    board.placeDisc(cell, currColor);
   }
 }

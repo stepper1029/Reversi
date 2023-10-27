@@ -1,9 +1,10 @@
 package model;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 
-public class HexBoard implements Board {
+class HexBoard implements Board {
   int boardSize;
   List<List<ReversiCell>> cells;
   List<ReversiCell> blackCells;
@@ -14,6 +15,22 @@ public class HexBoard implements Board {
       throw new IllegalArgumentException("Board size must be at least 3");
     }
     this.boardSize = boardSize;
+    this.cells = new ArrayList<>(Arrays.asList());
+  }
+
+  public List<List<ReversiCell>> getBoard() {
+    for (int r = (this.boardSize - 1) * -1; r < this.boardSize; r++) {
+      List<ReversiCell> row = new ArrayList<>(Arrays.asList());
+      for (int q = (this.boardSize - 1) * -1; q <  this.boardSize; q++) {
+        for(int s = this.boardSize - 1; s > (this.boardSize - 1) * -1; s--) {
+          if (q + r + s == 0) {
+            row.add(new HexCell(q, r, s));
+          }
+        }
+      }
+      cells.add(row);
+    }
+    return cells;
   }
 
   @Override
@@ -49,6 +66,12 @@ public class HexBoard implements Board {
   @Override
   public boolean isEmpty(ReversiCell c) {
     return !this.isWhite(c) && !this.isBlack(c);
+  }
+
+  @Override
+  public boolean sameColor(ReversiCell c1, ReversiCell c2) {
+    return (this.blackCells.contains(c1) && this.blackCells.contains(c2)) ||
+            (this.whiteCells.contains(c1) && this.whiteCells.contains(c2));
   }
 
   /**
@@ -106,6 +129,10 @@ public class HexBoard implements Board {
     }
   }
 
+  public int getScore(DiscColor color) {
+    return 0;
+  }
+
   private void flipDisc(ReversiCell c) {
     invalidCellException(c);
 
@@ -120,12 +147,24 @@ public class HexBoard implements Board {
     }
   }
 
-
-
   /**
    * Todo implement this method
    */
   private List<ReversiCell> getConnections(ReversiCell c) {
+    ArrayList<ReversiCell> connections = new ArrayList<>();
+    ReversiCell currCell = c;
+    for (CellDirection direction : CellDirection.values()) {
+      currCell = this.getNeighborCell(currCell, direction);
+      while(!this.isEmpty(currCell) && !this.sameColor(c, currCell)) {
+        try {
+
+        }
+        catch (IllegalArgumentException e) {
+          // do nothing because we want to continue through the for loop to
+          // check the other directions
+        }
+      }
+    }
     return null;
   }
 
