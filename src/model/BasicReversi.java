@@ -1,7 +1,5 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class BasicReversi implements ReversiModel {
@@ -29,7 +27,6 @@ public class BasicReversi implements ReversiModel {
 
   @Override
   public boolean validMoveInOneD(CellDirection direction, ReversiCell startingCell) {
-
     return false;
   }
 
