@@ -68,6 +68,12 @@ class HexBoard implements Board {
     return !this.isWhite(c) && !this.isBlack(c);
   }
 
+  @Override
+  public boolean sameColor(ReversiCell c1, ReversiCell c2) {
+    return (this.blackCells.contains(c1) && this.blackCells.contains(c2)) ||
+            (this.whiteCells.contains(c1) && this.whiteCells.contains(c2));
+  }
+
   /**
    * Todo separate into helper methods.
    */
@@ -141,12 +147,24 @@ class HexBoard implements Board {
     }
   }
 
-
-
   /**
    * Todo implement this method
    */
   private List<ReversiCell> getConnections(ReversiCell c) {
+    ArrayList<ReversiCell> connections = new ArrayList<>();
+    ReversiCell currCell = c;
+    for (CellDirection direction : CellDirection.values()) {
+      currCell = this.getNeighborCell(currCell, direction);
+      while(!this.isEmpty(currCell) && !this.sameColor(c, currCell)) {
+        try {
+
+        }
+        catch (IllegalArgumentException e) {
+          // do nothing because we want to continue through the for loop to
+          // check the other directions
+        }
+      }
+    }
     return null;
   }
 

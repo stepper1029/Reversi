@@ -12,4 +12,6 @@ public interface Board {
   public boolean isWhite(ReversiCell c);
   public boolean isEmpty(ReversiCell c);
   public void placeDisc(ReversiCell c, DiscColor color);
+  public boolean sameColor(ReversiCell c1, ReversiCell c2);
+  public int getScore(DiscColor color);
 }
