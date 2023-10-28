@@ -3,10 +3,9 @@ package view;
 import java.util.Objects;
 
 import model.BasicReversi;
-import model.Board;
 import model.DiscColor;
 import model.ReversiCell;
-import model.ReversiModel;
+import model.ReadOnlyModel;
 
 public class HexTextView implements ReversiView {
   private final ReversiModel model;

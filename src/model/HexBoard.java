@@ -175,28 +175,6 @@ class HexBoard implements Board {
     }
   }
 
-  // todo change to ReversiCell[] instead of List<ReversiCell>
-  private List<ReversiCell> getConnections(ReversiCell c) {
-    ArrayList<ReversiCell> connections = new ArrayList<>();
-    ReversiCell currCell = c;
-    for (CellDirection direction : CellDirection.values()) {
-      currCell = this.getNeighborCell(currCell, direction);
-      while (!this.isEmpty(currCell) && !this.sameColor(c, currCell)) {
-        try {
-          currCell = this.getNeighborCell(currCell, direction);
-          if (this.sameColor(currCell, c)) {
-            connections.add(currCell);
-            break;
-          }
-        } catch (IllegalArgumentException e) {
-          // do nothing because we want to continue through the for loop to
-          // check the other directions
-        }
-      }
-    }
-    return connections;
-  }
-
   private void invalidCellException(ReversiCell cell) {
     if (cell.getCoord('q') > this.boardSize - 1
             || cell.getCoord('q') < this.boardSize * -1

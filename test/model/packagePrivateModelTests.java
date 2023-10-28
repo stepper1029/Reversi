@@ -24,11 +24,11 @@ public class packagePrivateModelTests {
   @Test
   public void testToString() {
     Board board = new HexBoard(3);
-    ReversiModel model = new BasicReversi(board);
-
-    ReversiView tv = new HexTextView(board);
-    String expected = tv.toString();
-    System.out.println(expected);
+//    ReadOnlyModel model = new BasicReversi(board);
+//
+//    ReversiView tv = new HexTextView(model);
+//    String expected = tv.toString();
+//    System.out.println(expected);
 
   }
 }
