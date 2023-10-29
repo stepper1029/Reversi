@@ -8,44 +8,66 @@ import model.ReversiCell;
 import model.ReadOnlyModel;
 
 public class HexTextView implements ReversiView {
-  private final ReversiModel model;
+  private final ReadOnlyModel model;
 
-  public HexTextView(BasicReversi model) {
+  public HexTextView(ReadOnlyModel model) {
 
     this.model = Objects.requireNonNull(model);
   }
 
   public String toString() {
     String output = "";
-    int cells = board.getNumTotalCells();
-    int boardSize = board.getBoardSize();
+    int boardSize = model.getBoardSize();
     int maxWidth = (((boardSize * 2) - 1) * 2) - 1;
-    int numSpacesOnEachSide = (maxWidth - (boardSize * 2) - 1) / 2;
-
-    for(int row = 0; row < cells; row ++) {
+    int numSpaces = (maxWidth - (boardSize * 2) - 1) / 2;
+    for (int numRow = 0; numRow < model.getNumRows(); numRow++) {
       int widthCount = 0;
-      while (widthCount <= numSpacesOnEachSide) {
+      while (widthCount <= numSpaces) {
         output += " ";
         widthCount++;
       }
-      for (ReversiCell c : board.getRow(row)) {
-        if (board.getColorAt(c).equals(DiscColor.Black)) {
-          output += "X ";
-          widthCount += 2;
-        } else if (board.getColorAt(c).equals(DiscColor.White)) {
-          output += "O ";
-          widthCount += 2;
+      for (int numCell = 0; numCell < model.getRowSize(numRow); numCell++) {
+        ReversiCell currCell = model.getCellAt(numRow, numCell);
+        if (model.isEmpty(currCell)) {
+          output += emptyStringHelper(numRow, numCell);
+        } else if (model.getColorAt(currCell).equals(DiscColor.Black)) {
+          output += blackStringHelper(numRow, numCell);
         } else {
-          output += "_ ";
-          widthCount += 2;
+          output += whiteStringHelper(numRow, numCell);
         }
       }
-      if (row < cells/2) {
-        numSpacesOnEachSide--;
-      } else {
-        numSpacesOnEachSide++;
-      }
-      output += "\n";
+      numSpaces --;
+    }
+    return output;
+  }
+
+
+  private String emptyStringHelper(int numRow, int numCell) {
+    String output = "";
+    if (numCell == model.getRowSize(numRow) - 1) {
+      output += "_\n";
+    } else {
+      output += "_ ";
+    }
+    return output;
+  }
+
+  private String blackStringHelper(int numRow, int numCell) {
+    String output = "";
+    if (numCell == model.getRowSize(numRow) - 1) {
+      output += "X\n";
+    } else {
+      output += "X ";
+    }
+    return output;
+  }
+
+  private String whiteStringHelper(int numRow, int numCell) {
+    String output = "";
+    if (numCell == model.getRowSize(numRow) - 1) {
+      output += "O\n";
+    } else {
+      output += "O ";
     }
     return output;
   }

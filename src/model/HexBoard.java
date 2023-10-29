@@ -71,11 +71,6 @@ class HexBoard implements Board {
     return this.boardSize;
   }
 
-  @Override
-  public int getNumTotalCells() {
-    return this.cells.length;
-  }
-
   public DiscColor getColorAt(ReversiCell c) {
     if (this.isEmpty(c)) {
       throw new IllegalArgumentException("No color, is empty");

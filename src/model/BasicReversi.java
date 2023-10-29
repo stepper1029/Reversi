@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BasicReversi implements ReversiModel {
+public class BasicReversi implements MutableModel {
 
   DiscColor currColor;
   private int numPasses;
@@ -16,28 +16,13 @@ public class BasicReversi implements ReversiModel {
   }
 
   private void setBoard(Board board) {
-      DiscColor[] colors = DiscColor.values();
-      List<ReversiCell> cells = board.getInitPositions();
-      for (int i = 0; i < cells.size(); i ++) {
-        ReversiCell cell = cells.get(i);
-        DiscColor color = colors[i % colors.length];
-        board.placeDisc(cell, color);
-      }
+    DiscColor[] colors = DiscColor.values();
+    List<ReversiCell> cells = board.getInitPositions();
+    for (int i = 0; i < cells.size(); i ++) {
+      ReversiCell cell = cells.get(i);
+      DiscColor color = colors[i % colors.length];
+      board.placeDisc(cell, color);
     }
-
-  @Override
-  public boolean validMoveInOneD(CellDirection direction, ReversiCell startingCell) {
-    return false;
-  }
-
-  @Override
-  public List<ReversiCell> validMovesInAllDirections(ReversiCell startingCell) {
-    return null;
-  }
-
-  @Override
-  public List<ReversiCell> allPosibleMoves(DiscColor color) {
-    return null;
   }
 
   @Override
@@ -47,7 +32,7 @@ public class BasicReversi implements ReversiModel {
 
   @Override
   public boolean isGameOver() {
-    if (numPasses > DiscColor.values().length) {
+    if (this.numPasses > DiscColor.values().length) {
       return true;
     }
     return false;
@@ -61,7 +46,7 @@ public class BasicReversi implements ReversiModel {
 
   @Override
   public void place(ReversiCell cell) {
-    board.placeDisc(cell, currColor);
+    this.board.placeDisc(cell, this.currColor);
   }
 
   public int getNumRows() {
