@@ -6,7 +6,7 @@ import org.junit.Test;
 import view.HexTextView;
 import view.ReversiView;
 
-public class packagePrivateModelTests {
+public class PackagePrivateModelTests {
   HexCell cell1;
   HexCell cell2;
   HexCell cell3;
