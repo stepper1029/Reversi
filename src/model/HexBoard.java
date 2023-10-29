@@ -17,33 +17,37 @@ class HexBoard implements Board {
     this.blackCells = new ArrayList<>(Arrays.asList());
     this.whiteCells = new ArrayList<>(Arrays.asList());
     this.boardSize = boardSize;
-    this.cells = new ReversiCell[(boardSize * 2) - 1][];
+    this.cells = this.getBoard();
   }
 
   // todo TEST THIS!!!!!!!
   public ReversiCell[][] getBoard() {
-    for (int outerArrayIndex = 0; outerArrayIndex < 2 * boardSize - 1; outerArrayIndex++) {
-      int width = boardSize - 1;
-      ReversiCell[] currRow;
-      if (outerArrayIndex <= boardSize) {
-        width++;
-        currRow = new ReversiCell[width];
-      } else {
-        currRow = new ReversiCell[width];
-        width--;
-      }
-      int innerArrayIndex = 0;
+    ReversiCell[][] cells = new ReversiCell[(boardSize * 2) - 1][];
+    int width = boardSize;
 
-      for (int r = (this.boardSize - 1) * -1; r < this.boardSize; r++) {
-        for (int q = (this.boardSize - 1) * -1; q < this.boardSize; q++) {
-          for (int s = this.boardSize - 1; s > (this.boardSize - 1) * -1; s--) {
-            if (q + r + s == 0 && innerArrayIndex < width) {
-              currRow[innerArrayIndex] = new HexCell(q, r, s);
-            }
+    for (int r = (this.boardSize - 1) * -1; r < this.boardSize; r++) {
+      ReversiCell[] currRow;
+      int cellIndex = 0;
+      int rowIndex = r + 2;
+      if (rowIndex < boardSize) {
+        currRow = new ReversiCell[width];
+        width++;
+        if (rowIndex == boardSize - 1) {
+          width --;
+        }
+      } else {
+        width--;
+        currRow = new ReversiCell[width];
+      }
+      for (int q = (this.boardSize - 1) * -1; q < this.boardSize; q++) {
+        for (int s = this.boardSize - 1; s > (this.boardSize - 1) * -1; s--) {
+          if (q + r + s == 0 && cellIndex < width - 1) {
+            currRow[cellIndex] = new HexCell(q, r, s);
+            cellIndex++;
           }
         }
       }
-      cells[outerArrayIndex] = currRow;
+      cells[rowIndex] = currRow;
     }
     return cells;
   }

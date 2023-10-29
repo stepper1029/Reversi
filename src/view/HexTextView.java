@@ -36,7 +36,11 @@ public class HexTextView implements ReversiView {
           output += whiteStringHelper(numRow, numCell);
         }
       }
-      numSpaces --;
+      if (numRow < boardSize - 1) {
+        numSpaces --;
+      } else {
+        numSpaces ++;
+      }
     }
     return output;
   }
@@ -45,7 +49,11 @@ public class HexTextView implements ReversiView {
   private String emptyStringHelper(int numRow, int numCell) {
     String output = "";
     if (numCell == model.getRowSize(numRow) - 1) {
-      output += "_\n";
+      if(numRow == model.getNumRows() - 1) {
+        output += "_";
+      } else {
+        output += "_\n";
+      }
     } else {
       output += "_ ";
     }
@@ -55,7 +63,11 @@ public class HexTextView implements ReversiView {
   private String blackStringHelper(int numRow, int numCell) {
     String output = "";
     if (numCell == model.getRowSize(numRow) - 1) {
-      output += "X\n";
+      if(numRow == model.getNumRows() - 1) {
+        output += "X";
+      } else {
+        output += "X\n";
+      }
     } else {
       output += "X ";
     }
@@ -65,7 +77,11 @@ public class HexTextView implements ReversiView {
   private String whiteStringHelper(int numRow, int numCell) {
     String output = "";
     if (numCell == model.getRowSize(numRow) - 1) {
-      output += "O\n";
+      if(numRow == model.getNumRows() - 1) {
+        output += "O";
+      } else {
+        output += "O\n";
+      }
     } else {
       output += "O ";
     }
