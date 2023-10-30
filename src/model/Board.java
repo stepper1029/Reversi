@@ -2,14 +2,76 @@ package model;
 
 import java.util.List;
 
+/**
+ * Board interfaces represents a game board which contains cells and can contain game pieces.
+ * Makes promises that a board of any size or shape can perform certain actions and observables
+ * on a board.
+ */
 interface Board {
+  /**
+   * Gets the cell immediately next to the given cell in the given direction.
+   * @param cell starting reference cell whose neighbor you're looking for
+   * @param direction direction from the starting cell of the neighbor you want
+   * @return the neighboring cell
+   */
   ReversiCell getNeighborCell(ReversiCell cell, CellDirection direction);
+
+  /**
+   * Gets the cells of the given color.
+   * @param color the DiscColor that you are looking for
+   * @return all cells that have a piece of that color on it
+   */
   List<ReversiCell> getCells(DiscColor color);
+
+  /**
+   * Checks if a cell has a disc in it.
+   * @param c given cell you're checking.
+   * @return whether the cell has a disc tied to it.
+   */
   boolean isEmpty(ReversiCell c);
+
+  /**
+   * Returns the row of the given index, meaning the horizontal cells where horizontal plane
+   * coordinate is the same for all the cells, numRow is indexed at zero starting from the
+   * top of the board shape.
+   * @param numRow index of the row you want
+   * @return an array of ReversiCell that are in the specified row.
+   */
   ReversiCell[] getRow(int numRow);
+
+  /**
+   * The size of the board, meaning the length (number of cells) of one side of the board shape.
+   * @return int side length of the board
+   */
   int getBoardSize();
+
+  /**
+   * Places a disc of the given color on the given cell.
+   * @param c given cell you want to place the disc
+   * @param color color of the disc to place.
+   */
   void placeDisc(ReversiCell c, DiscColor color);
+
+  /**
+   * Returns the starting position of a board, meaning the list of cells where the initial peices
+   * must go in order to start the game. The list is meant to be assigned to alternating colors, ie
+   * ffor two players, first cell is black, second cell is white, third cell is black, fourth cell
+   * is white, .... and so on.
+   * @return a list of cells where initial starting discs should be placed.
+   */
   List<ReversiCell> getInitPositions();
+
+  /**
+   * Flips a disc to show the opposite color of what it is.
+   * @param c the given cell which is tied to the disc you want to flip.
+   */
   void flipDisc(ReversiCell c);
+
+  /**
+   * Gets a list of cells which are directly between the two given cells.
+   * @param cell1 starting cell
+   * @param cell2 ending cell
+   * @return list of ReversiCells that make a line between them.
+   */
   List<ReversiCell> getCellsBetween (ReversiCell cell1, ReversiCell cell2);
 }
