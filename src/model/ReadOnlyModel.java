@@ -1,6 +1,5 @@
 package model;
 
-import java.awt.*;
 import java.util.List;
 
 public interface ReadOnlyModel {
@@ -8,7 +7,7 @@ public interface ReadOnlyModel {
   DiscColor getColorAt(ReversiCell cell);
   int getScore(DiscColor color);
   boolean isGameOver();
-  List<ReversiCell> allPosibleMoves(DiscColor color);
+  List<ReversiCell> allPosibleMoves();
   int getNumRows();
   int getRowSize(int row);
   ReversiCell getCellAt(int numRow, int numCell);

@@ -13,6 +13,7 @@ public class BasicReversi implements MutableModel {
     this.numPasses = 0;
     this.board = board;
     this.setBoard(board);
+    this.currColor = DiscColor.Black;
   }
 
   private void setBoard(Board board) {
@@ -27,7 +28,7 @@ public class BasicReversi implements MutableModel {
 
   @Override
   public int getScore(DiscColor color) {
-    return 0;
+    return this.board.getCells(color).size();
   }
 
   @Override
@@ -44,9 +45,28 @@ public class BasicReversi implements MutableModel {
     this.numPasses += 1;
   }
 
+  private void flipAll(List<ReversiCell> cells) {
+    for (ReversiCell c : cells) {
+      this.board.flipDisc(c);
+    }
+  }
+
   @Override
   public void place(ReversiCell cell) {
-    this.board.placeDisc(cell, this.currColor);
+    if (this.allPosibleMoves().contains(cell)) {
+      this.board.placeDisc(cell, this.currColor);
+      for (ReversiCell connectingCell : this.getConnections(cell)) {
+        this.flipAll(this.board.getCellsBetween(cell, connectingCell));
+      }
+    }
+    else {
+      throw new IllegalStateException("Invalid move");
+    }
+  }
+
+  @Override
+  public void setNextColor() {
+    this.currColor = DiscColor.getnextColor(this.currColor);
   }
 
   public int getNumRows() {
@@ -62,7 +82,15 @@ public class BasicReversi implements MutableModel {
   }
 
   public DiscColor getColorAt(ReversiCell cell) {
-    return this.board.getColorAt(cell);
+    if (this.isEmpty(cell)) {
+      throw new IllegalArgumentException("Cell is empty");
+    }
+    else if (this.board.getCells(DiscColor.Black).contains(cell)) {
+      return DiscColor.Black;
+    }
+    else {
+      return DiscColor.White;
+    }
   }
 
   public boolean isEmpty(ReversiCell cell) {
@@ -73,16 +101,20 @@ public class BasicReversi implements MutableModel {
     return this.board.getRow(numRow)[numCell];
   }
 
-  // for a valid move, determines all possible
+  private boolean sameColor(ReversiCell cell1, ReversiCell cell2) {
+    return (this.getColorAt(cell1).equals(this.getColorAt(cell2)));
+  }
+
+  // for a valid move, determines all connections to this cell that should be flipped
   private List<ReversiCell> getConnections(ReversiCell c) {
     ArrayList<ReversiCell> connections = new ArrayList<>();
     ReversiCell currCell = c;
     for (CellDirection direction : CellDirection.values()) {
       currCell = this.board.getNeighborCell(currCell, direction);
-      while (!this.board.isEmpty(currCell) && !this.board.sameColor(c, currCell)) {
+      while (!this.board.isEmpty(currCell) && !this.sameColor(c, currCell)) {
         try {
           currCell = this.board.getNeighborCell(currCell, direction);
-          if (this.board.sameColor(currCell, c)) {
+          if (this.sameColor(currCell, c)) {
             connections.add(currCell);
             break;
           }
@@ -96,19 +128,20 @@ public class BasicReversi implements MutableModel {
   }
 
   // determines if there is a valid move in the given direction with the given starting cell
-  public boolean validMoveInOneD(CellDirection direction, ReversiCell startingCell) {
+  private boolean validMoveInOneD(CellDirection direction, ReversiCell startingCell) {
     ReversiCell currCell= this.board.getNeighborCell(startingCell, direction);
     // returns false if the cell directly next to this one is empty
     if (this.board.isEmpty(currCell)) {
       return false;
     }
-    while (!this.board.isEmpty(currCell) && !this.board.sameColor(startingCell, currCell)) {
-      currCell = this.board.getNeighborCell(startingCell, direction);
+    while (!this.board.isEmpty(currCell) && !this.sameColor(startingCell, currCell)) {
+      currCell = this.board.getNeighborCell(currCell, direction);
     }
-    return !this.board.sameColor(startingCell, currCell);
+    return !this.sameColor(startingCell, currCell);
   }
 
-  public List<ReversiCell> validMovesInAllDirections(ReversiCell startingCell) {
+  // determines all valid moves from the given starting cell
+  private List<ReversiCell> validMovesInAllDirections(ReversiCell startingCell) {
     List<ReversiCell> validMoves = new ArrayList<>();
     ReversiCell currCell;
     for (CellDirection direction : CellDirection.values()) {
@@ -124,7 +157,11 @@ public class BasicReversi implements MutableModel {
   }
 
   @Override
-  public List<ReversiCell> allPosibleMoves(DiscColor color) {
-    return null;
+  public List<ReversiCell> allPosibleMoves() {
+    List<ReversiCell> validMoves = new ArrayList<>();
+    for(ReversiCell cell : this.board.getCells(this.currColor)) {
+      validMoves.addAll(this.validMovesInAllDirections(cell));
+    }
+    return validMoves;
   }
 }

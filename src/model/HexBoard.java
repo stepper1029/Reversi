@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -10,18 +11,18 @@ class HexBoard implements Board {
   List<ReversiCell> blackCells;
   List<ReversiCell> whiteCells;
 
-  public HexBoard(int boardSize) {
+  HexBoard(int boardSize) {
     if (boardSize < 3) {
       throw new IllegalArgumentException("Board size must be at least 3");
     }
-    this.blackCells = new ArrayList<>(Arrays.asList());
-    this.whiteCells = new ArrayList<>(Arrays.asList());
+    this.blackCells = new ArrayList<>();
+    this.whiteCells = new ArrayList<>();
     this.boardSize = boardSize;
     this.cells = this.getBoard();
   }
 
   // todo TEST THIS!!!!!!!
-  public ReversiCell[][] getBoard() {
+  ReversiCell[][] getBoard() {
     ReversiCell[][] cells = new ReversiCell[(boardSize * 2) - 1][];
     int width = boardSize;
 
@@ -75,13 +76,14 @@ class HexBoard implements Board {
     return this.boardSize;
   }
 
-  public DiscColor getColorAt(ReversiCell c) {
-    if (this.isEmpty(c)) {
-      throw new IllegalArgumentException("No color, is empty");
-    } else if (this.blackCells.contains(c)) {
-      return DiscColor.Black;
-    } else {
-      return DiscColor.White;
+  @Override
+  public List<ReversiCell> getCells(DiscColor color) {
+    switch (color) {
+      case Black :
+        return Collections.unmodifiableList(this.blackCells);
+      case White:
+        return Collections.unmodifiableList(this.whiteCells);
+      default: throw new IllegalArgumentException("Invalid color");
     }
   }
 
@@ -91,24 +93,7 @@ class HexBoard implements Board {
   }
 
   @Override
-  public boolean sameColor(ReversiCell c1, ReversiCell c2) {
-    return (this.blackCells.contains(c1) && this.blackCells.contains(c2)) ||
-            (this.whiteCells.contains(c1) && this.whiteCells.contains(c2));
-  }
-
-  @Override
-  public int getNumColor(DiscColor color) {
-    if (color.equals(DiscColor.Black)) {
-      return this.blackCells.size();
-    } else {
-      return this.whiteCells.size();
-    }
-  }
-
-  /**
-   * Todo separate into helper methods.
-   */
-  private List<ReversiCell> getDiscsBetweenCells(ReversiCell cell1, ReversiCell cell2) {
+  public List<ReversiCell> getCellsBetween (ReversiCell cell1, ReversiCell cell2) {
     ReversiCell leftCell;
     ReversiCell rightCell;
     List<ReversiCell> betweenCells = new ArrayList<>();
@@ -156,11 +141,8 @@ class HexBoard implements Board {
     }
   }
 
-  public int getScore(DiscColor color) {
-    return 0;
-  }
-
-  private void flipDisc(ReversiCell c) {
+  @Override
+  public void flipDisc(ReversiCell c) {
     invalidCellException(c);
 
     if (this.isEmpty(c)) {

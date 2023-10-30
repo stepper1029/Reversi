@@ -1,8 +1,7 @@
 package model;
-
 import java.util.Objects;
 
-class HexCell implements ReversiCell {
+public class HexCell implements ReversiCell {
   private final int q;
   private final int r;
   private final int s;
@@ -54,5 +53,10 @@ class HexCell implements ReversiCell {
     }
     return new HexCell(this.q + directions[0], this.r +
             directions[1], this.s + directions[2]);
+  }
+
+  @Override
+  public String toString() {
+    return "q: " + q + " r: " + r + " s: " + s;
   }
 }

@@ -2,15 +2,14 @@ package model;
 
 import java.util.List;
 
-public interface Board {
+interface Board {
   ReversiCell getNeighborCell(ReversiCell cell, CellDirection direction);
+  List<ReversiCell> getCells(DiscColor color);
+  boolean isEmpty(ReversiCell c);
   ReversiCell[] getRow(int numRow);
   int getBoardSize();
-  DiscColor getColorAt(ReversiCell c);
-  boolean isEmpty(ReversiCell c);
   void placeDisc(ReversiCell c, DiscColor color);
-  boolean sameColor(ReversiCell c1, ReversiCell c2);
-  int getNumColor(DiscColor color);
-  int getScore(DiscColor color);
   List<ReversiCell> getInitPositions();
+  void flipDisc(ReversiCell c);
+  List<ReversiCell> getCellsBetween (ReversiCell cell1, ReversiCell cell2);
 }

@@ -2,7 +2,6 @@ package view;
 
 import java.util.Objects;
 
-import model.BasicReversi;
 import model.DiscColor;
 import model.ReversiCell;
 import model.ReadOnlyModel;
