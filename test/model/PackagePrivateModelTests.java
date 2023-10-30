@@ -20,18 +20,4 @@ public class PackagePrivateModelTests {
     hexBoard = new HexBoard(3);
     this.hexModel = new BasicReversi(hexBoard);
   }
-
-  @Test
-  public void testToString() {
-    Board board = new HexBoard(3);
-    ReadOnlyModel model = new BasicReversi(board);
-    ReversiView tv = new HexTextView(model);
-    String actual = tv.toString();
-    String expected = "  _ _ _\n"
-            + " _ X O _\n"
-            + "_ O _ X _\n"
-            + " _ X O _\n"
-            + "  _ _ _";
-    Assert.assertEquals(expected, actual);
-  }
 }

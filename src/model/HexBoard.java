@@ -29,7 +29,7 @@ class HexBoard implements Board {
     for (int r = (this.boardSize - 1) * -1; r < this.boardSize; r++) {
       ReversiCell[] currRow;
       int cellIndex = 0;
-      int rowIndex = r + 2;
+      int rowIndex = r + boardSize - 1;
       if (rowIndex < boardSize) {
         currRow = new ReversiCell[width];
         width++;
