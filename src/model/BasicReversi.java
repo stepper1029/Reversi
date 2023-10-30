@@ -138,7 +138,7 @@ public class BasicReversi implements MutableModel {
     while (!this.board.isEmpty(currCell) && !this.sameColor(startingCell, currCell)) {
       currCell = this.board.getNeighborCell(currCell, direction);
     }
-    return !this.sameColor(startingCell, currCell);
+    return this.isEmpty(currCell);
   }
 
   // determines all valid moves from the given starting cell
