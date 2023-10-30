@@ -128,6 +128,7 @@ public class BasicReversi implements MutableModel {
   }
 
   // determines if there is a valid move in the given direction with the given starting cell
+  // determines if there is a valid move in the given direction with the given starting cell
   private boolean validMoveInOneD(CellDirection direction, ReversiCell startingCell) {
     ReversiCell currCell= this.board.getNeighborCell(startingCell, direction);
     // returns false if the cell directly next to this one is empty
@@ -150,8 +151,8 @@ public class BasicReversi implements MutableModel {
         while (!this.board.isEmpty(currCell)) {
           currCell = this.board.getNeighborCell(startingCell, direction);
         }
+        validMoves.add(currCell);
       }
-      validMoves.add(currCell);
     }
     return validMoves;
   }
