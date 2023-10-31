@@ -41,8 +41,8 @@ class HexBoard implements Board {
         currRow = new ReversiCell[width];
       }
       for (int q = (this.boardSize - 1) * -1; q < this.boardSize; q++) {
-        for (int s = this.boardSize - 1; s > (this.boardSize - 1) * -1; s--) {
-          if (q + r + s == 0 && cellIndex < width - 1) {
+        for (int s = this.boardSize - 1; s > (this.boardSize) * -1; s--) {
+          if (q + r + s == 0 && cellIndex < width) {
             currRow[cellIndex] = new HexCell(q, r, s);
             cellIndex++;
           }

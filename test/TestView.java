@@ -8,6 +8,7 @@ import model.MutableModel;
 import view.ReversiView;
 import view.HexTextView;
 import model.ReversiCell;
+import model.DiscColor;
 
 public class TestView {
 
@@ -48,6 +49,7 @@ public class TestView {
   public void testToStringAfterMovesMade() {
     MutableModel model = ReversiCreator.create(3);
     ReversiCell cell = new HexCell(1, 1, -2);
+    Assert.assertTrue(model.isEmpty(cell));
     model.place(cell);
     ReversiView tv = new HexTextView(model);
     String actual = tv.toString();
@@ -56,6 +58,23 @@ public class TestView {
             + "_ O _ X _\n"
             + " _ X X X\n"
             + "  _ _ _";
+    Assert.assertEquals(DiscColor.Black, model.getColorAt(cell));
+    Assert.assertEquals(4, model.getRowSize(3));
+    Assert.assertEquals(cell, model.getCellAt(3, 3));
+    Assert.assertEquals(expected, actual);
+  }
+
+  @Test
+  public void testToStringAfterAMoveFlipsTwo() {
+    MutableModel model = ReversiCreator.create(3);
+    model.place(new HexCell(1, -2, 1));
+    model.setNextColor();
+    model.place(new HexCell(2, -1, -1));
+    model.setNextColor();
+    model.place(new HexCell(1, 1, -2));
+    ReversiView tv = new HexTextView(model);
+    String actual = tv.toString();
+    String expected = "";
     Assert.assertEquals(expected, actual);
   }
 }
