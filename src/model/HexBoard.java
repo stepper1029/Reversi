@@ -5,6 +5,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * Class HexBoard implements Board and represents a Reversi game board with Hexagonal shape. The
+ * class is package private because the board itself should only be accessible within the package.
+ * Anything outside the model package should use the Model itself to mutate or observe the game.
+ */
 class HexBoard implements Board {
   int boardSize;
   ReversiCell[][] cells;
@@ -68,11 +73,17 @@ class HexBoard implements Board {
     return neighbor;
   }
 
+  // assumes and preserves invariant boardSize > 2
   @Override
   public ReversiCell[] getRow(int numRow) {
-    return this.cells[numRow];
+    if (numRow < (this.boardSize * 2) - 1 && numRow >= 0) {
+      return this.cells[numRow];
+    } else {
+      throw new IllegalArgumentException("Invalid numRow: " + numRow);
+    }
   }
 
+  // assumes and preserves invariant boardSize > 2
   @Override
   public int getBoardSize() {
     return this.boardSize;
@@ -91,6 +102,7 @@ class HexBoard implements Board {
 
   @Override
   public boolean isEmpty(ReversiCell c) {
+    this.invalidCellException(c);
     return !this.whiteCells.contains(c) && !this.blackCells.contains(c);
   }
 
@@ -190,6 +202,8 @@ class HexBoard implements Board {
     }
   }
 
+  // checks that the given cell has valid coordinates within the board. Otherwise throws an
+  // exception. assumes and preserves invariant boardSize > 2
   private void invalidCellException(ReversiCell cell) {
     if (cell.getCoord('q') > this.boardSize - 1
             || cell.getCoord('q') < (this.boardSize * -1) + 1

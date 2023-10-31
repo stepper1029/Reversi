@@ -3,23 +3,53 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BasicReversi implements MutableModel {
+/**
+ * Class BasicReversi represents a game of Reversi with standard rules and gameplay. Implements
+ * MutableModel interface.
+ */
+class BasicReversi implements MutableModel {
 
-  DiscColor currColor;
+  // currColor to store what color should be used for moves like place
+  private DiscColor currColor;
+
+  // stores number of times pass has been played consecutively
   private int numPasses;
-  Board board;
 
-  public BasicReversi(Board board) {
+  // stores a board to observe and mutate, assumes any invariants from the board class like
+  // the board size being >2
+  private Board board;
+
+  /**
+   * Constructor for BasicReversi initializes all fields. Takes in a board (which has a size, shape,
+   * and cell structure) but is completely empty. Constructor sets the board with the initial
+   * starting piece required to play the game. numPasses is initialized to zero because when no
+   * moves have been made, no player could have passed. currColor begins at black as is
+   * convention in Reversi, black moves first.
+   *
+   * @param board board with a size and shape that the game should be played on.
+   */
+  BasicReversi(Board board) {
     this.numPasses = 0;
     this.board = board;
-    this.setBoard(board);
+    this.setBoard();
     this.currColor = DiscColor.Black;
   }
 
-  private void setBoard(Board board) {
+  /**
+   * sets the initial positions for a given board shape to the starting colors. Should not be
+   * called outside the class so is private and not in the interface. Should not be called
+   * once the players have begun making moves. Alternates through the colors and sets the cells
+   * appropriately. For example, for a game with two players, first cell is black, second cell
+   * is white, third cell is black, fourth cell is white, ... and so on.
+   * @throws IllegalStateException if the board is not empty when the method is called.
+   */
+  private void setBoard() {
     DiscColor[] colors = DiscColor.values();
     List<ReversiCell> cells = board.getInitPositions();
-    for (int i = 0; i < cells.size(); i ++) {
+    if (!this.isEmpty(cells.get(0))) {
+      throw new IllegalStateException("Board has already been set");
+    }
+    for (int i = 0; i < cells.size(); i++) {
       ReversiCell cell = cells.get(i);
       DiscColor color = colors[i % colors.length];
       board.placeDisc(cell, color);
@@ -35,24 +65,27 @@ public class BasicReversi implements MutableModel {
   public boolean isGameOver() {
     if (this.numPasses > DiscColor.values().length) {
       return true;
-    }
-    else if (this.board.getCells(DiscColor.Black).isEmpty()
-            || this.board.getCells(DiscColor.White).isEmpty()) {
+    } else if (this.getScore(DiscColor.Black) == 0
+            || this.getScore(DiscColor.White) == 0) {
       return true;
-    }
-    else {
-      return this.board.getCells(DiscColor.Black).size()
-              + this.board.getCells(DiscColor.White).size()
+    } else {
+      return this.getScore(DiscColor.Black)
+              + this.getScore(DiscColor.White)
               == this.board.getTotalNumCells();
     }
   }
 
-  // will also delegate to the player interface to switch players.
   @Override
   public void pass() {
     this.numPasses += 1;
   }
 
+  /**
+   * Flips all the discs in the given list. Used when a player makes a move and the cells that
+   * connect the cell where the player placed a disc and the existing discs of the same color on
+   * the board are now captured by the player, meaning they should change colors to that of
+   * the player who moved.
+   */
   private void flipAll(List<ReversiCell> cells) {
     for (ReversiCell c : cells) {
       this.board.flipDisc(c);
@@ -61,13 +94,12 @@ public class BasicReversi implements MutableModel {
 
   @Override
   public void place(ReversiCell cell) {
-    if (this.allPosibleMoves().contains(cell)) {
+    if (this.allPossibleMoves().contains(cell)) {
       this.board.placeDisc(cell, this.currColor);
       for (ReversiCell connectingCell : this.getConnections(cell)) {
         this.flipAll(this.board.getCellsBetween(cell, connectingCell));
       }
-    }
-    else {
+    } else {
       throw new IllegalStateException("Invalid move");
     }
   }
@@ -77,40 +109,57 @@ public class BasicReversi implements MutableModel {
     this.currColor = DiscColor.getnextColor(this.currColor);
   }
 
+  @Override
   public int getNumRows() {
     return (this.board.getBoardSize() * 2) - 1;
   }
 
-  public int getRowSize(int row) {
-    return this.board.getRow(row).length;
+  @Override
+  public int getRowSize(int rowNum) {
+    if (rowNum >= 0 && rowNum < this.getNumRows()) {
+      return this.board.getRow(rowNum).length;
+    } else {
+      throw new IllegalArgumentException("Invalid numRow: " + rowNum);
+    }
   }
 
+  @Override
   public int getBoardSize() {
     return this.board.getBoardSize();
   }
 
+  @Override
   public DiscColor getColorAt(ReversiCell cell) {
     if (this.isEmpty(cell)) {
       throw new IllegalArgumentException("Cell is empty");
-    }
-    else if (this.board.getCells(DiscColor.Black).contains(cell)) {
+    } else if (this.board.getCells(DiscColor.Black).contains(cell)) {
       return DiscColor.Black;
-    }
-    else {
+    } else {
       return DiscColor.White;
     }
   }
 
+  @Override
   public boolean isEmpty(ReversiCell cell) {
     return this.board.isEmpty(cell);
   }
 
+  @Override
   public ReversiCell getCellAt(int numRow, int numCell) {
-    return this.board.getRow(numRow)[numCell];
+    if (numRow >= 0 && numRow < this.getNumRows() && numCell >= 0 && numCell < getRowSize(numRow)) {
+      return this.board.getRow(numRow)[numCell];
+    } else {
+      throw new IllegalArgumentException("invalid numRow: " + numRow + "or numCell: " + numCell);
+    }
   }
 
+  // compares the two cells and sees if they have the same color.
   private boolean sameColor(ReversiCell cell1, ReversiCell cell2) {
-    return (this.getColorAt(cell1).equals(this.getColorAt(cell2)));
+    if (!this.isEmpty(cell1) && !this.isEmpty(cell2)) {
+      return (this.getColorAt(cell1).equals(this.getColorAt(cell2)));
+    } else {
+      throw new IllegalArgumentException("One or both of the cells are empty.");
+    }
   }
 
   // for a valid move, determines all connections to this cell (discs between this
@@ -139,7 +188,7 @@ public class BasicReversi implements MutableModel {
   // determines if there is a valid move in the given direction with the given starting cell
   // determines if there is a valid move in the given direction with the given starting cell
   private boolean validMoveInOneD(CellDirection direction, ReversiCell startingCell) {
-    ReversiCell currCell= this.board.getNeighborCell(startingCell, direction);
+    ReversiCell currCell = this.board.getNeighborCell(startingCell, direction);
     // returns false if the cell directly next to this one is empty
     if (this.board.isEmpty(currCell)) {
       return false;
@@ -147,8 +196,7 @@ public class BasicReversi implements MutableModel {
     while (!this.board.isEmpty(currCell) && !this.sameColor(startingCell, currCell)) {
       try {
         currCell = this.board.getNeighborCell(currCell, direction);
-      }
-      catch (IllegalArgumentException e) {
+      } catch (IllegalArgumentException e) {
         return false;
       }
     }
@@ -176,9 +224,9 @@ public class BasicReversi implements MutableModel {
   }
 
   @Override
-  public List<ReversiCell> allPosibleMoves() {
+  public List<ReversiCell> allPossibleMoves() {
     List<ReversiCell> validMoves = new ArrayList<>();
-    for(ReversiCell cell : this.board.getCells(this.currColor)) {
+    for (ReversiCell cell : this.board.getCells(this.currColor)) {
       validMoves.addAll(this.validMovesInAllDirections(cell));
     }
     return validMoves;

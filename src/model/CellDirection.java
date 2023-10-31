@@ -1,6 +1,10 @@
 package model;
 
-public enum CellDirection {
+/**
+ * Enum CellDirection holds all the directions in which a single cell can be connected to
+ * neighboring cells.
+ */
+enum CellDirection {
   Left (new int[]{-1, 0, 1}), Right (new int[]{1, 0, -1}),
   UpperLeft (new int[]{0, -1, 1}), UpperRight (new int[]{1, -1, 0}),
   BottomLeft (new int[]{-1, 1, 0}), BottomRight (new int[]{0, 1, -1});
