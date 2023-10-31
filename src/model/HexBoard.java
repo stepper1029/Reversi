@@ -11,11 +11,35 @@ import java.util.ArrayList;
  * Anything outside the model package should use the Model itself to mutate or observe the game.
  */
 class HexBoard implements Board {
-  int boardSize;
-  ReversiCell[][] cells;
-  List<ReversiCell> blackCells;
-  List<ReversiCell> whiteCells;
 
+  // represents the number of cells that make up one side length of the board.
+  // INVARIANT: boardSize > 2
+  private int boardSize;
+
+  // Holds all the cells that are a part of the board. The outer array holds the horizontal rows
+  // of the board, where the 0th index is the top most row. The inner array hold the cells within
+  // a row, where the 0th index is the leftmost cell in the row. Arrays were used because once the
+  // board is created, its size must stay constant.
+  private ReversiCell[][] cells;
+
+  // Holds all the cells that have been captured by the black player, or cells that
+  // have a black game disc on them. Used a list because the number of black cells will
+  // inevitably change throughout the game, therefore the length should be flexible.
+  private List<ReversiCell> blackCells;
+
+  // Holds all the cells that have been captured by the white player, or cells that
+  // have a white game disc on them. Used a list because the number of white cells will
+  // inevitably change throughout the game, therefore the length should be flexible.
+  private List<ReversiCell> whiteCells;
+
+  /**
+   * Constructor for the HexBoard class, takes in a board size and initializes the fields. 
+   * boardSize invariant is ensured by the constructor, you cannot pass in a boardSize less than
+   * 3. blackCells and whiteCells are initialized to be empty lists. When the board is made
+   * initially all the cells are empty. cells field is initialized to hold the valid coordinates
+   * for a board of the given size.
+   * @param boardSize side length in cells
+   */
   HexBoard(int boardSize) {
     if (boardSize < 3) {
       throw new IllegalArgumentException("Board size must be at least 3");
@@ -26,8 +50,10 @@ class HexBoard implements Board {
     this.cells = this.getBoard();
   }
 
-  // todo TEST THIS!!!!!!!
-  ReversiCell[][] getBoard() {
+  // assumes and preserves field invariant boardSize > 2
+  // generates the cells within the board by position, starting at the top left of the board
+  // and working left to right, top to bottom.
+  private ReversiCell[][] getBoard() {
     ReversiCell[][] cells = new ReversiCell[(boardSize * 2) - 1][];
     int width = boardSize;
 

@@ -46,6 +46,7 @@ public class HexCell implements ReversiCell {
     return Objects.hash(q, r, s);
   }
 
+  @Override
   public ReversiCell addVector(int[] directions)
           throws IllegalArgumentException {
     if (directions.length != 3) {
@@ -53,10 +54,5 @@ public class HexCell implements ReversiCell {
     }
     return new HexCell(this.q + directions[0], this.r +
             directions[1], this.s + directions[2]);
-  }
-
-  @Override
-  public String toString() {
-    return "q: " + q + " r: " + r + " s: " + s;
   }
 }
