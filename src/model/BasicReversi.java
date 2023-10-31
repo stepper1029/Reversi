@@ -36,7 +36,15 @@ public class BasicReversi implements MutableModel {
     if (this.numPasses > DiscColor.values().length) {
       return true;
     }
-    return false;
+    else if (this.board.getCells(DiscColor.Black).isEmpty()
+            || this.board.getCells(DiscColor.White).isEmpty()) {
+      return true;
+    }
+    else {
+      return this.board.getCells(DiscColor.Black).size()
+              + this.board.getCells(DiscColor.White).size()
+              == this.board.getTotalNumCells();
+    }
   }
 
   // will also delegate to the player interface to switch players.
@@ -105,23 +113,24 @@ public class BasicReversi implements MutableModel {
     return (this.getColorAt(cell1).equals(this.getColorAt(cell2)));
   }
 
-  // for a valid move, determines all connections to this cell that should be flipped
+  // for a valid move, determines all connections to this cell (discs between this
+  // given cell and the connections should be flipped)
   private List<ReversiCell> getConnections(ReversiCell c) {
     ArrayList<ReversiCell> connections = new ArrayList<>();
-    ReversiCell currCell = c;
+    ReversiCell currCell;
     for (CellDirection direction : CellDirection.values()) {
-      currCell = this.board.getNeighborCell(currCell, direction);
-      while (!this.board.isEmpty(currCell) && !this.sameColor(c, currCell)) {
-        try {
+      try {
+        currCell = this.board.getNeighborCell(c, direction);
+        while (!this.board.isEmpty(currCell) && !this.sameColor(c, currCell)) {
           currCell = this.board.getNeighborCell(currCell, direction);
           if (this.sameColor(currCell, c)) {
             connections.add(currCell);
             break;
           }
-        } catch (IllegalArgumentException e) {
-          // do nothing because we want to continue through the for loop to
-          // check the other directions
         }
+      } catch (IllegalArgumentException e) {
+        // do nothing because we want to continue through the for loop to
+        // check the other directions
       }
     }
     return connections;
@@ -136,7 +145,12 @@ public class BasicReversi implements MutableModel {
       return false;
     }
     while (!this.board.isEmpty(currCell) && !this.sameColor(startingCell, currCell)) {
-      currCell = this.board.getNeighborCell(currCell, direction);
+      try {
+        currCell = this.board.getNeighborCell(currCell, direction);
+      }
+      catch (IllegalArgumentException e) {
+        return false;
+      }
     }
     return this.isEmpty(currCell);
   }
@@ -146,12 +160,16 @@ public class BasicReversi implements MutableModel {
     List<ReversiCell> validMoves = new ArrayList<>();
     ReversiCell currCell;
     for (CellDirection direction : CellDirection.values()) {
-      currCell = this.board.getNeighborCell(startingCell, direction);
-      if (this.validMoveInOneD(direction, startingCell)) {
-        while (!this.board.isEmpty(currCell)) {
-          currCell = this.board.getNeighborCell(startingCell, direction);
+      try {
+        currCell = this.board.getNeighborCell(startingCell, direction);
+        if (this.validMoveInOneD(direction, startingCell)) {
+          while (!this.board.isEmpty(currCell)) {
+            currCell = this.board.getNeighborCell(currCell, direction);
+          }
+          validMoves.add(currCell);
         }
-        validMoves.add(currCell);
+      } catch (IllegalArgumentException e) {
+        // do nothing because we want to continue testing other directions
       }
     }
     return validMoves;

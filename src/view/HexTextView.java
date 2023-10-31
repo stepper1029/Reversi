@@ -10,7 +10,6 @@ public class HexTextView implements ReversiView {
   private final ReadOnlyModel model;
 
   public HexTextView(ReadOnlyModel model) {
-
     this.model = Objects.requireNonNull(model);
   }
 

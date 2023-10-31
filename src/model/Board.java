@@ -55,7 +55,7 @@ interface Board {
   /**
    * Returns the starting position of a board, meaning the list of cells where the initial peices
    * must go in order to start the game. The list is meant to be assigned to alternating colors, ie
-   * ffor two players, first cell is black, second cell is white, third cell is black, fourth cell
+   * for two players, first cell is black, second cell is white, third cell is black, fourth cell
    * is white, .... and so on.
    * @return a list of cells where initial starting discs should be placed.
    */
@@ -74,4 +74,5 @@ interface Board {
    * @return list of ReversiCells that make a line between them.
    */
   List<ReversiCell> getCellsBetween (ReversiCell cell1, ReversiCell cell2);
+  int getTotalNumCells();
 }

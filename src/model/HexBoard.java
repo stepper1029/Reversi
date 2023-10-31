@@ -63,7 +63,9 @@ class HexBoard implements Board {
 
   @Override
   public ReversiCell getNeighborCell(ReversiCell cell, CellDirection direction) {
-    return cell.addVector(direction.getHexDirectionCoordinates());
+    ReversiCell neighbor = cell.addVector(direction.getHexDirectionCoordinates());
+    this.invalidCellException(neighbor);
+    return neighbor;
   }
 
   @Override
@@ -97,13 +99,8 @@ class HexBoard implements Board {
     ReversiCell leftCell;
     ReversiCell rightCell;
     List<ReversiCell> betweenCells = new ArrayList<>();
-    if (cell1.getCoord('q') <= cell1.getCoord('q')) {
-      leftCell = cell1;
-      rightCell = cell2;
-    } else {
-      leftCell = cell2;
-      rightCell = cell1;
-    }
+    leftCell = this.getLeftCell(cell1, cell2);
+    rightCell = this.getRightCell(cell1, cell2);
     if (leftCell.getCoord('q') == rightCell.getCoord('q')) {
       int q = leftCell.getCoord('q');
       for (int r = leftCell.getCoord('r') + 1, s = leftCell.getCoord('s') - 1;
@@ -130,6 +127,43 @@ class HexBoard implements Board {
   }
 
   @Override
+  public int getTotalNumCells() {
+    int cellNum = 0;
+    for(ReversiCell[] row : this.cells) {
+      cellNum += row.length;
+    }
+    return cellNum;
+  }
+
+  // determines which of the given two cells is on the left
+  private ReversiCell getLeftCell(ReversiCell cell1, ReversiCell cell2) {
+    if (cell1.getCoord('q') < cell2.getCoord('q')) {
+      return cell1;
+    }
+    else if (cell1.getCoord('q') == cell2.getCoord('q')) {
+      if (cell1.getCoord('r') < cell2.getCoord('r')) {
+        return cell1;
+      }
+      else {
+        return cell2;
+      }
+    }
+    else {
+      return cell2;
+    }
+  }
+
+  // determines which of the given two cells is on the right
+  private ReversiCell getRightCell(ReversiCell cell1, ReversiCell cell2) {
+    if (this.getLeftCell(cell1, cell2).equals(cell1)) {
+      return cell2;
+    }
+    else {
+      return cell1;
+    }
+  }
+
+  @Override
   public void placeDisc(ReversiCell c, DiscColor color) {
     this.invalidCellException(c);
     if (!this.isEmpty(c)) {
@@ -143,7 +177,7 @@ class HexBoard implements Board {
 
   @Override
   public void flipDisc(ReversiCell c) {
-    invalidCellException(c);
+    this.invalidCellException(c);
 
     if (this.isEmpty(c)) {
       throw new IllegalStateException("Empty cell cannot be flipped.");
@@ -158,11 +192,11 @@ class HexBoard implements Board {
 
   private void invalidCellException(ReversiCell cell) {
     if (cell.getCoord('q') > this.boardSize - 1
-            || cell.getCoord('q') < this.boardSize * -1
-            || cell.getCoord('r') > this.boardSize
-            || cell.getCoord('r') < this.boardSize * -1
-            || cell.getCoord('s') > this.boardSize
-            || cell.getCoord('s') < this.boardSize * -1) {
+            || cell.getCoord('q') < (this.boardSize * -1) + 1
+            || cell.getCoord('r') > this.boardSize - 1
+            || cell.getCoord('r') < (this.boardSize * -1) + 1
+            || cell.getCoord('s') > this.boardSize - 1
+            || cell.getCoord('s') < (this.boardSize * -1) + 1) {
       throw new IllegalArgumentException("All coordinates within the cell must be between -" +
               this.boardSize + " and " + this.boardSize);
     }
