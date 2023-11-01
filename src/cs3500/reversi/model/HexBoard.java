@@ -12,32 +12,39 @@ import java.util.ArrayList;
  */
 class HexBoard implements Board {
 
-  // represents the number of cells that make up one side length of the board.
+  // represents the number of cells that make up one side length of the board. Private field
+  // because any observations on the board should be made through the model. Final because the
+  // reference should not be changed.
   // INVARIANT: boardSize > 2
-  private int boardSize;
+  private final int boardSize;
 
   // Holds all the cells that are a part of the board. The outer array holds the horizontal rows
   // of the board, where the 0th index is the top most row. The inner array hold the cells within
   // a row, where the 0th index is the leftmost cell in the row. Arrays were used because once the
-  // board is created, its size must stay constant.
-  private ReversiCell[][] cells;
+  // board is created, its size must stay constant. Private field because any observations or
+  // mutations on the board should be made through the model. Final because the
+  // reference should not be changed.
+  private final ReversiCell[][] cells;
 
   // Holds all the cells that have been captured by the black player, or cells that
   // have a black game disc on them. Used a list because the number of black cells will
-  // inevitably change throughout the game, therefore the length should be flexible.
-  private List<ReversiCell> blackCells;
+  // inevitably change throughout the game, therefore the length should be flexible. Final
+  // because the reference should not be changed.
+  private final List<ReversiCell> blackCells;
 
   // Holds all the cells that have been captured by the white player, or cells that
   // have a white game disc on them. Used a list because the number of white cells will
   // inevitably change throughout the game, therefore the length should be flexible.
-  private List<ReversiCell> whiteCells;
+  // Final because the reference should not be changed.
+  private final List<ReversiCell> whiteCells;
 
   /**
    * Constructor for the HexBoard class, takes in a board size and initializes the fields. 
    * boardSize invariant is ensured by the constructor, you cannot pass in a boardSize less than
    * 3. blackCells and whiteCells are initialized to be empty lists. When the board is made
    * initially all the cells are empty. cells field is initialized to hold the valid coordinates
-   * for a board of the given size.
+   * for a board of the given size. Package private because no class outside the model
+   * interface should have permission to construct an instance of a specific board.
    * @param boardSize side length in cells
    */
   HexBoard(int boardSize) {
@@ -52,7 +59,8 @@ class HexBoard implements Board {
 
   // assumes and preserves field invariant boardSize > 2
   // generates the cells within the board by position, starting at the top left of the board
-  // and working left to right, top to bottom.
+  // and working left to right, top to bottom. private because no other class needs to generate
+  // a board of cells.
   private ReversiCell[][] getBoard() {
     ReversiCell[][] cells = new ReversiCell[(boardSize * 2) - 1][];
     int width = boardSize;
@@ -185,7 +193,8 @@ class HexBoard implements Board {
     return cellNum;
   }
 
-  // determines which of the given two cells is on the left
+  // determines which of the given two cells is on the left. private because this functionality
+  // is only relevant to this class. Just a helper that does not need to be in the interface.
   private ReversiCell getLeftCell(ReversiCell cell1, ReversiCell cell2) {
     if (cell1.getCoord('q') < cell2.getCoord('q')) {
       return cell1;
@@ -203,7 +212,8 @@ class HexBoard implements Board {
     }
   }
 
-  // determines which of the given two cells is on the right
+  // determines which of the given two cells is on the right. private because this functionality
+  // is only relevant to this class. Just a helper that does not need to be in the interface.
   private ReversiCell getRightCell(ReversiCell cell1, ReversiCell cell2) {
     if (this.getLeftCell(cell1, cell2).equals(cell1)) {
       return cell2;
@@ -228,8 +238,9 @@ class HexBoard implements Board {
     }
   }
 
-  // checks that the given cell has valid coordinates within the board. Otherwise throws an
-  // exception. assumes and preserves invariant boardSize > 2
+  // checks that the given cell has valid coordinates within the board. Otherwise, throws an
+  // exception. assumes and preserves invariant boardSize > 2. Private because this is only
+  // relevant inside the board class.
   private void invalidCellException(ReversiCell cell) {
     if (cell.getCoord('q') > this.boardSize - 1
             || cell.getCoord('q') < (this.boardSize * -1) + 1

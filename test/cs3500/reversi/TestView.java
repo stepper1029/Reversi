@@ -49,7 +49,7 @@ public class TestView {
   @Test
   public void testToStringAfterMovesMade() {
     MutableModel model = ReversiCreator.create(3);
-    ReversiCell cell = new HexCell(1, 1, -2);
+    ReversiCell cell = model.getCellAt(3, 3);
     Assert.assertTrue(model.isEmpty(cell));
     model.place(cell);
     ReversiView tv = new HexTextView(model);
@@ -66,13 +66,11 @@ public class TestView {
   }
 
   @Test
-  public void testToStringAfterAMoveFlipsTwo() {
+  public void testToStringAfterAMoveFlipsInTwoDirections() {
     MutableModel model = ReversiCreator.create(3);
-    model.place(new HexCell(1, -2, 1));
-    model.setNextColor();
-    model.place(new HexCell(2, -1, -1));
-    model.setNextColor();
-    model.place(new HexCell(1, 1, -2));
+    model.place(model.getCellAt(0, 1));
+    model.place(model.getCellAt(1, 3));
+    model.place(model.getCellAt(3, 3));
     ReversiView tv = new HexTextView(model);
     String actual = tv.toString();
     String expected =
@@ -82,5 +80,28 @@ public class TestView {
             " _ X X X\n" +
             "  _ _ _";
     Assert.assertEquals(expected, actual);
+  }
+
+  @Test
+  public void testToStringAfterAMoveFlipsTwoInARow() {
+    MutableModel model = ReversiCreator.create(3);
+    model.place(model.getCellAt(0, 1));
+    model.place(model.getCellAt(1, 3));
+    model.place(model.getCellAt(3, 3));
+    model.place(model.getCellAt(1, 0));
+    ReversiView tv = new HexTextView(model);
+    String actual = tv.toString();
+    String expected =
+            "  _ X _\n" +
+                    " O O O O\n" +
+                    "_ O _ X _\n" +
+                    " _ X X X\n" +
+                    "  _ _ _";
+    Assert.assertEquals(expected, actual);
+  }
+
+  @Test
+  public void testNull() {
+    Assert.assertThrows(NullPointerException.class, () -> new HexTextView(null));
   }
 }

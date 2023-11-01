@@ -5,18 +5,21 @@ import java.util.List;
 
 /**
  * Class BasicReversi represents a game of Reversi with standard rules and gameplay. Implements
- * MutableModel interface.
+ * MutableModel interface. Class is package private because the controller and view should go
+ * through the interface and not the class.
  */
 class BasicReversi implements MutableModel {
 
-  // currColor to store what color should be used for moves like place
+  // currColor to store what color should be used for moves like place. Should only be visible to
+  // this BasicReversi.
   private DiscColor currColor;
 
-  // stores number of times pass has been played consecutively
+  // stores number of times pass has been played consecutively. Should only be visible to this
+  // BasicReversi
   private int numPasses;
 
   // stores a board to observe and mutate, assumes any invariants from the board class like
-  // the board size being >2
+  // the board size being >2. Should only be visible to this BasicReversi
   private Board board;
 
   /**
@@ -63,7 +66,7 @@ class BasicReversi implements MutableModel {
 
   @Override
   public boolean isGameOver() {
-    if (this.numPasses > DiscColor.values().length) {
+    if (this.numPasses >= DiscColor.values().length) {
       return true;
     } else if (this.getScore(DiscColor.Black) == 0
             || this.getScore(DiscColor.White) == 0) {
@@ -85,7 +88,8 @@ class BasicReversi implements MutableModel {
    * Flips all the discs in the given list. Used when a player makes a move and the cells that
    * connect the cell where the player placed a disc and the existing discs of the same color on
    * the board are now captured by the player, meaning they should change colors to that of
-   * the player who moved.
+   * the player who moved. Private because no other class should have permission to change the
+   * color of cells.
    */
   private void flipAll(List<ReversiCell> cells) {
     for (ReversiCell c : cells) {
@@ -157,7 +161,8 @@ class BasicReversi implements MutableModel {
     }
   }
 
-  // compares the two cells and sees if they have the same color.
+  // compares the two cells and sees if they have the same color. private because only BasicReversi
+  // needs this functionality.
   private boolean sameColor(ReversiCell cell1, ReversiCell cell2) {
     if (!this.isEmpty(cell1) && !this.isEmpty(cell2)) {
       return (this.getColorAt(cell1).equals(this.getColorAt(cell2)));
@@ -167,7 +172,8 @@ class BasicReversi implements MutableModel {
   }
 
   // for a valid move, determines all connections to this cell (discs between this
-  // given cell and the connections should be flipped)
+  // given cell and the connections should be flipped). private because no other class needs to
+  // know the connections of a cell.
   private List<ReversiCell> getConnections(ReversiCell c) {
     ArrayList<ReversiCell> connections = new ArrayList<>();
     ReversiCell currCell;
@@ -189,8 +195,8 @@ class BasicReversi implements MutableModel {
     return connections;
   }
 
-  // determines if there is a valid move in the given direction with the given starting cell
-  // determines if there is a valid move in the given direction with the given starting cell
+  // determines if there is a valid move in the given direction with the given starting cell.
+  // private because no other class needs this functionality.
   private boolean validMoveInOneD(CellDirection direction, ReversiCell startingCell) {
     ReversiCell currCell = this.board.getNeighborCell(startingCell, direction);
     // returns false if the cell directly next to this one is empty
@@ -207,7 +213,8 @@ class BasicReversi implements MutableModel {
     return this.isEmpty(currCell);
   }
 
-  // determines all valid moves from the given starting cell
+  // determines all valid moves from the given starting cell. private because no other class
+  // needs this functionality.
   private List<ReversiCell> validMovesInAllDirections(ReversiCell startingCell) {
     List<ReversiCell> validMoves = new ArrayList<>();
     ReversiCell currCell;
