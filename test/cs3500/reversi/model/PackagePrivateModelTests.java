@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-
+/**
+ * Tests for package-private classes/ methods.
+ */
 public class PackagePrivateModelTests {
   // CellDirection tests
   @Test
@@ -167,6 +169,7 @@ public class PackagePrivateModelTests {
   // HexBoard tests
   private HexBoard board3;
   private HexBoard board4;
+
   private void initHexBoards() {
     this.board3 = new HexBoard(3);
     this.board4 = new HexBoard(4);
@@ -226,10 +229,10 @@ public class PackagePrivateModelTests {
   public void testGetRow() {
     this.initHexBoards();
     this.initCells();
-    ReversiCell[] row0 = new ReversiCell[] {this.outerUpperLeft,
-            this.upperMiddle, this.outerUpperRight};
-    ReversiCell[] row2 = new ReversiCell[] {this.outerLeft,
-            this.left, this.center, this.right, this.outerRight};
+    ReversiCell[] row0 =
+            new ReversiCell[]{this.outerUpperLeft, this.upperMiddle, this.outerUpperRight};
+    ReversiCell[] row2 =
+            new ReversiCell[]{this.outerLeft, this.left, this.center, this.right, this.outerRight};
     Assert.assertArrayEquals(row0, this.board3.getRow(0));
     Assert.assertArrayEquals(row2, this.board3.getRow(2));
     Assert.assertThrows(IllegalArgumentException.class, () ->
@@ -337,5 +340,12 @@ public class PackagePrivateModelTests {
             this.board3.getCells(DiscColor.White));
     Assert.assertEquals(new ArrayList<ReversiCell>(Collections.singletonList(this.upperLeft)),
             this.board3.getCells(DiscColor.Black));
+  }
+
+  // BasicReversi null constructor test
+  @Test
+  public void testNullBoard() {
+    Assert.assertThrows(NullPointerException.class, () ->
+            new BasicReversi(null));
   }
 }

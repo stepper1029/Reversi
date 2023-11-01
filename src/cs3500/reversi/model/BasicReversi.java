@@ -2,6 +2,7 @@ package cs3500.reversi.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Class BasicReversi represents a game of Reversi with standard rules and gameplay. Implements
@@ -33,7 +34,7 @@ class BasicReversi implements MutableModel {
    */
   BasicReversi(Board board) {
     this.numPasses = 0;
-    this.board = board;
+    this.board = Objects.requireNonNull(board);
     this.setBoard();
     this.currColor = DiscColor.Black;
   }

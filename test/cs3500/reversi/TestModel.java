@@ -37,6 +37,47 @@ public class TestModel {
   }
 
   @Test
+  public void testGetCellAt() {
+    this.initModels();
+    Assert.assertEquals(1,
+            this.model3.getCellAt(0, 1).getCoord('q'));
+    Assert.assertEquals(-2,
+            this.model3.getCellAt(0, 1).getCoord('r'));
+    Assert.assertEquals(1,
+            this.model3.getCellAt(0, 1).getCoord('s'));
+    Assert.assertEquals(0,
+            this.model3.getCellAt(2, 2).getCoord('q'));
+    Assert.assertEquals(0,
+            this.model3.getCellAt(2, 2).getCoord('r'));
+    Assert.assertEquals(0,
+            this.model3.getCellAt(2, 2).getCoord('s'));
+    Assert.assertEquals(0,
+            this.model3.getCellAt(3, 2).getCoord('q'));
+    Assert.assertEquals(1,
+            this.model3.getCellAt(3, 2).getCoord('r'));
+    Assert.assertEquals(-1,
+            this.model3.getCellAt(3, 2).getCoord('s'));
+  }
+
+  @Test
+  public void testGetNumRows() {
+    this.initModels();
+    Assert.assertEquals(5, this.model3.getNumRows());
+    Assert.assertEquals(7, this.model4.getNumRows());
+  }
+
+  @Test
+  public void testGetRowSize() {
+    this.initModels();
+    Assert.assertEquals(5, this.model3.getRowSize(2));
+    Assert.assertEquals(3, this.model3.getRowSize(0));
+    Assert.assertEquals(4, this.model3.getRowSize(3));
+    Assert.assertEquals(7, this.model4.getRowSize(3));
+    Assert.assertEquals(4, this.model4.getRowSize(0));
+    Assert.assertEquals(6, this.model4.getRowSize(2));
+  }
+
+  @Test
   public void testPass() {
     this.initModels();
     this.model3.pass();
@@ -72,7 +113,7 @@ public class TestModel {
 
   // tests a move that flips multiple discs in multiple directions at once
   @Test
-  public void testFlippingMultipleDiscs() {
+  public void testFlippingMultipleDiscsDiffD() {
     this.initModels();
     this.model4.place(this.model4.getCellAt(2, 4));
     this.model4.place(this.model4.getCellAt(1, 2));
@@ -89,12 +130,64 @@ public class TestModel {
 
   // tests a move that flips multiple discs in the same directions at once
   @Test
-  public void testValidMoves() {
-
+  public void testFlippingMultipleDiscsSameD() {
+    this.initModels();
+    this.model4.place(this.model4.getCellAt(2, 4));
+    this.model4.place(this.model4.getCellAt(1, 2));
+    this.model4.place(this.model4.getCellAt(2, 1));
+    Assert.assertEquals(DiscColor.Black,
+            this.model4.getColorAt(this.model4.getCellAt(2, 2)));
+    Assert.assertEquals(DiscColor.Black,
+            this.model4.getColorAt(this.model4.getCellAt(3, 2)));
+    this.model4.place(this.model4.getCellAt(4, 1));
+    Assert.assertEquals(DiscColor.White,
+            this.model4.getColorAt(this.model4.getCellAt(2, 2)));
+    Assert.assertEquals(DiscColor.White,
+            this.model4.getColorAt(this.model4.getCellAt(3, 2)));
   }
 
   @Test
-  public void testAllPossibleMoves() {
+  public void testPossibleMoves() {
+    this.initModels();
+    Assert.assertEquals(6, this.model3.allPossibleMoves().size());
+    Assert.assertTrue(this.model3.allPossibleMoves().contains(
+            this.model3.getCellAt(0, 1)));
+    Assert.assertTrue(this.model3.allPossibleMoves().contains(
+            this.model3.getCellAt(1, 0)));
+    Assert.assertTrue(this.model3.allPossibleMoves().contains(
+            this.model3.getCellAt(1, 3)));
+    Assert.assertTrue(this.model3.allPossibleMoves().contains(
+            this.model3.getCellAt(3, 0)));
+    Assert.assertTrue(this.model3.allPossibleMoves().contains(
+            this.model3.getCellAt(3, 3)));
+    Assert.assertTrue(this.model3.allPossibleMoves().contains(
+            this.model3.getCellAt(4, 1)));
+    this.model3.place(this.model3.getCellAt(4, 1));
+    Assert.assertEquals(3, this.model3.allPossibleMoves().size());
+  }
 
+  @Test
+  public void testIllegalPlace() {
+    this.initModels();
+    Assert.assertThrows(IllegalArgumentException.class, () ->
+            this.model3.place(this.model3.getCellAt(3, 5)));
+    Assert.assertThrows(IllegalStateException.class, () ->
+            this.model3.place(this.model3.getCellAt(0, 0)));
+    this.model3.place(this.model3.getCellAt(4, 1));
+    Assert.assertThrows(IllegalStateException.class, () ->
+            this.model3.place(this.model3.getCellAt(4, 1)));
+  }
+
+  @Test
+  public void testIllegalCells() {
+    this.initModels();
+    Assert.assertThrows(IllegalArgumentException.class, () ->
+            this.model3.getColorAt(this.model3.getCellAt(0, 0)));
+    Assert.assertThrows(IllegalArgumentException.class, () ->
+            this.model3.getRowSize(5));
+    Assert.assertThrows(IllegalArgumentException.class, () ->
+            this.model4.getCellAt(5, 6));
+    Assert.assertThrows(IllegalArgumentException.class, () ->
+            this.model3.isEmpty(this.model3.getCellAt(5, 3)));
   }
 }
