@@ -26,22 +26,28 @@ interface, etc are all "driven" by things like the Model, Creator, and Main.
 The smallest subcomponent of the program is a single Cell. There is an interface for all cells, but
 so far we have implemented only one HexCell class. This class has three fields, q, r, and s each 
 representing a plane in the 3D cubic coordinate system we used to keep track of cells and the board.
+The origin is at (0, 0, 0), which is in the center of the board. q moves from bottom left
+to top right of the grid. r moves from top to bottom of the grid. s moves from bottom right to 
+top left of the grid (see the HexCell class for more details).
 
 A Board is the next noun which itself has the cells which make it up and black and white pieces. 
 Because the board stores the cells in an array of arrays, to represent the rows and columns, there
 are now two ways to access a cell. Either through the index of the row and column or through 
 the coordinates q, r, s. We found to do background math q, r, s was more efficient, but row
 and column was more readable and will make more sense to use in the view and controller later on.
+Rows are organized by horizontal rows of the hexagonal board. The origin (0, 0) is in the top left
+of the board, and row number increases vertically down, while cell number increases horizontally 
+to the right(see the HexBoard class for more details).
 
 Next we have the Model. The model contains a board, the current color, and the number of consecutive
 passes. The Model enforces rules and behavior and then delegates to the board to actually perform
 actions. The Model needs the curr color so that when it delegates place() to the board it knows
 what color disc needs to be placed.
 
-In the Model, we also have two enums we use throughout our code. First is CellDirection which contains
-the possible directions from which you can make connections between a starting cell and another
-cell on the board. These directions are represented by vectors which can be "added" to a cell
-in order to get a new cell in that direction. This is used to traverse through the board and
+In the Model, we also have two enums we use throughout our code. First is CellDirection which 
+contains the possible directions from which you can make connections between a starting cell and 
+another cell on the board. These directions are represented by vectors which can be "added" to a 
+cell in order to get a new cell in that direction. This is used to traverse through the board and
 find which pieces can be flipped and which moves are legal. The other enum is DiscColor which 
 contains the colors that represent the different players. It is convention for Reversi to be played
 by two players, represented by black and white, where black always goes first.

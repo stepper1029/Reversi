@@ -9,6 +9,11 @@ import java.util.Objects;
  */
 class HexCell implements ReversiCell {
 
+  // Cubic coordinates (r, q, s) are used. See below for more details about each coordinate.
+  // Each coordinate starts at the origin, which is (0,0,0) at the very center of a hexagonal
+  // board. The first and last rows of a hexagonal boards are full sides of the hexagon (as
+  // opposed to corners)
+
   // plane q runs from NW to SE, where the +q direction is NE. private final because any
   // observations should be made through observable methods and the reference should never be
   // changed.
