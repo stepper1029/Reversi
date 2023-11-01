@@ -1,4 +1,4 @@
-package model;
+package cs3500.reversi.model;
 
 /**
  * Interface to represent a single cell in a Reversi board.

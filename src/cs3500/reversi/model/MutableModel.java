@@ -1,4 +1,4 @@
-package model;
+package cs3500.reversi.model;
 
 /**
  * An interface to represent the mutable methods of a model. The Model is responsible for keeping
@@ -10,20 +10,17 @@ public interface MutableModel extends ReadOnlyModel {
 
   /**
    * Allows the current player to pass their turn,
-   * if they have no moves or do not want to make a move.
+   * if they have no moves or do not want to make a move
+   * and changes the current color (whose turn it is).
    */
   void pass();
 
   /**
-   * Places a disc of the color of the current player on the board.
+   * Places a disc of the color of the current player on the board
+   * and changes the current color (whose turn it is).
    * @param cell given cell to place the disc
    * @throws IllegalStateException if placing a disc at the given cell is not a legal move.
    * @throws IllegalArgumentException if the given cell is not valid or if it is not empty
    */
   void place(ReversiCell cell);
-
-  /**
-   * Changes the current color to the next color, thereby changing which player's turn it is.
-   */
-  void setNextColor();
 }

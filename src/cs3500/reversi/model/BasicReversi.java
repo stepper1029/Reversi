@@ -1,4 +1,4 @@
-package model;
+package cs3500.reversi.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +78,7 @@ class BasicReversi implements MutableModel {
   @Override
   public void pass() {
     this.numPasses += 1;
+    this.setNextColor();
   }
 
   /**
@@ -99,14 +100,17 @@ class BasicReversi implements MutableModel {
       for (ReversiCell connectingCell : this.getConnections(cell)) {
         this.flipAll(this.board.getCellsBetween(cell, connectingCell));
       }
+      this.setNextColor();
     } else {
       throw new IllegalStateException("Invalid move");
     }
   }
 
-  @Override
-  public void setNextColor() {
-    this.currColor = DiscColor.getnextColor(this.currColor);
+  /**
+   * switches currColor to the next color in the DiscColor enum to switch whose turn it is.
+   */
+  private void setNextColor() {
+    this.currColor = DiscColor.getNextColor(this.currColor);
   }
 
   @Override

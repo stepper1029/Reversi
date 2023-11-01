@@ -1,4 +1,4 @@
-package model;
+package cs3500.reversi.model;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -127,6 +127,18 @@ class HexBoard implements Board {
   }
 
   @Override
+  public void placeDisc(ReversiCell c, DiscColor color) {
+    this.invalidCellException(c);
+    if (!this.isEmpty(c)) {
+      throw new IllegalStateException("You can only place discs in empty cells.");
+    } else if (color.equals(DiscColor.Black)) {
+      this.blackCells.add(c);
+    } else {
+      this.whiteCells.add(c);
+    }
+  }
+
+  @Override
   public boolean isEmpty(ReversiCell c) {
     this.invalidCellException(c);
     return !this.whiteCells.contains(c) && !this.blackCells.contains(c);
@@ -198,18 +210,6 @@ class HexBoard implements Board {
     }
     else {
       return cell1;
-    }
-  }
-
-  @Override
-  public void placeDisc(ReversiCell c, DiscColor color) {
-    this.invalidCellException(c);
-    if (!this.isEmpty(c)) {
-      throw new IllegalStateException("You can only place discs in empty cells.");
-    } else if (color.equals(DiscColor.Black)) {
-      this.blackCells.add(c);
-    } else {
-      this.whiteCells.add(c);
     }
   }
 

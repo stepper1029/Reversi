@@ -1,4 +1,4 @@
-package model;
+package cs3500.reversi.model;
 
 /**
  * Represents the color of a disc.

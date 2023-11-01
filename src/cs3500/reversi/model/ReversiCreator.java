@@ -1,4 +1,4 @@
-package model;
+package cs3500.reversi.model;
 
 public class ReversiCreator {
   public static MutableModel create(int boardSize) {

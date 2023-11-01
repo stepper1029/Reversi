@@ -1,14 +1,15 @@
+package cs3500.reversi;
+
 import org.junit.Assert;
 import org.junit.Test;
 
-import model.HexCell;
-import model.ReversiCreator;
-import model.ReadOnlyModel;
-import model.MutableModel;
-import view.ReversiView;
-import view.HexTextView;
-import model.ReversiCell;
-import model.DiscColor;
+import cs3500.reversi.model.ReversiCreator;
+import cs3500.reversi.model.ReadOnlyModel;
+import cs3500.reversi.model.MutableModel;
+import cs3500.reversi.view.ReversiView;
+import cs3500.reversi.view.HexTextView;
+import cs3500.reversi.model.ReversiCell;
+import cs3500.reversi.model.DiscColor;
 
 public class TestView {
 
@@ -74,7 +75,12 @@ public class TestView {
     model.place(new HexCell(1, 1, -2));
     ReversiView tv = new HexTextView(model);
     String actual = tv.toString();
-    String expected = "";
+    String expected =
+            "  _ X _\n" +
+            " _ X X O\n" +
+            "_ O _ X _\n" +
+            " _ X X X\n" +
+            "  _ _ _";
     Assert.assertEquals(expected, actual);
   }
 }

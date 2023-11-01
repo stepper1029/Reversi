@@ -1,10 +1,10 @@
-package view;
+package cs3500.reversi.view;
 
 import java.util.Objects;
 
-import model.DiscColor;
-import model.ReversiCell;
-import model.ReadOnlyModel;
+import cs3500.reversi.model.DiscColor;
+import cs3500.reversi.model.ReversiCell;
+import cs3500.reversi.model.ReadOnlyModel;
 
 /**
  * HexTextView gives a text-based view of a game of Reversi where black discs are represented by
