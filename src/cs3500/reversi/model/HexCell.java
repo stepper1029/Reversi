@@ -3,7 +3,7 @@ package cs3500.reversi.model;
 import java.util.Objects;
 
 
- /**
+/**
  * Class HexCell implements ReversiCell to represents a hexagonal cell. The class is package
  * private because it only needs to be accessed within the model.
  */
