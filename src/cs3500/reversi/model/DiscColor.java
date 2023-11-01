@@ -14,6 +14,7 @@ public enum DiscColor {
    * Returns the next DiscColor in the order of colors within this enum. Package private because
    * the model needs to be able to switch the current color but the view and controller should
    * not have that permission.
+   *
    * @param color the current color
    * @return the next DiscColor in the order of colors
    */
@@ -22,8 +23,7 @@ public enum DiscColor {
     DiscColor[] values = DiscColor.values();
     if (ordinal == values.length - 1) {
       return values[0];
-    }
-    else {
+    } else {
       return values[ordinal + 1];
     }
   }

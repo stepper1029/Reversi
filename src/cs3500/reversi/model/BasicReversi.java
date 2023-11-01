@@ -20,7 +20,7 @@ class BasicReversi implements MutableModel {
 
   // stores a board to observe and mutate, assumes any invariants from the board class like
   // the board size being >2. Should only be visible to this BasicReversi
-  private Board board;
+  private final Board board;
 
   /**
    * Constructor for BasicReversi initializes all fields. Takes in a board (which has a size, shape,
@@ -44,6 +44,7 @@ class BasicReversi implements MutableModel {
    * once the players have begun making moves. Alternates through the colors and sets the cells
    * appropriately. For example, for a game with two players, first cell is black, second cell
    * is white, third cell is black, fourth cell is white, ... and so on.
+   *
    * @throws IllegalStateException if the board is not empty when the method is called.
    */
   private void setBoard() {
@@ -100,6 +101,7 @@ class BasicReversi implements MutableModel {
   @Override
   public void place(ReversiCell cell) {
     if (this.allPossibleMoves().contains(cell)) {
+      this.numPasses = 0;
       this.board.placeDisc(cell, this.currColor);
       for (ReversiCell connectingCell : this.getConnections(cell)) {
         this.flipAll(this.board.getCellsBetween(cell, connectingCell));

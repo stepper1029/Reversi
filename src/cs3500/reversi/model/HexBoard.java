@@ -1,9 +1,9 @@
 package cs3500.reversi.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  * Class HexBoard implements Board and represents a Reversi game board with Hexagonal shape. The
@@ -39,12 +39,13 @@ class HexBoard implements Board {
   private final List<ReversiCell> whiteCells;
 
   /**
-   * Constructor for the HexBoard class, takes in a board size and initializes the fields. 
+   * Constructor for the HexBoard class, takes in a board size and initializes the fields.
    * boardSize invariant is ensured by the constructor, you cannot pass in a boardSize less than
    * 3. blackCells and whiteCells are initialized to be empty lists. When the board is made
    * initially all the cells are empty. cells field is initialized to hold the valid coordinates
    * for a board of the given size. Package private because no class outside the model
    * interface should have permission to construct an instance of a specific board.
+   *
    * @param boardSize side length in cells
    */
   HexBoard(int boardSize) {
@@ -73,7 +74,7 @@ class HexBoard implements Board {
         currRow = new ReversiCell[width];
         width++;
         if (rowIndex == boardSize - 1) {
-          width --;
+          width--;
         }
       } else {
         width--;
@@ -126,11 +127,12 @@ class HexBoard implements Board {
   @Override
   public List<ReversiCell> getCells(DiscColor color) {
     switch (color) {
-      case Black :
+      case Black:
         return Collections.unmodifiableList(this.blackCells);
       case White:
         return Collections.unmodifiableList(this.whiteCells);
-      default: throw new IllegalArgumentException("Invalid color");
+      default:
+        throw new IllegalArgumentException("Invalid color");
     }
   }
 
@@ -153,7 +155,7 @@ class HexBoard implements Board {
   }
 
   @Override
-  public List<ReversiCell> getCellsBetween (ReversiCell cell1, ReversiCell cell2) {
+  public List<ReversiCell> getCellsBetween(ReversiCell cell1, ReversiCell cell2) {
     ReversiCell leftCell;
     ReversiCell rightCell;
     List<ReversiCell> betweenCells = new ArrayList<>();
@@ -187,7 +189,7 @@ class HexBoard implements Board {
   @Override
   public int getTotalNumCells() {
     int cellNum = 0;
-    for(ReversiCell[] row : this.cells) {
+    for (ReversiCell[] row : this.cells) {
       cellNum += row.length;
     }
     return cellNum;
@@ -198,16 +200,13 @@ class HexBoard implements Board {
   private ReversiCell getLeftCell(ReversiCell cell1, ReversiCell cell2) {
     if (cell1.getCoord('q') < cell2.getCoord('q')) {
       return cell1;
-    }
-    else if (cell1.getCoord('q') == cell2.getCoord('q')) {
+    } else if (cell1.getCoord('q') == cell2.getCoord('q')) {
       if (cell1.getCoord('r') < cell2.getCoord('r')) {
         return cell1;
-      }
-      else {
+      } else {
         return cell2;
       }
-    }
-    else {
+    } else {
       return cell2;
     }
   }
@@ -217,8 +216,7 @@ class HexBoard implements Board {
   private ReversiCell getRightCell(ReversiCell cell1, ReversiCell cell2) {
     if (this.getLeftCell(cell1, cell2).equals(cell1)) {
       return cell2;
-    }
-    else {
+    } else {
       return cell1;
     }
   }

@@ -3,8 +3,8 @@ package cs3500.reversi.view;
 import java.util.Objects;
 
 import cs3500.reversi.model.DiscColor;
-import cs3500.reversi.model.ReversiCell;
 import cs3500.reversi.model.ReadOnlyModel;
+import cs3500.reversi.model.ReversiCell;
 
 /**
  * HexTextView gives a text-based view of a game of Reversi where black discs are represented by
@@ -19,6 +19,7 @@ public class HexTextView implements ReversiView {
   /**
    * Constructor for the text view initializes a ReadOnlyModel
    * which only has observable permissions.
+   *
    * @param model the current, in play game of Reversi
    */
   public HexTextView(ReadOnlyModel model) {
@@ -28,6 +29,7 @@ public class HexTextView implements ReversiView {
   /**
    * Makes a text-based rendering of the state of the game, where black is represented by "X",
    * white is represented by "O" and empty cells are represented by "_".
+   *
    * @return a string that represented the game state.
    */
   public String toString() {
@@ -52,9 +54,9 @@ public class HexTextView implements ReversiView {
         }
       }
       if (numRow < boardSize - 1) {
-        numSpaces --;
+        numSpaces--;
       } else {
-        numSpaces ++;
+        numSpaces++;
       }
     }
     return output;
@@ -66,7 +68,7 @@ public class HexTextView implements ReversiView {
   private String emptyStringHelper(int numRow, int numCell) {
     String output = "";
     if (numCell == model.getRowSize(numRow) - 1) {
-      if(numRow == model.getNumRows() - 1) {
+      if (numRow == model.getNumRows() - 1) {
         output += "_";
       } else {
         output += "_\n";
@@ -83,7 +85,7 @@ public class HexTextView implements ReversiView {
   private String blackStringHelper(int numRow, int numCell) {
     String output = "";
     if (numCell == model.getRowSize(numRow) - 1) {
-      if(numRow == model.getNumRows() - 1) {
+      if (numRow == model.getNumRows() - 1) {
         output += "X";
       } else {
         output += "X\n";
@@ -100,7 +102,7 @@ public class HexTextView implements ReversiView {
   private String whiteStringHelper(int numRow, int numCell) {
     String output = "";
     if (numCell == model.getRowSize(numRow) - 1) {
-      if(numRow == model.getNumRows() - 1) {
+      if (numRow == model.getNumRows() - 1) {
         output += "O";
       } else {
         output += "O\n";

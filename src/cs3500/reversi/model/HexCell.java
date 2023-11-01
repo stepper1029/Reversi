@@ -1,4 +1,5 @@
 package cs3500.reversi.model;
+
 import java.util.Objects;
 
 

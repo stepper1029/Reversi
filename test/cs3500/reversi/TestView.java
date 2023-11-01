@@ -3,14 +3,18 @@ package cs3500.reversi;
 import org.junit.Assert;
 import org.junit.Test;
 
-import cs3500.reversi.model.ReversiCreator;
-import cs3500.reversi.model.ReadOnlyModel;
-import cs3500.reversi.model.MutableModel;
-import cs3500.reversi.view.ReversiView;
-import cs3500.reversi.view.HexTextView;
-import cs3500.reversi.model.ReversiCell;
 import cs3500.reversi.model.DiscColor;
+import cs3500.reversi.model.MutableModel;
+import cs3500.reversi.model.ReadOnlyModel;
+import cs3500.reversi.model.ReversiCell;
+import cs3500.reversi.model.ReversiCreator;
+import cs3500.reversi.view.HexTextView;
+import cs3500.reversi.view.ReversiView;
 
+/**
+ * Tests the that the view accurately represents the game state in
+ * a game of Reversi.
+ */
 public class TestView {
 
   @Test
@@ -74,11 +78,11 @@ public class TestView {
     ReversiView tv = new HexTextView(model);
     String actual = tv.toString();
     String expected =
-            "  _ X _\n" +
-            " _ X X O\n" +
-            "_ O _ X _\n" +
-            " _ X X X\n" +
-            "  _ _ _";
+            "  _ X _\n"
+                    + " _ X X O\n"
+                    + "_ O _ X _\n"
+                    + " _ X X X\n"
+                    + "  _ _ _";
     Assert.assertEquals(expected, actual);
   }
 
