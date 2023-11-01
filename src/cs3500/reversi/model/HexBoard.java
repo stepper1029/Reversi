@@ -14,7 +14,9 @@ class HexBoard implements Board {
 
   // represents the number of cells that make up one side length of the board. Private field
   // because any observations on the board should be made through the model. Final because the
-  // reference should not be changed.
+  // reference should not be changed. This field serves the purpose of holding information about
+  // the structure of the board, and makes it easier to both display the board and find cells
+  // at specific locations within the board.
   // INVARIANT: boardSize > 2
   private final int boardSize;
 
