@@ -3,11 +3,11 @@ package cs3500.reversi.model;
 import java.util.Objects;
 
 
-/**
+ /**
  * Class HexCell implements ReversiCell to represents a hexagonal cell. The class is package
  * private because it only needs to be accessed within the model.
  */
- class HexCell implements ReversiCell {
+class HexCell implements ReversiCell {
 
   // plane q runs from NW to SE, where the +q direction is NE. private final because any
   // observations should be made through observable methods and the reference should never be
@@ -77,7 +77,7 @@ import java.util.Objects;
     if (directions.length != 3) {
       throw new IllegalArgumentException("Directional array length should be 3");
     }
-    return new HexCell(this.q + directions[0], this.r +
-            directions[1], this.s + directions[2]);
+    return new HexCell(this.q + directions[0], this.r
+            + directions[1], this.s + directions[2]);
   }
 }

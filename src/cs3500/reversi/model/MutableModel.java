@@ -4,14 +4,16 @@ package cs3500.reversi.model;
  * An interface to represent the mutable methods of a model. The Model is responsible for keeping
  * track of the rules and moves of the game. The two phase interface is used to restrict access
  * to the methods of a model, only giving observable methods to classes that
- * should not be able to mutate, and giving full access to those who should.
+ * should not be able to mutate, and giving full access to those who should. This interface will
+ * still be public, so it can be called when needed, but each class that has a model field will be
+ * given only one interface.
  */
 public interface MutableModel extends ReadOnlyModel {
 
   /**
-   * Allows the current player to pass their turn,
-   * if they have no moves or do not want to make a move
-   * and changes the current color (whose turn it is).
+   * Allows the current player to pass their turn, if they have no moves or do not want to make
+   * a move and changes the current color (whose turn it is). In the interface because every model
+   * needs to have the pass functionality, and it needs to called by the controller.
    */
   void pass();
 

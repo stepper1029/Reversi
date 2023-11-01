@@ -96,11 +96,11 @@ public class TestView {
     ReversiView tv = new HexTextView(model);
     String actual = tv.toString();
     String expected =
-            "  _ X _\n" +
-                    " O O O O\n" +
-                    "_ O _ X _\n" +
-                    " _ X X X\n" +
-                    "  _ _ _";
+            "  _ X _\n"
+                    + " O O O O\n"
+                    + "_ O _ X _\n"
+                    + " _ X X X\n"
+                    + "  _ _ _";
     Assert.assertEquals(expected, actual);
   }
 

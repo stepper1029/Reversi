@@ -5,7 +5,9 @@ import java.util.List;
 /**
  * An interface to represent the mutable methods of a model. The two phase interface is used
  * to restrict access to the methods of a model, only giving observable methods to classes that
- * should not be able to mutate, and giving full access to those who should.
+ * should not be able to mutate, and giving full access to those who should. This interface will
+ * still be public, so it can be called when needed, but each class that has a model field will be
+ * given only one interface.
  */
 public interface ReadOnlyModel {
 

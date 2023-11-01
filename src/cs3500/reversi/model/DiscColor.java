@@ -2,7 +2,7 @@ package cs3500.reversi.model;
 
 /**
  * Represents the color of a disc. Public enum because the number of players, or colors,
- * present in the game can be common knowledge.
+ * present in the game will be needed by the controller and view.
  */
 public enum DiscColor {
   /**
