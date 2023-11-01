@@ -1,7 +1,8 @@
 package cs3500.reversi.model;
 
 /**
- * Represents the color of a disc.
+ * Represents the color of a disc. Public enum because the number of players, or colors,
+ * present in the game can be common knowledge.
  */
 public enum DiscColor {
   /**
@@ -10,11 +11,13 @@ public enum DiscColor {
   Black, White;
 
   /**
-   * Returns the next DiscColor in the order of colors within this enum
+   * Returns the next DiscColor in the order of colors within this enum. Package private because
+   * the model needs to be able to switch the current color but the view and controller should
+   * not have that permission.
    * @param color the current color
    * @return the next DiscColor in the order of colors
    */
-  public static DiscColor getnextColor(DiscColor color) {
+  static DiscColor getNextColor(DiscColor color) {
     int ordinal = color.ordinal();
     DiscColor[] values = DiscColor.values();
     if (ordinal == values.length - 1) {
