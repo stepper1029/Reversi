@@ -10,7 +10,7 @@ import cs3500.reversi.model.ReversiCell;
  * HexTextView gives a text-based view of a game of Reversi where black discs are represented by
  * "X", white discs by "O", and empty cells as "_".
  */
-public class HexTextView implements ReversiView {
+public class HexTextView {
 
   // model is final because it should not be change in the view. ReadOnlyModel is passed
   // because the view should not have permission to mutate it, only to observe.

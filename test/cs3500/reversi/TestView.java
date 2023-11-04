@@ -20,7 +20,7 @@ public class TestView {
   @Test
   public void testToStringSizeThree() {
     ReadOnlyModel model = ReversiCreator.create(3);
-    ReversiView tv = new HexTextView(model);
+    HexTextView tv = new HexTextView(model);
     String actual = tv.toString();
     String expected = "  _ _ _\n"
             + " _ X O _\n"
@@ -33,7 +33,7 @@ public class TestView {
   @Test
   public void testToStringSizeSix() {
     ReadOnlyModel model = ReversiCreator.create(6);
-    ReversiView tv = new HexTextView(model);
+    HexTextView tv = new HexTextView(model);
     String actual = tv.toString();
     String expected = "     _ _ _ _ _ _\n"
             + "    _ _ _ _ _ _ _\n"
@@ -56,7 +56,7 @@ public class TestView {
     ReversiCell cell = model.getCellAt(3, 3);
     Assert.assertTrue(model.isEmpty(cell));
     model.place(cell);
-    ReversiView tv = new HexTextView(model);
+    HexTextView tv = new HexTextView(model);
     String actual = tv.toString();
     String expected = "  _ _ _\n"
             + " _ X O _\n"
@@ -75,7 +75,7 @@ public class TestView {
     model.place(model.getCellAt(0, 1));
     model.place(model.getCellAt(1, 3));
     model.place(model.getCellAt(3, 3));
-    ReversiView tv = new HexTextView(model);
+    HexTextView tv = new HexTextView(model);
     String actual = tv.toString();
     String expected =
             "  _ X _\n"
@@ -93,7 +93,7 @@ public class TestView {
     model.place(model.getCellAt(1, 3));
     model.place(model.getCellAt(3, 3));
     model.place(model.getCellAt(1, 0));
-    ReversiView tv = new HexTextView(model);
+    HexTextView tv = new HexTextView(model);
     String actual = tv.toString();
     String expected =
             "  _ X _\n"

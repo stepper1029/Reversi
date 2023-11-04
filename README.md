@@ -58,3 +58,7 @@ includes things like the model, board, cells, DiscColor and CellDirection enums,
 class. All components having to do with the view are in the src.cs3500.reversi.view package. Right 
 now, this only includes the text-based view and view interface. All tests are in the 
 test.cs3500.reversi package, with package private model tests being in test.cs3500.reversi.model.
+
+## Changes since Part 1:
+HexTextView no longer implements the view interface. It's still included in the view package, but
+would not implement any of the methods needed in the graphical view.
