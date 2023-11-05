@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
 import java.awt.*;
@@ -20,6 +20,8 @@ public class BoardPanel extends JPanel {
 
   private final List<ViewFeatures> featuresListeners;
 
+  private HexButton hex;
+
   private boolean mouseIsDown;
 
   private DiscColor activeColor;
@@ -30,6 +32,9 @@ public class BoardPanel extends JPanel {
     MouseEventsListener listener = new MouseEventsListener();
     this.addMouseListener(listener);
     this.addMouseMotionListener(listener);
+
+    hex = new HexButton();
+    this.add(hex);
   }
 
   /**
@@ -61,28 +66,35 @@ public class BoardPanel extends JPanel {
 
   @Override
   protected void paintComponent(Graphics g) {
-    super.paintComponent(g);
-    Graphics2D g2d = (Graphics2D) g.create();
-    // Draw your calibration pattern here
 
-    // one hexCell
-    g2d.setColor(Color.BLACK);
 
-    int x = getWidth() / 2 ;
-    int y = 30;
-    int size = 25; // Adjust the size of the hexagon as needed
 
-    int[] xPoints = new int[6];
-    int[] yPoints = new int[6];
+//    super.paintComponent(g);
+//    Graphics2D g2d = (Graphics2D) g.create();
+//    // Draw your calibration pattern here
+//
+//    // one hexCell
+//    g2d.setColor(Color.BLACK);
+//
+//    int x = getWidth() / 2 ;
+//    int y = 30;
+//    int size = 25; // Adjust the size of the hexagon as needed
+//
+//    int[] xPoints = new int[6];
+//    int[] yPoints = new int[6];
+//
+//    for (int i = 0; i < 6; i++) {
+//      double angle = 2 * Math.PI / 6 * i - Math.PI / 2; // Shift the angle by -90 degrees
+//      xPoints[i] = (int) (x + size * Math.cos(angle));
+//      yPoints[i] = (int) (y + size * Math.sin(angle));
+//    }
+//
+//    Polygon hexagon = new Polygon(xPoints, yPoints, 6);
+//    g2d.draw(hexagon);
+  }
 
-    for (int i = 0; i < 6; i++) {
-      double angle = 2 * Math.PI / 6 * i - Math.PI / 2; // Shift the angle by -90 degrees
-      xPoints[i] = (int) (x + size * Math.cos(angle));
-      yPoints[i] = (int) (y + size * Math.sin(angle));
-    }
-
-    Polygon hexagon = new Polygon(xPoints, yPoints, 6);
-    g2d.draw(hexagon);
+  private void makeHexCellButton() {
+    HexButton hexButton = new HexButton();
   }
 
   /**
