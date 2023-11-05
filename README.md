@@ -65,4 +65,7 @@ test.cs3500.reversi package, with package private model tests being in test.cs35
 would not implement any of the methods needed in the graphical view. The textview was just for 
 testing purposes before we fully implemented the view. 
 - The model no longer keeps track of the current color. Disc colors will now be a field stored by
-a player, and the controller will pass the correct disc color into the place() method.
+a player, and the controller will pass the correct disc color into the place() method. We realized
+that keeping track of players and colors should not be the responsibility of the model. We also did
+not want the current color to get out of sync with the current player, so it is easier to 
+keep track of it in one place rather than two.
