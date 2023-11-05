@@ -20,7 +20,7 @@ model without explicitly calling methods like in a test class.
 Components that would "drive" the control-flow of the system would be a Main class and a Creator
 class. However, we don't yet have a main. I would also consider the Model a driving force because
 it is the access point for all other components. Things like the view, Board interface, Cell
-interface, etc are all "driven" by things like the Model, Creator, and Main.
+interface, etc. are all "driven" by things like the Model, Creator, and Main.
 
 ## Key subcomponents:
 The smallest subcomponent of the program is a single Cell. There is an interface for all cells, but
@@ -39,10 +39,11 @@ Rows are organized by horizontal rows of the hexagonal board. The origin (0, 0) 
 of the board, and row number increases vertically down, while cell number increases horizontally 
 to the right(see the HexBoard class for more details).
 
-Next we have the Model. The model contains a board, the current color, and the number of consecutive
+Next we have the Model. The model contains a board, and the number of consecutive
 passes. The Model enforces rules and behavior and then delegates to the board to actually perform
-actions. The Model needs the curr color so that when it delegates place() to the board it knows
-what color disc needs to be placed.
+actions. The model is split into a read-only and mutable interface. The read-only interface 
+provides observable methods, while the mutable interface provides the pass() and place() methods
+to interact with the model. 
 
 In the Model, we also have two enums we use throughout our code. First is CellDirection which 
 contains the possible directions from which you can make connections between a starting cell and 
@@ -60,5 +61,8 @@ now, this only includes the text-based view and view interface. All tests are in
 test.cs3500.reversi package, with package private model tests being in test.cs3500.reversi.model.
 
 ## Changes since Part 1:
-HexTextView no longer implements the view interface. It's still included in the view package, but
-would not implement any of the methods needed in the graphical view.
+- HexTextView no longer implements the view interface. It's still included in the view package, but 
+would not implement any of the methods needed in the graphical view. The textview was just for 
+testing purposes before we fully implemented the view. 
+- The model no longer keeps track of the current color. Disc colors will now be a field stored by
+a player, and the controller will pass the correct disc color into the place() method.

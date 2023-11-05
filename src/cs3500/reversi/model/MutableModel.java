@@ -18,11 +18,11 @@ public interface MutableModel extends ReadOnlyModel {
   void pass();
 
   /**
-   * Places a disc of the color of the current player on the board
-   * and changes the current color (whose turn it is). In the interface because every model needs
+   * Places a disc of the given color on the board. In the interface because every model needs
    * to have the place functionality, and it needs to be called by the controller.
    *
    * @param cell given cell to place the disc
+   * @param color color of the disc to place
    * @throws IllegalStateException    if placing a disc at the given cell is not a legal move.
    * @throws IllegalArgumentException if the given cell is not valid or if it is not empty
    */
