@@ -1,5 +1,6 @@
 package cs3500.reversi.view;
 
+import java.awt.geom.Path2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -66,15 +67,12 @@ public class BoardPanel extends JPanel {
 
   @Override
   protected void paintComponent(Graphics g) {
+    super.paintComponent(g);
+    Graphics2D g2d = (Graphics2D) g.create();
 
-
-
-//    super.paintComponent(g);
-//    Graphics2D g2d = (Graphics2D) g.create();
-//    // Draw your calibration pattern here
-//
-//    // one hexCell
-//    g2d.setColor(Color.BLACK);
+    // one hexCell
+    g2d.setColor(Color.BLACK);
+    g2d.draw(new Hexagon());
 //
 //    int x = getWidth() / 2 ;
 //    int y = 30;
@@ -93,8 +91,21 @@ public class BoardPanel extends JPanel {
 //    g2d.draw(hexagon);
   }
 
-  private void makeHexCellButton() {
-    HexButton hexButton = new HexButton();
+  private static class Hexagon extends Path2D.Double {
+    private Hexagon() {
+      int size = 100; // Adjust the size as needed
+      int centerX = size / 2;
+      int centerY = size / 2;
+
+      moveTo(centerX + size / 2, centerY);
+      for (int i = 1; i < 6; i++) {
+        double angle = 2 * Math.PI / 6 * i;
+        double x = centerX + size / 2 * Math.cos(angle);
+        double y = centerY + size / 2 * Math.sin(angle);
+        lineTo(x, y);
+      }
+      closePath();
+    }
   }
 
   /**

@@ -8,10 +8,11 @@ public class HexButton extends JButton {
   private Hexagon hex = new Hexagon();
 
   public HexButton() {
-    setContentAreaFilled(true);
+    setContentAreaFilled(false);
     setFocusPainted(false);
     setBorderPainted(true);
     setOpaque(false);
+    setPreferredSize(new Dimension(110, 100));
   }
 
   @Override
@@ -19,9 +20,13 @@ public class HexButton extends JButton {
     Graphics2D g2d = (Graphics2D) g;
     g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-    g2d.setColor(getBackground());
+    g2d.setColor(Color.BLUE);
     g2d.fill(hex);
     super.paintComponent(g);
+  }
+
+  public boolean contains(int x, int y) {
+    return hex.contains(x, y);
   }
 
   private static class Hexagon extends Path2D.Double {
