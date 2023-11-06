@@ -245,4 +245,9 @@ class BasicReversi implements MutableModel {
     }
     return validMoves;
   }
+
+  @Override
+  public Board getBoardCopy() {
+    return this.board;
+  }
 }

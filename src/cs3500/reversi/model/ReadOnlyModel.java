@@ -99,4 +99,11 @@ public interface ReadOnlyModel {
    * @throws IllegalArgumentException if the cell is not in the board.
    */
   boolean isEmpty(ReversiCell c);
+
+  /**
+   * Shows the state of the board when called.
+   * @return the current state of the board, ordered by rows and columns, left to right top
+   * to bottom.
+   */
+  Board getBoardCopy();
 }

@@ -10,7 +10,7 @@ public class HexButton extends JButton {
   public HexButton() {
     setContentAreaFilled(false);
     setFocusPainted(false);
-    setBorderPainted(true);
+    setBorderPainted(false);
     setOpaque(false);
     setPreferredSize(new Dimension(110, 100));
   }
