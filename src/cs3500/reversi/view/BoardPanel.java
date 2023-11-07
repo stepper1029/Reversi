@@ -21,7 +21,7 @@ public class BoardPanel extends JPanel {
 
   private final List<ViewFeatures> featuresListeners;
 
-  private HexButton hex;
+  private Hexagon hex;
 
   private boolean mouseIsDown;
 
@@ -34,8 +34,7 @@ public class BoardPanel extends JPanel {
     this.addMouseListener(listener);
     this.addMouseMotionListener(listener);
 
-    hex = new HexButton();
-    this.add(hex);
+    hex = new Hexagon(30);
   }
 
   /**
@@ -72,7 +71,7 @@ public class BoardPanel extends JPanel {
 
     // one hexCell
     g2d.setColor(Color.BLACK);
-    g2d.draw(new Hexagon());
+    g2d.draw(new Hexagon(30));
 //
 //    int x = getWidth() / 2 ;
 //    int y = 30;
@@ -92,8 +91,7 @@ public class BoardPanel extends JPanel {
   }
 
   private static class Hexagon extends Path2D.Double {
-    private Hexagon() {
-      int size = 100; // Adjust the size as needed
+    private Hexagon(int size) {
       int centerX = size / 2;
       int centerY = size / 2;
 
