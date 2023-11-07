@@ -26,5 +26,5 @@ public interface MutableModel extends ReadOnlyModel {
    * @throws IllegalStateException    if placing a disc at the given cell is not a legal move.
    * @throws IllegalArgumentException if the given cell is not valid or if it is not empty
    */
-  void place(ReversiCell cell);
+  void place(ReversiCell cell, DiscColor color);
 }

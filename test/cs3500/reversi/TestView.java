@@ -55,7 +55,7 @@ public class TestView {
     MutableModel model = ReversiCreator.create(3);
     ReversiCell cell = model.getCellAt(3, 3);
     Assert.assertTrue(model.isEmpty(cell));
-    model.place(cell);
+    model.place(cell, DiscColor.Black);
     HexTextView tv = new HexTextView(model);
     String actual = tv.toString();
     String expected = "  _ _ _\n"
@@ -72,9 +72,9 @@ public class TestView {
   @Test
   public void testToStringAfterAMoveFlipsInTwoDirections() {
     MutableModel model = ReversiCreator.create(3);
-    model.place(model.getCellAt(0, 1));
-    model.place(model.getCellAt(1, 3));
-    model.place(model.getCellAt(3, 3));
+    model.place(model.getCellAt(0, 1), DiscColor.Black);
+    model.place(model.getCellAt(1, 3), DiscColor.White);
+    model.place(model.getCellAt(3, 3), DiscColor.Black);
     HexTextView tv = new HexTextView(model);
     String actual = tv.toString();
     String expected =
@@ -89,10 +89,10 @@ public class TestView {
   @Test
   public void testToStringAfterAMoveFlipsTwoInARow() {
     MutableModel model = ReversiCreator.create(3);
-    model.place(model.getCellAt(0, 1));
-    model.place(model.getCellAt(1, 3));
-    model.place(model.getCellAt(3, 3));
-    model.place(model.getCellAt(1, 0));
+    model.place(model.getCellAt(0, 1), DiscColor.Black);
+    model.place(model.getCellAt(1, 3), DiscColor.White);
+    model.place(model.getCellAt(3, 3), DiscColor.Black);
+    model.place(model.getCellAt(1, 0), DiscColor.White);
     HexTextView tv = new HexTextView(model);
     String actual = tv.toString();
     String expected =

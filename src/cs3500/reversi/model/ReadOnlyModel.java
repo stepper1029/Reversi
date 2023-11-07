@@ -47,14 +47,14 @@ public interface ReadOnlyModel {
   boolean isGameOver();
 
   /**
-   * Observes all possible cells where the player can place a disc and make a legal move (a move
-   * that flips one or more discs of the other color). This is in the interface because the view
-   * needs to have access to this observable method so all possible moves can be highlighted and
-   * shown to the player.
-   *
-   * @return a list of cells where the player can move.
+   * Observes all possible cells where the given player color can place a disc and make a legal
+   * move (a move that flips one or more discs of the other color). This is in the interface
+   * because the view needs to have access to this observable method so all possible moves can be
+   * highlighted and shown to the player.
+   * @param color the given color to find possible moves for
+   * @return a list of cells where the player can move
    */
-  List<ReversiCell> allPossibleMoves();
+  List<ReversiCell> allPossibleMoves(DiscColor color);
 
   /**
    * Observes the number of rows in the board or, the board height. This is in the interface
@@ -99,11 +99,4 @@ public interface ReadOnlyModel {
    * @throws IllegalArgumentException if the cell is not in the board.
    */
   boolean isEmpty(ReversiCell c);
-
-  /**
-   * Shows the state of the board when called.
-   * @return the current state of the board, ordered by rows and columns, left to right top
-   * to bottom.
-   */
-  Board getBoardCopy();
 }

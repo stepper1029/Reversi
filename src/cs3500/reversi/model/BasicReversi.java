@@ -10,9 +10,9 @@ import java.util.Objects;
  * through the interface and not the class.
  */
 class BasicReversi implements MutableModel {
-
-  // currColor to store what color should be used for moves like place. Should only be visible to
-  // this BasicReversi.
+  // keeps track of the color that should be placed by the current player. Each player should
+  // only move once at a time, so this keeps track of whose turn it is, allowing the model
+  // to ensure that the correct player is placing a piece.
   private DiscColor currColor;
 
   // stores number of times pass has been played consecutively. Should only be visible to this
@@ -100,10 +100,13 @@ class BasicReversi implements MutableModel {
   }
 
   @Override
-  public void place(ReversiCell cell) {
-    if (this.allPossibleMoves().contains(cell)) {
+  public void place(ReversiCell cell, DiscColor color) {
+    if (!this.currColor.equals(color)) {
+      throw new IllegalStateException("Player is playing out of turn");
+    }
+    else if (this.allPossibleMoves(color).contains(cell)) {
       this.numPasses = 0;
-      this.board.placeDisc(cell, this.currColor);
+      this.board.placeDisc(cell, color);
       for (ReversiCell connectingCell : this.getConnections(cell)) {
         this.flipAll(this.board.getCellsBetween(cell, connectingCell));
       }
@@ -238,16 +241,11 @@ class BasicReversi implements MutableModel {
   }
 
   @Override
-  public List<ReversiCell> allPossibleMoves() {
+  public List<ReversiCell> allPossibleMoves(DiscColor color) {
     List<ReversiCell> validMoves = new ArrayList<>();
-    for (ReversiCell cell : this.board.getCells(this.currColor)) {
+    for (ReversiCell cell : this.board.getCells(color)) {
       validMoves.addAll(this.validMovesInAllDirections(cell));
     }
     return validMoves;
-  }
-
-  @Override
-  public Board getBoardCopy() {
-    return this.board;
   }
 }

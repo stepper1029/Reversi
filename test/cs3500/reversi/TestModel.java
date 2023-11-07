@@ -81,7 +81,7 @@ public class TestModel {
   public void testPass() {
     this.initModels();
     this.model3.pass();
-    this.model3.place(this.model3.getCellAt(0, 1));
+    this.model3.place(this.model3.getCellAt(0, 1), DiscColor.Black);
     this.model3.pass();
     // game should not be over because pass is between another move
     Assert.assertFalse(this.model3.isGameOver());
@@ -103,7 +103,7 @@ public class TestModel {
     Assert.assertTrue(this.model4.isEmpty(this.model4.getCellAt(1, 3)));
     Assert.assertEquals(DiscColor.White,
             this.model4.getColorAt(this.model4.getCellAt(2, 3)));
-    this.model4.place(this.model4.getCellAt(2, 4));
+    this.model4.place(this.model4.getCellAt(2, 4), DiscColor.Black);
     // tests that the in between discs are properly flipped
     Assert.assertEquals(DiscColor.Black,
             this.model4.getColorAt(this.model4.getCellAt(2, 3)));
@@ -115,13 +115,13 @@ public class TestModel {
   @Test
   public void testFlippingMultipleDiscsDiffD() {
     this.initModels();
-    this.model4.place(this.model4.getCellAt(2, 4));
-    this.model4.place(this.model4.getCellAt(1, 2));
+    this.model4.place(this.model4.getCellAt(2, 4), DiscColor.Black);
+    this.model4.place(this.model4.getCellAt(1, 2), DiscColor.White);
     Assert.assertEquals(DiscColor.White,
             this.model4.getColorAt(this.model4.getCellAt(2, 2)));
     Assert.assertEquals(DiscColor.White,
             this.model4.getColorAt(this.model4.getCellAt(3, 2)));
-    this.model4.place(this.model4.getCellAt(2, 1));
+    this.model4.place(this.model4.getCellAt(2, 1), DiscColor.Black);
     Assert.assertEquals(DiscColor.Black,
             this.model4.getColorAt(this.model4.getCellAt(2, 2)));
     Assert.assertEquals(DiscColor.Black,
@@ -132,14 +132,14 @@ public class TestModel {
   @Test
   public void testFlippingMultipleDiscsSameD() {
     this.initModels();
-    this.model4.place(this.model4.getCellAt(2, 4));
-    this.model4.place(this.model4.getCellAt(1, 2));
-    this.model4.place(this.model4.getCellAt(2, 1));
+    this.model4.place(this.model4.getCellAt(2, 4), DiscColor.Black);
+    this.model4.place(this.model4.getCellAt(1, 2), DiscColor.White);
+    this.model4.place(this.model4.getCellAt(2, 1), DiscColor.Black);
     Assert.assertEquals(DiscColor.Black,
             this.model4.getColorAt(this.model4.getCellAt(2, 2)));
     Assert.assertEquals(DiscColor.Black,
             this.model4.getColorAt(this.model4.getCellAt(3, 2)));
-    this.model4.place(this.model4.getCellAt(4, 1));
+    this.model4.place(this.model4.getCellAt(4, 1), DiscColor.White);
     Assert.assertEquals(DiscColor.White,
             this.model4.getColorAt(this.model4.getCellAt(2, 2)));
     Assert.assertEquals(DiscColor.White,
@@ -149,33 +149,33 @@ public class TestModel {
   @Test
   public void testPossibleMoves() {
     this.initModels();
-    Assert.assertEquals(6, this.model3.allPossibleMoves().size());
-    Assert.assertTrue(this.model3.allPossibleMoves().contains(
+    Assert.assertEquals(6, this.model3.allPossibleMoves(DiscColor.Black).size());
+    Assert.assertTrue(this.model3.allPossibleMoves(DiscColor.Black).contains(
             this.model3.getCellAt(0, 1)));
-    Assert.assertTrue(this.model3.allPossibleMoves().contains(
+    Assert.assertTrue(this.model3.allPossibleMoves(DiscColor.Black).contains(
             this.model3.getCellAt(1, 0)));
-    Assert.assertTrue(this.model3.allPossibleMoves().contains(
+    Assert.assertTrue(this.model3.allPossibleMoves(DiscColor.Black).contains(
             this.model3.getCellAt(1, 3)));
-    Assert.assertTrue(this.model3.allPossibleMoves().contains(
+    Assert.assertTrue(this.model3.allPossibleMoves(DiscColor.Black).contains(
             this.model3.getCellAt(3, 0)));
-    Assert.assertTrue(this.model3.allPossibleMoves().contains(
+    Assert.assertTrue(this.model3.allPossibleMoves(DiscColor.Black).contains(
             this.model3.getCellAt(3, 3)));
-    Assert.assertTrue(this.model3.allPossibleMoves().contains(
+    Assert.assertTrue(this.model3.allPossibleMoves(DiscColor.Black).contains(
             this.model3.getCellAt(4, 1)));
-    this.model3.place(this.model3.getCellAt(4, 1));
-    Assert.assertEquals(3, this.model3.allPossibleMoves().size());
+    this.model3.place(this.model3.getCellAt(4, 1), DiscColor.Black);
+    Assert.assertEquals(3, this.model3.allPossibleMoves(DiscColor.White).size());
   }
 
   @Test
   public void testIllegalPlace() {
     this.initModels();
     Assert.assertThrows(IllegalArgumentException.class, () ->
-            this.model3.place(this.model3.getCellAt(3, 5)));
+            this.model3.place(this.model3.getCellAt(3, 5), DiscColor.Black));
     Assert.assertThrows(IllegalStateException.class, () ->
-            this.model3.place(this.model3.getCellAt(0, 0)));
-    this.model3.place(this.model3.getCellAt(4, 1));
+            this.model3.place(this.model3.getCellAt(0, 0), DiscColor.Black));
+    this.model3.place(this.model3.getCellAt(4, 1), DiscColor.Black);
     Assert.assertThrows(IllegalStateException.class, () ->
-            this.model3.place(this.model3.getCellAt(4, 1)));
+            this.model3.place(this.model3.getCellAt(4, 1), DiscColor.White));
   }
 
   @Test
@@ -189,5 +189,12 @@ public class TestModel {
             this.model4.getCellAt(5, 6));
     Assert.assertThrows(IllegalArgumentException.class, () ->
             this.model3.isEmpty(this.model3.getCellAt(5, 3)));
+  }
+
+  @Test
+  public void testPlayingOutOfTurn() {
+    this.initModels();
+    Assert.assertThrows(IllegalStateException.class, () ->
+            this.model3.place(this.model3.getCellAt(4, 1), DiscColor.White));
   }
 }
