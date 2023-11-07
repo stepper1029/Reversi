@@ -19,9 +19,9 @@ public class BoardPanel extends JPanel {
 
   private final ReadOnlyModel model;
 
-  private final List<ViewFeatures> featuresListeners;
+  private final Hexagon[][] boardCells;
 
-  private Hexagon hex;
+  private final List<ViewFeatures> featuresListeners;
 
   private boolean mouseIsDown;
 
@@ -33,8 +33,7 @@ public class BoardPanel extends JPanel {
     MouseEventsListener listener = new MouseEventsListener();
     this.addMouseListener(listener);
     this.addMouseMotionListener(listener);
-
-    hex = new Hexagon(30);
+    boardCells = new Hexagon[this.model.getNumRows()][];
   }
 
   /**
@@ -56,8 +55,8 @@ public class BoardPanel extends JPanel {
    * @return Our preferred *logical* size.
    */
   private Dimension getPreferredLogicalSize() {
-    return new Dimension((this.model.getBoardSize() * 2) - 1,
-            (this.model.getBoardSize() * 2) - 1);
+    return new Dimension((this.model.getRowSize((this.model.getNumRows() / 2) - 1)),
+            (this.model.getNumRows()));
   }
 
   public void addFeaturesListener(ViewFeatures features) {
@@ -68,35 +67,33 @@ public class BoardPanel extends JPanel {
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics2D g2d = (Graphics2D) g.create();
-
-    // one hexCell
     g2d.setColor(Color.BLACK);
-    g2d.draw(new Hexagon(30));
+
+    // center hexCell
+    int centerX = getPreferredSize().width / 2; // start at the center of the frame
+    int centerY = getPreferredSize().height / 2; // start at the center of the frame
+    int cellWidth = getPreferredSize().width / getPreferredLogicalSize().width;
+    g2d.draw(new Hexagon(centerX, centerY, cellWidth));
 //
-//    int x = getWidth() / 2 ;
-//    int y = 30;
-//    int size = 25; // Adjust the size of the hexagon as needed
+//    // center row to the left
+//    int numRows = model.getNumRows();
+//    int midRow = numRows / 2;
+//    int midRowSize = model.getRowSize(midRow);
 //
-//    int[] xPoints = new int[6];
-//    int[] yPoints = new int[6];
+//    int x = centerX;
+//    int y = centerY;
 //
-//    for (int i = 0; i < 6; i++) {
-//      double angle = 2 * Math.PI / 6 * i - Math.PI / 2; // Shift the angle by -90 degrees
-//      xPoints[i] = (int) (x + size * Math.cos(angle));
-//      yPoints[i] = (int) (y + size * Math.sin(angle));
+//    for (int cell = 0; cell < midRowSize / 2; cell ++) {
+//      x -= cellWidth;
 //    }
-//
-//    Polygon hexagon = new Polygon(xPoints, yPoints, 6);
-//    g2d.draw(hexagon);
   }
 
   private static class Hexagon extends Path2D.Double {
-    private Hexagon(int size) {
-      int centerX = size / 2;
-      int centerY = size / 2;
+    private Hexagon(int centerX, int centerY, int width) {
+      double size = width / Math.sqrt(3);
 
       moveTo(centerX + size / 2, centerY);
-      for (int i = 1; i < 6; i++) {
+      for (int i = 0; i < 6; i++) {
         double angle = 2 * Math.PI / 6 * i;
         double x = centerX + size / 2 * Math.cos(angle);
         double y = centerY + size / 2 * Math.sin(angle);
