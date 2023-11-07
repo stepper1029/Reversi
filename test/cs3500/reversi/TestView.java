@@ -9,7 +9,6 @@ import cs3500.reversi.model.ReadOnlyModel;
 import cs3500.reversi.model.ReversiCell;
 import cs3500.reversi.model.ReversiCreator;
 import cs3500.reversi.view.HexTextView;
-import cs3500.reversi.view.ReversiView;
 
 /**
  * Tests the that the view accurately represents the game state in
