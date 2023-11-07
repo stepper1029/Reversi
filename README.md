@@ -66,4 +66,5 @@ would not implement any of the methods needed in the graphical view. The textvie
 testing purposes before we fully implemented the view. 
 - The model still keeps track of which color's turn it is to move, but the place() and pass() 
 methods also take in a DiscColor. This way the controller can pass in a color based on input it
-is getting from the players and the model can enforce the rules by ensuring that 
+is getting from the players and the model can enforce the rules by ensuring that the correct
+player is moving. 

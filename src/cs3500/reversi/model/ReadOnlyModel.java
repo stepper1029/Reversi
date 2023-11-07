@@ -99,4 +99,11 @@ public interface ReadOnlyModel {
    * @throws IllegalArgumentException if the cell is not in the board.
    */
   boolean isEmpty(ReversiCell c);
+
+  /**
+   * Determines which player's turn it is to move.
+   *
+   * @return the color corresponding to which player's turn it is
+   */
+  DiscColor getTurn();
 }

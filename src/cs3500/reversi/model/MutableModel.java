@@ -11,19 +11,25 @@ package cs3500.reversi.model;
 public interface MutableModel extends ReadOnlyModel {
 
   /**
-   * Allows the current player to pass their turn, if they have no moves or do not want to make
+   * Allows the given player to pass their turn, if they have no moves or do not want to make
    * a move and changes the current color (whose turn it is). In the interface because every model
-   * needs to have the pass functionality, and it needs to called by the controller.
+   * needs to have the pass functionality, and it needs to called by the controller. Enforces
+   * that the correct player is passing.
+   *
+   * @param color the color corresponding to the player who is passing
+   * @throws IllegalStateException if the incorrect player is passing
    */
-  void pass();
+  void pass(DiscColor color);
 
   /**
    * Places a disc of the given color on the board. In the interface because every model needs
-   * to have the place functionality, and it needs to be called by the controller.
+   * to have the place functionality, and it needs to be called by the controller. Enforces that
+   * the correct player is placing a piece.
    *
    * @param cell given cell to place the disc
    * @param color color of the disc to place
    * @throws IllegalStateException    if placing a disc at the given cell is not a legal move.
+   * @throws IllegalStateException    if the incorrect player is placing a disc
    * @throws IllegalArgumentException if the given cell is not valid or if it is not empty
    */
   void place(ReversiCell cell, DiscColor color);
