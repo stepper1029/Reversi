@@ -19,18 +19,18 @@ public interface MutableModel extends ReadOnlyModel {
    * @param color the color corresponding to the player who is passing
    * @throws IllegalStateException if the incorrect player is passing
    */
-  void pass(DiscColor color);
+  void pass(DiskColor color);
 
   /**
-   * Places a disc of the given color on the board. In the interface because every model needs
+   * Places a disk of the given color on the board. In the interface because every model needs
    * to have the place functionality, and it needs to be called by the controller. Enforces that
    * the correct player is placing a piece.
    *
-   * @param cell given cell to place the disc
-   * @param color color of the disc to place
-   * @throws IllegalStateException    if placing a disc at the given cell is not a legal move.
-   * @throws IllegalStateException    if the incorrect player is placing a disc
+   * @param cell given cell to place the disk
+   * @param color color of the disk to place
+   * @throws IllegalStateException    if placing a disk at the given cell is not a legal move.
+   * @throws IllegalStateException    if the incorrect player is placing a disk
    * @throws IllegalArgumentException if the given cell is not valid or if it is not empty
    */
-  void place(ReversiCell cell, DiscColor color);
+  void place(ReversiCell cell, DiskColor color);
 }

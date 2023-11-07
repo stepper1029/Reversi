@@ -1,7 +1,8 @@
 package cs3500.reversi.strategy;
 
-import cs3500.reversi.model.DiscColor;
+import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.MutableModel;
+import cs3500.reversi.model.ReadOnlyModel;
 import cs3500.reversi.model.ReversiCell;
 
 /**
@@ -9,5 +10,11 @@ import cs3500.reversi.model.ReversiCell;
  */
 
 public interface CellStrategy {
-  ReversiCell chooseCell(MutableModel model, DiscColor color);
+  /**
+   * Chooses a cell to place a disk in next based on
+   * @param model
+   * @param color
+   * @return
+   */
+  ReversiCell chooseCell(ReadOnlyModel model, DiskColor color);
 }

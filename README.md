@@ -1,7 +1,7 @@
 ## Overview: 
 This project aims to make a playable Reversi game. As of now, this assumes the
 standard rules and game play of Reversi, also known as Othello, but on a hexagonal board.
-This means there are discs of colors white and black which can be placed on the board to
+This means there are disks of colors white and black which can be placed on the board to
 flip pieces of the opposite color and capture them. The winner is the one who captures the most
 pieces. We made the code extensible for different board shapes, cell shapes, views, and even
 alternate rule sets by making each of these things interfaces. All classes and interfaces assume
@@ -49,13 +49,13 @@ In the Model, we also have two enums we use throughout our code. First is CellDi
 contains the possible directions from which you can make connections between a starting cell and 
 another cell on the board. These directions are represented by vectors which can be "added" to a 
 cell in order to get a new cell in that direction. This is used to traverse through the board and
-find which pieces can be flipped and which moves are legal. The other enum is DiscColor which 
+find which pieces can be flipped and which moves are legal. The other enum is DiskColor which 
 contains the colors that represent the different players. It is convention for Reversi to be played
 by two players, represented by black and white, where black always goes first.
 
 ## Source organization:
 All components having to do with the model are in the src.cs3500.reversi.model package. This 
-includes things like the model, board, cells, DiscColor and CellDirection enums, and the Creator
+includes things like the model, board, cells, DiskColor and CellDirection enums, and the Creator
 class. All components having to do with the view are in the src.cs3500.reversi.view package. Right 
 now, this only includes the text-based view and view interface. All tests are in the 
 test.cs3500.reversi package, with package private model tests being in test.cs3500.reversi.model.
@@ -65,6 +65,6 @@ test.cs3500.reversi package, with package private model tests being in test.cs35
 would not implement any of the methods needed in the graphical view. The textview was just for 
 testing purposes before we fully implemented the view. 
 - The model still keeps track of which color's turn it is to move, but the place() and pass() 
-methods also take in a DiscColor. This way the controller can pass in a color based on input it
+methods also take in a DiskColor. This way the controller can pass in a color based on input it
 is getting from the players and the model can enforce the rules by ensuring that the correct
 player is moving. 

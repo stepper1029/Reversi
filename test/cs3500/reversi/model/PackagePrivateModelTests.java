@@ -28,12 +28,12 @@ public class PackagePrivateModelTests {
             CellDirection.BottomRight.getHexDirectionCoordinates());
   }
 
-  // DiscColor tests
+  // DiskColor tests
   @Test
   public void testGetNextColor() {
-    Assert.assertEquals(DiscColor.Black, DiscColor.getNextColor(DiscColor.White));
-    Assert.assertEquals(DiscColor.White, DiscColor.getNextColor(DiscColor.Black));
-    Assert.assertEquals(DiscColor.Black, DiscColor.getNextColor(DiscColor.White));
+    Assert.assertEquals(DiskColor.Black, DiskColor.getNextColor(DiskColor.White));
+    Assert.assertEquals(DiskColor.White, DiskColor.getNextColor(DiskColor.Black));
+    Assert.assertEquals(DiskColor.Black, DiskColor.getNextColor(DiskColor.White));
   }
   
   // HexCell tests
@@ -254,23 +254,23 @@ public class PackagePrivateModelTests {
 
   // tests placeDesk, getCells, and isEmpty
   @Test
-  public void testPlaceDiscGetCellsisEmpty() {
+  public void testPlaceDiskGetCellsisEmpty() {
     this.initHexBoards();
     this.initCells();
-    Assert.assertEquals(new ArrayList<>(), this.board3.getCells(DiscColor.White));
-    Assert.assertEquals(new ArrayList<>(), this.board3.getCells(DiscColor.Black));
+    Assert.assertEquals(new ArrayList<>(), this.board3.getCells(DiskColor.White));
+    Assert.assertEquals(new ArrayList<>(), this.board3.getCells(DiskColor.Black));
     Assert.assertTrue(this.board3.isEmpty(this.upperLeft));
     Assert.assertTrue(this.board3.isEmpty(this.right));
     Assert.assertTrue(this.board3.isEmpty(this.upperRight));
     Assert.assertTrue(this.board3.isEmpty(this.left));
-    this.board3.placeDisc(this.upperLeft, DiscColor.Black);
-    this.board3.placeDisc(this.right, DiscColor.Black);
-    this.board3.placeDisc(this.upperRight, DiscColor.White);
-    this.board3.placeDisc(this.left, DiscColor.White);
+    this.board3.placeDisk(this.upperLeft, DiskColor.Black);
+    this.board3.placeDisk(this.right, DiskColor.Black);
+    this.board3.placeDisk(this.upperRight, DiskColor.White);
+    this.board3.placeDisk(this.left, DiskColor.White);
     Assert.assertEquals(new ArrayList<>(Arrays.asList(this.upperLeft, this.right)),
-            this.board3.getCells(DiscColor.Black));
+            this.board3.getCells(DiskColor.Black));
     Assert.assertEquals(new ArrayList<>(Arrays.asList(this.upperRight, this.left)),
-            this.board3.getCells(DiscColor.White));
+            this.board3.getCells(DiskColor.White));
     Assert.assertFalse(this.board3.isEmpty(this.upperLeft));
     Assert.assertFalse(this.board3.isEmpty(this.right));
     Assert.assertFalse(this.board3.isEmpty(this.upperRight));
@@ -309,37 +309,37 @@ public class PackagePrivateModelTests {
   }
 
   @Test
-  public void testFlipDisc() {
+  public void testFlipDisk() {
     this.initHexBoards();
     this.initCells();
     Assert.assertTrue(this.board3.isEmpty(this.center));
-    this.board3.placeDisc(this.center, DiscColor.White);
+    this.board3.placeDisk(this.center, DiskColor.White);
     Assert.assertEquals(new ArrayList<ReversiCell>(Collections.singletonList(this.center)),
-            this.board3.getCells(DiscColor.White));
+            this.board3.getCells(DiskColor.White));
     Assert.assertEquals(new ArrayList<ReversiCell>(),
-            this.board3.getCells(DiscColor.Black));
-    this.board3.flipDisc(this.center);
+            this.board3.getCells(DiskColor.Black));
+    this.board3.flipDisk(this.center);
     Assert.assertEquals(new ArrayList<ReversiCell>(Collections.singletonList(this.center)),
-            this.board3.getCells(DiscColor.Black));
+            this.board3.getCells(DiskColor.Black));
     Assert.assertEquals(new ArrayList<ReversiCell>(),
-            this.board3.getCells(DiscColor.White));
-    // flips disc back to see ensure if flips back to the original color
-    this.board3.flipDisc(this.center);
+            this.board3.getCells(DiskColor.White));
+    // flips disk back to see ensure if flips back to the original color
+    this.board3.flipDisk(this.center);
     Assert.assertEquals(new ArrayList<ReversiCell>(Collections.singletonList(this.center)),
-            this.board3.getCells(DiscColor.White));
+            this.board3.getCells(DiskColor.White));
     Assert.assertEquals(new ArrayList<ReversiCell>(),
-            this.board3.getCells(DiscColor.Black));
+            this.board3.getCells(DiskColor.Black));
     // places another piece
-    this.board3.placeDisc(this.upperLeft, DiscColor.White);
+    this.board3.placeDisk(this.upperLeft, DiskColor.White);
     Assert.assertEquals(new ArrayList<ReversiCell>(Arrays.asList(this.center, this.upperLeft)),
-            this.board3.getCells(DiscColor.White));
+            this.board3.getCells(DiskColor.White));
     Assert.assertEquals(new ArrayList<ReversiCell>(),
-            this.board3.getCells(DiscColor.Black));
-    this.board3.flipDisc(this.upperLeft);
+            this.board3.getCells(DiskColor.Black));
+    this.board3.flipDisk(this.upperLeft);
     Assert.assertEquals(new ArrayList<ReversiCell>(Collections.singletonList(this.center)),
-            this.board3.getCells(DiscColor.White));
+            this.board3.getCells(DiskColor.White));
     Assert.assertEquals(new ArrayList<ReversiCell>(Collections.singletonList(this.upperLeft)),
-            this.board3.getCells(DiscColor.Black));
+            this.board3.getCells(DiskColor.Black));
   }
 
   // BasicReversi null constructor test

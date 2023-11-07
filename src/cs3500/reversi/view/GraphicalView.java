@@ -1,13 +1,11 @@
 package cs3500.reversi.view;
 
 import java.awt.*;
-import java.util.List;
 import java.util.Objects;
 
-import javax.sound.sampled.Line;
 import javax.swing.*;
 
-import cs3500.reversi.model.DiscColor;
+import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.MutableModel;
 import cs3500.reversi.model.ReadOnlyModel;
 
@@ -47,10 +45,10 @@ public class GraphicalView extends JFrame implements ReversiView {
     scorePanel.add(Box.createVerticalStrut(25));
     this.add(scorePanel, BorderLayout.NORTH);
     //scorePanel.add(Box.createHorizontalGlue());
-    blackScoreLabel = new JLabel("Black: " + this.model.getScore(DiscColor.Black));
+    blackScoreLabel = new JLabel("Black: " + this.model.getScore(DiskColor.Black));
     scorePanel.add(blackScoreLabel);
     scorePanel.add(Box.createHorizontalStrut(150));
-    whiteScoreLabel = new JLabel("White: " + this.model.getScore(DiscColor.White));
+    whiteScoreLabel = new JLabel("White: " + this.model.getScore(DiskColor.White));
     scorePanel.add(whiteScoreLabel);
     scorePanel.add(Box.createHorizontalGlue());
   }

@@ -28,12 +28,12 @@ interface Board {
    * this functionality from every board, regardless of shape or size, in order to perform
    * as promised. Therefore, it is in the interface as a public method.
    *
-   * @param color the DiscColor that you are looking for
+   * @param color the DiskColor that you are looking for
    * @return all cells that have a disc of that color on it
    * @throws IllegalArgumentException if the given color does not represent one of the players of
    *                                  the game.
    */
-  List<ReversiCell> getCells(DiscColor color);
+  List<ReversiCell> getCells(DiskColor color);
 
   /**
    * Checks if a cell has a disc in it. The model will need this functionality from every board,
@@ -79,7 +79,7 @@ interface Board {
    * @throws IllegalArgumentException if the given cell is not a valid cell within the board,
    *                                  ex. new HexCell(-100, 100, 0) when the board size is 3.
    */
-  void placeDisc(ReversiCell c, DiscColor color);
+  void placeDisk(ReversiCell c, DiskColor color);
 
   /**
    * Returns the starting position of a board, meaning the list of cells where the initial discs
@@ -102,7 +102,7 @@ interface Board {
    * @throws IllegalArgumentException if c is not a valid cell in the board
    * @throws IllegalStateException    if c is empty, so does not have a disc to flip
    */
-  void flipDisc(ReversiCell c);
+  void flipDisk(ReversiCell c);
 
   /**
    * Gets a list of cells which are directly between the two given cells. The model will need

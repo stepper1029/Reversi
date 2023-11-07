@@ -19,14 +19,14 @@ public interface ReadOnlyModel {
   int getBoardSize();
 
   /**
-   * Observes the color of a disc on the given cell. This is in the interface because the view
+   * Observes the color of a disk on the given cell. This is in the interface because the view
    * needs to have access to this observable method.
    *
    * @param cell the cell you want to observe.
-   * @return the color of the disc
+   * @return the color of the disk
    * @throws IllegalArgumentException if the given cell is empty
    */
-  DiscColor getColorAt(ReversiCell cell);
+  DiskColor getColorAt(ReversiCell cell);
 
   /**
    * Observes the score for a given player (by their color pieces). This is in the interface
@@ -35,7 +35,7 @@ public interface ReadOnlyModel {
    * @param color the color which indicates which player
    * @return the number of pieces that player has on the board.
    */
-  int getScore(DiscColor color);
+  int getScore(DiskColor color);
 
   /**
    * Checks if the game is over. Game is over if the board is full, one player has no pieces left,
@@ -47,14 +47,14 @@ public interface ReadOnlyModel {
   boolean isGameOver();
 
   /**
-   * Observes all possible cells where the given player color can place a disc and make a legal
-   * move (a move that flips one or more discs of the other color). This is in the interface
+   * Observes all possible cells where the given player color can place a disk and make a legal
+   * move (a move that flips one or more disks of the other color). This is in the interface
    * because the view needs to have access to this observable method so all possible moves can be
    * highlighted and shown to the player.
    * @param color the given color to find possible moves for
    * @return a list of cells where the player can move
    */
-  List<ReversiCell> allPossibleMoves(DiscColor color);
+  List<ReversiCell> allPossibleMoves(DiskColor color);
 
   /**
    * Observes the number of rows in the board or, the board height. This is in the interface
@@ -90,12 +90,12 @@ public interface ReadOnlyModel {
   ReversiCell getCellAt(int numRow, int numCell);
 
   /**
-   * Observes if there is a disc in the given cell. Used to see if it is possible to place a disc
+   * Observes if there is a disk in the given cell. Used to see if it is possible to place a disk
    * in the cell, or if it has already been captured. This is in the interface because the
    * controller and view need to have access to this observable method.
    *
    * @param c given cell
-   * @return if the cell has a disc in it.
+   * @return if the cell has a disk in it.
    * @throws IllegalArgumentException if the cell is not in the board.
    */
   boolean isEmpty(ReversiCell c);
@@ -105,5 +105,5 @@ public interface ReadOnlyModel {
    *
    * @return the color corresponding to which player's turn it is
    */
-  DiscColor getTurn();
+  DiskColor getTurn();
 }

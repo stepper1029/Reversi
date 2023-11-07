@@ -12,7 +12,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 
-import cs3500.reversi.model.DiscColor;
+import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.ReadOnlyModel;
 
 public class BoardPanel extends JPanel {
@@ -25,7 +25,7 @@ public class BoardPanel extends JPanel {
 
   private boolean mouseIsDown;
 
-  private DiscColor activeColor;
+  private DiskColor activeColor;
 
   public BoardPanel(ReadOnlyModel model) {
     this.model = Objects.requireNonNull(model);

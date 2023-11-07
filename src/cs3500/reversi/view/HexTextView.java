@@ -2,13 +2,13 @@ package cs3500.reversi.view;
 
 import java.util.Objects;
 
-import cs3500.reversi.model.DiscColor;
+import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.ReadOnlyModel;
 import cs3500.reversi.model.ReversiCell;
 
 /**
- * HexTextView gives a text-based view of a game of Reversi where black discs are represented by
- * "X", white discs by "O", and empty cells as "_".
+ * HexTextView gives a text-based view of a game of Reversi where black disks are represented by
+ * "X", white disks by "O", and empty cells as "_".
  */
 public class HexTextView {
 
@@ -47,7 +47,7 @@ public class HexTextView {
         ReversiCell currCell = model.getCellAt(numRow, numCell);
         if (model.isEmpty(currCell)) {
           output += emptyStringHelper(numRow, numCell);
-        } else if (model.getColorAt(currCell).equals(DiscColor.Black)) {
+        } else if (model.getColorAt(currCell).equals(DiskColor.Black)) {
           output += blackStringHelper(numRow, numCell);
         } else {
           output += whiteStringHelper(numRow, numCell);

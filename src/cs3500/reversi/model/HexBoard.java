@@ -30,13 +30,13 @@ class HexBoard implements Board {
   private final ReversiCell[][] cells;
 
   // Holds all the cells that have been captured by the black player, or cells that
-  // have a black game disc on them. Used a list because the number of black cells will
+  // have a black game disk on them. Used a list because the number of black cells will
   // inevitably change throughout the game, therefore the length should be flexible. Final
   // because the reference should not be changed.
   private final List<ReversiCell> blackCells;
 
   // Holds all the cells that have been captured by the white player, or cells that
-  // have a white game disc on them. Used a list because the number of white cells will
+  // have a white game disk on them. Used a list because the number of white cells will
   // inevitably change throughout the game, therefore the length should be flexible.
   // Final because the reference should not be changed.
   private final List<ReversiCell> whiteCells;
@@ -130,7 +130,7 @@ class HexBoard implements Board {
   }
 
   @Override
-  public List<ReversiCell> getCells(DiscColor color) {
+  public List<ReversiCell> getCells(DiskColor color) {
     switch (color) {
       case Black:
         return Collections.unmodifiableList(this.blackCells);
@@ -142,11 +142,11 @@ class HexBoard implements Board {
   }
 
   @Override
-  public void placeDisc(ReversiCell c, DiscColor color) {
+  public void placeDisk(ReversiCell c, DiskColor color) {
     this.invalidCellException(c);
     if (!this.isEmpty(c)) {
-      throw new IllegalStateException("You can only place discs in empty cells.");
-    } else if (color.equals(DiscColor.Black)) {
+      throw new IllegalStateException("You can only place disks in empty cells.");
+    } else if (color.equals(DiskColor.Black)) {
       this.blackCells.add(c);
     } else {
       this.whiteCells.add(c);
@@ -227,7 +227,7 @@ class HexBoard implements Board {
   }
 
   @Override
-  public void flipDisc(ReversiCell c) {
+  public void flipDisk(ReversiCell c) {
     this.invalidCellException(c);
 
     if (this.isEmpty(c)) {

@@ -5,7 +5,7 @@ package cs3500.reversi.player;
  */
 public interface Player {
   /**
-   * Allows a player to place a new disc on the game board. When this is actually implemented,
+   * Allows a player to place a new disk on the game board. When this is actually implemented,
    * it will be able to handle a mouse click from the player and pass that information to the
    * controller, which will call the appropriate method in the model.
    */

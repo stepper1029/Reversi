@@ -13,7 +13,7 @@ class BasicReversi implements MutableModel {
   // keeps track of the color that should be placed by the current player. Each player should
   // only move once at a time, so this keeps track of whose turn it is, allowing the model
   // to ensure that the correct player is placing a piece.
-  private DiscColor currColor;
+  private DiskColor currColor;
 
   // stores number of times pass has been played consecutively. Should only be visible to this
   // BasicReversi
@@ -36,7 +36,7 @@ class BasicReversi implements MutableModel {
     this.numPasses = 0;
     this.board = Objects.requireNonNull(board);
     this.setBoard();
-    this.currColor = DiscColor.Black;
+    this.currColor = DiskColor.Black;
   }
 
   /**
@@ -49,64 +49,76 @@ class BasicReversi implements MutableModel {
    * @throws IllegalStateException if the board is not empty when the method is called.
    */
   private void setBoard() {
-    DiscColor[] colors = DiscColor.values();
+    DiskColor[] colors = DiskColor.values();
     List<ReversiCell> cells = board.getInitPositions();
     if (!this.isEmpty(cells.get(0))) {
       throw new IllegalStateException("Board has already been set");
     }
     for (int i = 0; i < cells.size(); i++) {
       ReversiCell cell = cells.get(i);
-      DiscColor color = colors[i % colors.length];
-      board.placeDisc(cell, color);
+      DiskColor color = colors[i % colors.length];
+      board.placeDisk(cell, color);
     }
   }
 
   @Override
-  public int getScore(DiscColor color) {
+  public int getScore(DiskColor color) {
     return this.board.getCells(color).size();
   }
 
   @Override
   public boolean isGameOver() {
-    if (this.numPasses >= DiscColor.values().length) {
+    if (this.numPasses >= DiskColor.values().length) {
       return true;
-    } else if (this.getScore(DiscColor.Black) == 0
-            || this.getScore(DiscColor.White) == 0) {
+    } else if (this.getScore(DiskColor.Black) == 0
+            || this.getScore(DiskColor.White) == 0) {
       return true;
     } else {
-      return this.getScore(DiscColor.Black)
-              + this.getScore(DiscColor.White)
+      return this.getScore(DiskColor.Black)
+              + this.getScore(DiskColor.White)
               == this.board.getTotalNumCells();
     }
   }
 
+  /**
+   * Throws an exception if the given color does not match the current color, meaning the player
+   * is trying to move out of turn.
+   *
+   * @param color color corresponding to the player trying to move
+   * @throws IllegalStateException if the color does not match the current player whose turn it is
+   */
+  private void outOfTurnException(DiskColor color) {
+    if (!this.currColor.equals(color)) {
+      throw new IllegalStateException("Player is playing out of turn");
+    }
+  }
+
   @Override
-  public void pass() {
+  public void pass(DiskColor color) {
+    this.outOfTurnException(color);
     this.numPasses += 1;
     this.setNextColor();
   }
 
   /**
-   * Flips all the discs in the given list. Used when a player makes a move and the cells that
-   * connect the cell where the player placed a disc and the existing discs of the same color on
+   * Flips all the disks in the given list. Used when a player makes a move and the cells that
+   * connect the cell where the player placed a disk and the existing disks of the same color on
    * the board are now captured by the player, meaning they should change colors to that of
    * the player who moved. Private because no other class should have permission to change the
    * color of cells.
    */
   private void flipAll(List<ReversiCell> cells) {
     for (ReversiCell c : cells) {
-      this.board.flipDisc(c);
+      this.board.flipDisk(c);
     }
   }
 
   @Override
-  public void place(ReversiCell cell, DiscColor color) {
-    if (!this.currColor.equals(color)) {
-      throw new IllegalStateException("Player is playing out of turn");
-    }
-    else if (this.allPossibleMoves(color).contains(cell)) {
+  public void place(ReversiCell cell, DiskColor color) {
+    this.outOfTurnException(color);
+    if (this.allPossibleMoves(color).contains(cell)) {
       this.numPasses = 0;
-      this.board.placeDisc(cell, color);
+      this.board.placeDisk(cell, color);
       for (ReversiCell connectingCell : this.getConnections(cell)) {
         this.flipAll(this.board.getCellsBetween(cell, connectingCell));
       }
@@ -117,10 +129,10 @@ class BasicReversi implements MutableModel {
   }
 
   /**
-   * switches currColor to the next color in the DiscColor enum to switch whose turn it is.
+   * switches currColor to the next color in the DiskColor enum to switch whose turn it is.
    */
   private void setNextColor() {
-    this.currColor = DiscColor.getNextColor(this.currColor);
+    this.currColor = DiskColor.getNextColor(this.currColor);
   }
 
   @Override
@@ -143,19 +155,24 @@ class BasicReversi implements MutableModel {
   }
 
   @Override
-  public DiscColor getColorAt(ReversiCell cell) {
+  public DiskColor getColorAt(ReversiCell cell) {
     if (this.isEmpty(cell)) {
       throw new IllegalArgumentException("Cell is empty");
-    } else if (this.board.getCells(DiscColor.Black).contains(cell)) {
-      return DiscColor.Black;
+    } else if (this.board.getCells(DiskColor.Black).contains(cell)) {
+      return DiskColor.Black;
     } else {
-      return DiscColor.White;
+      return DiskColor.White;
     }
   }
 
   @Override
   public boolean isEmpty(ReversiCell cell) {
     return this.board.isEmpty(cell);
+  }
+
+  @Override
+  public DiskColor getTurn() {
+    return this.currColor;
   }
 
   @Override
@@ -177,7 +194,7 @@ class BasicReversi implements MutableModel {
     }
   }
 
-  // for a valid move, determines all connections to this cell (discs between this
+  // for a valid move, determines all connections to this cell (disks between this
   // given cell and the connections should be flipped). private because no other class needs to
   // know the connections of a cell.
   private List<ReversiCell> getConnections(ReversiCell c) {
@@ -241,7 +258,7 @@ class BasicReversi implements MutableModel {
   }
 
   @Override
-  public List<ReversiCell> allPossibleMoves(DiscColor color) {
+  public List<ReversiCell> allPossibleMoves(DiskColor color) {
     List<ReversiCell> validMoves = new ArrayList<>();
     for (ReversiCell cell : this.board.getCells(color)) {
       validMoves.addAll(this.validMovesInAllDirections(cell));
