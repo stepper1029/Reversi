@@ -1,5 +1,6 @@
 package cs3500.reversi.view;
 
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +16,7 @@ import java.awt.geom.AffineTransform;
 
 import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.ReadOnlyModel;
+import cs3500.reversi.model.ReversiCell;
 
 public class BoardPanel extends JPanel {
 
@@ -81,9 +83,67 @@ public class BoardPanel extends JPanel {
     g2d.setColor(Color.BLACK);
 
     this.drawCenterRow(g2d);
-    this.drawTopRows(g2d);
-    this.drawBottomRows(g2d);
+//    this.makeRows(g2d);
+//    this.drawTopRows(g2d);
+//    this.drawBottomRows(g2d);
+//    this.setDisksForAllRows(g2d);
   }
+
+  private void setDisksForAllRows(Graphics2D g2d) {
+    for (int row = 0; row < cells.length; row ++) {
+      setDisksForOneRow(g2d, row);
+    }
+  }
+
+  private void setDisksForOneRow(Graphics2D g2d, int rowNum) {
+    int rowSize = cells[rowNum].length;
+    for (int cellIndex = 0; cellIndex < rowSize; cellIndex ++) {
+      ReversiCell currCell = this.model.getCellAt(rowNum, cellIndex);
+      Hexagon currHex = cells[rowNum][cellIndex];
+      if (!this.model.isEmpty(currCell)) {
+        DiskColor color = this.model.getColorAt(currCell);
+        currHex.addDisk(g2d, color);
+      }
+    }
+  }
+
+  private void makeRows(Graphics2D g2d) {
+    int midRow = this.model.getNumRows() / 2;
+    int rowSize = model.getRowSize(midRow + 1);
+    g2d.setColor(Color.BLACK);
+
+    double x = centerX + (cellWidth / 4) * (rowSize + 1);
+    double y = centerY + (this.cellHeight * 3 / 8);
+
+    for (int row = 0; row < this.model.getNumRows(); row ++) {
+     // Hexagon[] rowArray = new Hexagon[this.model.getRowSize(row)];
+      for (int i = 0; i < this.model.getRowSize(row); i ++) {
+        if (row != midRow) {
+          if (row % 2 == 0) {
+            x += this.cellWidth / 2;
+           // rowArray[i] = new Hexagon(x, y, this.cellWidth);
+          } else {
+            x -= this.cellWidth / 2;
+           // rowArray[this.model.getRowSize(row) - i - 1] = new Hexagon(x, y, this.cellWidth);
+          }
+          g2d.draw(new Hexagon(x, y, this.cellWidth));
+        }
+      }
+      if (row%2 ==0) {
+        x += cellWidth / 4;
+      } else {
+        x -= cellWidth / 4;
+      }
+      if (row < midRow) {
+        y -= (this.cellHeight * 3) / 8;
+      } else if (row == midRow) {
+        x = centerX + (cellWidth / 4) * (rowSize + 1);
+        y = centerY + (this.cellHeight * 3) / 8;
+      } else {
+        y += (this.cellHeight * 3 / 8);
+      }
+      }
+    }
 
   private void drawBottomRows(Graphics2D g2d) {
     int midRow = this.model.getNumRows() / 2;
@@ -92,43 +152,11 @@ public class BoardPanel extends JPanel {
 
     g2d.setColor(Color.BLACK);
 
-    double x = centerX + (cellWidth / 4) * ((rowSize / 2) + 1);
+    double x = centerX + (cellWidth / 4) * (rowSize + 1);
     double y = centerY + (this.cellHeight * 3) / 8;
-    g2d.draw(new Hexagon(x, y, this.cellWidth));
-    rowArray[0] = new Hexagon(x, y, this.cellWidth);
 
     for (int row = midRow + 1; row < this.model.getNumRows(); row++) {
-      for (int i = 0; i < this.model.getRowSize(row) - 1; i++) {
-        if (row % 2 == 0) {
-          x += this.cellWidth / 2;
-        } else {
-          x -= this.cellWidth / 2;
-        }
-        g2d.draw(new Hexagon(x, y, this.cellWidth));
-        rowArray[i] = new Hexagon(x, y, this.cellWidth);
-      }
-      x -= cellWidth / 4;
-      y += (this.cellHeight * 3) / 8;
-      cells[row] = rowArray;
-      rowArray = new Hexagon[this.model.getRowSize(row)];
-    }
-  }
-
-  // FIXME: draws one extra cell on the left of row 1
-  private void drawTopRows(Graphics2D g2d) {
-    int midRow = this.model.getNumRows() / 2;
-    int rowSize = model.getRowSize(midRow - 1);
-    Hexagon[] rowArray = new Hexagon[rowSize];
-
-    g2d.setColor(Color.BLACK);
-
-    double x = centerX + (cellWidth / 4) * ((rowSize / 2) + 1);
-    double y = centerY - (this.cellHeight * 3) / 8;
-    g2d.draw(new Hexagon(x, y, this.cellWidth));
-    rowArray[0] = new Hexagon(x, y, this.cellWidth);
-
-    for (int row = midRow - 1; row >= 0; row--) {
-      for (int i = 0; i < this.model.getRowSize(row) - 1; i++) {
+      for (int i = 0; i < this.model.getRowSize(row); i++) {
         if (row % 2 == 0) {
           x += this.cellWidth / 2;
           rowArray[i] = new Hexagon(x, y, this.cellWidth);
@@ -139,9 +167,41 @@ public class BoardPanel extends JPanel {
         g2d.draw(new Hexagon(x, y, this.cellWidth));
       }
       if (row%2 ==0) {
-        x -= cellWidth / 4;
-      } else {
         x += cellWidth / 4;
+      } else {
+        x -= cellWidth / 4;
+      }
+      y += (this.cellHeight * 3) / 8;
+      cells[row] = rowArray;
+      rowArray = new Hexagon[this.model.getRowSize(row)];
+    }
+  }
+
+  private void drawTopRows(Graphics2D g2d) {
+    int midRow = this.model.getNumRows() / 2;
+    int rowSize = model.getRowSize(midRow - 1);
+    Hexagon[] rowArray = new Hexagon[rowSize];
+
+    g2d.setColor(Color.BLACK);
+
+    double x = centerX + (cellWidth / 4) * (rowSize + 1);
+    double y = centerY - (this.cellHeight * 3) / 8;
+
+    for (int row = midRow - 1; row >= 0; row--) {
+      for (int i = 0; i < this.model.getRowSize(row); i++) {
+        if (row % 2 == 0) {
+          x += this.cellWidth / 2;
+          rowArray[i] = new Hexagon(x, y, this.cellWidth);
+        } else {
+          x -= this.cellWidth / 2;
+          rowArray[this.model.getRowSize(row) - i - 1] = new Hexagon(x, y, this.cellWidth);
+        }
+        g2d.draw(new Hexagon(x, y, this.cellWidth));
+      }
+      if (row%2 ==0) {
+        x += cellWidth / 4;
+      } else {
+        x -= cellWidth / 4;
       }
       y -= (this.cellHeight * 3) / 8;
       cells[row] = rowArray;
@@ -184,8 +244,15 @@ public class BoardPanel extends JPanel {
   }
 
   private static class Hexagon extends Path2D.Double {
+
+    private final double centerX;
+    private final double centerY;
+    private final double size;
+
     private Hexagon(double centerX, double centerY, double width) {
-      double size = width / Math.sqrt(3);
+      this.centerX = centerX;
+      this.centerY = centerY;
+      this.size = width / Math.sqrt(3);
 
       moveTo(centerX, centerY - size / 2);
       for (int i = 0; i < 7; i++) {
@@ -194,6 +261,17 @@ public class BoardPanel extends JPanel {
         double y = centerY - size / 2 * Math.sin(angle);
         lineTo(x, y); // Draw edges (excluding the last vertex)
       }
+    }
+
+    private void addDisk(Graphics2D g2d, DiskColor color) {
+      if (color.equals(DiskColor.Black)) {
+        g2d.setColor(Color.BLACK);
+      } else {
+        g2d.setColor(Color.WHITE);
+      }
+      Shape disk = new Ellipse2D.Double(centerX, centerY, size, size);
+      g2d.draw(disk);
+      g2d.fill(disk);
     }
   }
 
