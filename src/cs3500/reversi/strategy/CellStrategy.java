@@ -14,7 +14,7 @@ public interface CellStrategy {
    * Chooses a cell to place a disk in next based on
    * @param model
    * @param color
-   * @return
+   * @returnf
    */
   ReversiCell chooseCell(ReadOnlyModel model, DiskColor color);
 }
