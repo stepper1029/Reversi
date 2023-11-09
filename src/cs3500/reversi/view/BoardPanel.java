@@ -107,14 +107,22 @@ public class BoardPanel extends JPanel {
     }
   }
 
-//  private void makeRows(Graphics2D g2d) {
-//    int midRow = this.model.getNumRows() / 2;
-//    int rowSize = model.getRowSize(midRow + 1);
-//    g2d.setColor(Color.BLACK);
-//
-//    double x = centerX + (cellWidth / 4) * (rowSize + 1);
-//    double y = centerY + (this.cellHeight * 3 / 8);
-//
+  private void makeRows(Graphics2D g2d) {
+    int midRow = this.model.getNumRows() / 2;
+    int rowSize = model.getRowSize(midRow + 1);
+    g2d.setColor(Color.BLACK);
+
+    Point2D logicalCenterCell = new Point2D.Double(0, 0);
+    Point2D physicalCenterCell = new Point2D.Double();
+    transformLogicalToPhysical().transform(logicalCenterCell, physicalCenterCell);
+
+
+    for (int row = 0; row < this.model.getNumRows(); row ++) {
+
+    }
+  }
+
+
 //    for (int row = 0; row < this.model.getNumRows(); row ++) {
 //     // Hexagon[] rowArray = new Hexagon[this.model.getRowSize(row)];
 //      for (int i = 0; i < this.model.getRowSize(row); i ++) {
@@ -216,27 +224,6 @@ public class BoardPanel extends JPanel {
     int midRow = (this.model.getNumRows() - 1) / 2;
     int midRowSize = this.model.getRowSize(midRow);
     int numLogicalSpaces = midRowSize - this.model.getBoardSize();
-
-//    for (int row = 0; row < numRows; row ++) {
-//      int rowSize = this.model.getRowSize(row);
-//      Hexagon[] currRow = new Hexagon[rowSize];
-//      int y = row - (this.model.getBoardSize() - 1);
-//      for (int cell = 0; cell < rowSize; cell ++) {
-//        int x = cell - ((rowSize - 1) / 2);
-//        Point2D coord = new Point2D.Double(x, y);
-//        System.out.println(coord.getX() + ", " + coord.getY());
-//        Hexagon currHex = new Hexagon(coord, this.cellWidth);
-//        g2d.draw(currHex);
-//        currRow[cell] = currHex;
-//        if (row < midRow) {
-//          numLogicalSpaces --;
-//        } else if (row > midRow) {
-//          numLogicalSpaces ++;
-//        }
-//      }
-//      this.cells[row] = currRow;
-//    }
-//
     g2d.setColor(Color.BLACK);
 
     // center hexCell
