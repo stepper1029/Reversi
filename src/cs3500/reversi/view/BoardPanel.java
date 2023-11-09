@@ -24,9 +24,6 @@ public class BoardPanel extends JPanel {
   private final ReadOnlyModel model;
 
   private final List<ViewFeatures> featuresListeners;
-
-  private final int centerX;
-  private final int centerY;
   private final double cellWidth;
   private final double cellHeight;
   private final Hexagon[][] cells;
@@ -42,9 +39,7 @@ public class BoardPanel extends JPanel {
   public BoardPanel(ReadOnlyModel model) {
     this.model = Objects.requireNonNull(model);
     this.featuresListeners = new ArrayList<>();
-    centerX = getPreferredSize().width / 2;
-    centerY = getPreferredSize().height / 2;
-    cellWidth = this.getPreferredSize().width;
+    cellWidth = this.getPreferredSize().width / this.getPreferredLogicalSize().width;
     cellHeight = (cellWidth / Math.sqrt(3)) * 2;
     MouseEventsListener listener = new MouseEventsListener();
     this.addMouseListener(listener);
@@ -218,56 +213,68 @@ public class BoardPanel extends JPanel {
     g2d.setColor(Color.BLACK);
 
     int numRows = model.getNumRows();
-    int midRow = (this.model.getNumRows() + 1) / 2;
+    int midRow = (this.model.getNumRows() - 1) / 2;
     int midRowSize = this.model.getRowSize(midRow);
     int numLogicalSpaces = midRowSize - this.model.getBoardSize();
 
-    for (int row = 0; row < numRows; row ++) {
-      int rowSize = this.model.getRowSize(row);
-      Hexagon[] currRow = new Hexagon[rowSize];
-      int y = row - (this.model.getBoardSize() - 1);
-      for (int cell = 0; cell < rowSize; cell ++) {
-        int x = cell - ((rowSize - 1) / 2);
-        Point2D coord = new Point2D.Double(x, y);
-        System.out.println(coord.getX() + ", " + coord.getY());
-        Hexagon currHex = new Hexagon(coord, this.cellWidth);
-        g2d.draw(currHex);
-        currRow[cell] = currHex;
-        if (row < midRow) {
-          numLogicalSpaces --;
-        } else if (row > midRow) {
-          numLogicalSpaces ++;
-        }
-      }
-      this.cells[row] = currRow;
-    }
-//
-//    Point2D logicalCenterCell = new Point2D.Double(0, 0);
-//
-//    // center hexCell
-//    g2d.draw(new Hexagon(logicalCenterCell, this.cellWidth));
-//    row[(midRowSize + 1) / 2] = new Hexagon(logicalCenterCell, this.cellWidth);
-//
-//    int x = 0;
-//    int y = 0;
-//    int index = x - (this.model.getBoardSize() - 1);
-
-//    // whole row
-//    for (int cell = 0; cell < midRowSize + 1; cell++) {
-//      if (cell < midRowSize / 2) { // cells left of the center
-//        x -= this.cellWidth / 2;
-//        g2d.draw(new Hexagon(x, y, this.cellWidth));
-//        row[index - 1] = new Hexagon(x, y, this.cellWidth);
-//      } else if (cell > midRowSize / 2) { // cells right of the center
-//        x += cellWidth / 2;
-//        g2d.draw(new Hexagon(x, y, this.cellWidth));
-//        row[index + 1] = new Hexagon(x, y, this.cellWidth);
-//      } else { // center
-//        x += cellWidth / 2;
-//        index = (midRowSize + 1) / 2;
+//    for (int row = 0; row < numRows; row ++) {
+//      int rowSize = this.model.getRowSize(row);
+//      Hexagon[] currRow = new Hexagon[rowSize];
+//      int y = row - (this.model.getBoardSize() - 1);
+//      for (int cell = 0; cell < rowSize; cell ++) {
+//        int x = cell - ((rowSize - 1) / 2);
+//        Point2D coord = new Point2D.Double(x, y);
+//        System.out.println(coord.getX() + ", " + coord.getY());
+//        Hexagon currHex = new Hexagon(coord, this.cellWidth);
+//        g2d.draw(currHex);
+//        currRow[cell] = currHex;
+//        if (row < midRow) {
+//          numLogicalSpaces --;
+//        } else if (row > midRow) {
+//          numLogicalSpaces ++;
+//        }
 //      }
+//      this.cells[row] = currRow;
 //    }
-//    cells[midRow] = row;
+//
+    g2d.setColor(Color.BLACK);
+
+    // center hexCell
+    Point2D logicalCenterCell = new Point2D.Double(0, 0);
+    Point2D physicalCenterCell = new Point2D.Double();
+    transformLogicalToPhysical().transform(logicalCenterCell, physicalCenterCell);
+    Hexagon centerCell = new Hexagon(physicalCenterCell, this.cellWidth);
+    g2d.draw(centerCell);
+
+    Hexagon[] centerRow = new Hexagon[midRowSize];
+    centerRow[(midRowSize + 1) / 2] = centerCell;
+
+    double x = physicalCenterCell.getX();
+    double y = physicalCenterCell.getY();
+    int index = (midRowSize - 1) / 2;
+
+    // whole row
+    for (int cell = 0; cell < midRowSize + 1; cell++) {
+      if (cell < (midRowSize - 1) / 2) { // cells left of the center
+        x -= this.cellWidth / 2;
+        Point2D currPoint = new Point2D.Double(x, y);
+        Hexagon currCell = new Hexagon(currPoint, this.cellWidth);
+        g2d.draw(currCell);
+        index --;
+        centerRow[index] = currCell;
+      } else if (cell > (midRowSize - 1) / 2) { // cells right of the center
+        x += cellWidth / 2;
+        Point2D currPoint = new Point2D.Double(x, y);
+        Hexagon currCell = new Hexagon(currPoint, this.cellWidth);
+        g2d.draw(currCell);
+        index++;
+        centerRow[index] = currCell;
+      } else { // center
+        x += cellWidth / 2;
+        index = ((midRowSize - 1) / 2) - 1;
+      }
+    }
+    cells[midRow] = centerRow;
   }
 
   private class Hexagon extends Path2D.Double {
@@ -276,8 +283,7 @@ public class BoardPanel extends JPanel {
 
     private Hexagon(Point2D center, double width) {
       this.size = width / Math.sqrt(3);
-      this.center = new Point2D.Double();
-      transformLogicalToPhysical().transform(center, this.center);
+      this.center = center;
 
 
       moveTo(this.center.getX(), this.center.getY() - size / 2);
