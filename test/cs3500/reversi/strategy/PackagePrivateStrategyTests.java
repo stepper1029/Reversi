@@ -33,11 +33,13 @@ public class PackagePrivateStrategyTests {
             this.model.getCellAt(4, 1)), 0);
   }
 
+
   @Test
   public void testNegValue() {
     this.initModel();
     Assert.assertTrue(new TopLeftComparator().compare(this.model.getCellAt(1, 2),
             this.model.getCellAt(0, 0)) < 0);
-  //  Assert.assertTrue(new TopLeftComparator().compare(this.model.getCellAt(1, 3), this.model.getCellAt(4, 0)));
+    Assert.assertTrue(new TopLeftComparator().compare(this.model.getCellAt(4, 0),
+            this.model.getCellAt(1, 3)) < 0);
   }
 }

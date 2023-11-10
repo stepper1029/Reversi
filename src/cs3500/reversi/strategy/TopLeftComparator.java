@@ -20,13 +20,13 @@ class TopLeftComparator implements Comparator<ReversiCell> {
    */
   @Override
   public int compare(ReversiCell c1, ReversiCell c2) {
-    int rComparison = Integer.compare(c2.getCoord('r'), c1.getCoord('r'));
+    int rComparison = Integer.compare(c1.getCoord('r'), c2.getCoord('r'));
 
     if (rComparison != 0) {
       return rComparison;
     }
     else {
-      return Integer.compare(c2.getCoord('q'), c1.getCoord('q'));
+      return Integer.compare(c1.getCoord('q'), c2.getCoord('q'));
     }
   }
 }
