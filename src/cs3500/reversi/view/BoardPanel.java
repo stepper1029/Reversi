@@ -39,8 +39,6 @@ public class BoardPanel extends JPanel {
   public BoardPanel(ReadOnlyModel model) {
     this.model = Objects.requireNonNull(model);
     this.featuresListeners = new ArrayList<>();
-    // cellWidth = this.getPreferredSize().width / this.getPreferredLogicalSize().width;
-    // cellHeight = (cellWidth / Math.sqrt(3)) * 2;
     MouseEventsListener listener = new MouseEventsListener();
     this.addMouseListener(listener);
     this.addMouseMotionListener(listener);
@@ -124,18 +122,15 @@ public class BoardPanel extends JPanel {
     int midRow = this.model.getNumRows() / 2;
     int rowSize;
     g2d.setColor(Color.BLACK);
-
     Point2D logicalCenterCell = new Point2D.Double(0, 0);
     Point2D physicalCenterCell = new Point2D.Double();
     transformLogicalToPhysical().transform(logicalCenterCell, physicalCenterCell);
     double x;
     double y = physicalCenterCell.getY();
     int rowIndex = midRow;
-
     for (int row = 0; row < this.model.getNumRows(); row++) {
       int cellIndex;
       int middleReferenceCell;
-
       if (row < midRow) {
         y -= (cellHeight * 3) / 8;
         rowIndex--;
@@ -161,7 +156,6 @@ public class BoardPanel extends JPanel {
         Hexagon currHexagon = new Hexagon(currCoord, cellWidth);
         g2d.draw(currHexagon);
         currRow[cellIndex] = currHexagon;
-
         if (cell < middleReferenceCell) {
           x -= cellWidth / 2;
           cellIndex--;
@@ -175,7 +169,6 @@ public class BoardPanel extends JPanel {
           cellIndex++;
           x += cellWidth / 2;
         }
-
       }
       this.cells[rowIndex] = currRow;
     }
@@ -183,26 +176,21 @@ public class BoardPanel extends JPanel {
 
   private void drawCenterRow(Graphics2D g2d) {
     g2d.setColor(Color.BLACK);
-
     double cellWidth = getCellWidth();
     int midRow = (this.model.getNumRows() - 1) / 2;
     int midRowSize = this.model.getRowSize(midRow);
     g2d.setColor(Color.BLACK);
-
     // center hexCell
     Point2D logicalCenterCell = new Point2D.Double(0, 0);
     Point2D physicalCenterCell = new Point2D.Double();
     transformLogicalToPhysical().transform(logicalCenterCell, physicalCenterCell);
     Hexagon centerCell = new Hexagon(physicalCenterCell, cellWidth);
     g2d.draw(centerCell);
-
     Hexagon[] centerRow = new Hexagon[midRowSize];
     centerRow[(midRowSize + 1) / 2] = centerCell;
-
     double x = physicalCenterCell.getX();
     double y = physicalCenterCell.getY();
     int index = (midRowSize - 1) / 2;
-
     // whole row
     for (int cell = 0; cell < midRowSize + 1; cell++) {
       if (cell < (midRowSize - 1) / 2) { // cells left of the center
