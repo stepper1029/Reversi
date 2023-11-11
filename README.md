@@ -67,4 +67,6 @@ testing purposes before we fully implemented the view.
 - The model still keeps track of which color's turn it is to move, but the place() and pass() 
 methods also take in a DiskColor. This way the controller can pass in a color based on input it
 is getting from the players and the model can enforce the rules by ensuring that the correct
-player is moving. 
+player is moving.
+- New methods were created to make a copy of the model and board so that the strategy can have a
+copy of the current model to test different moves.

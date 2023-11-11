@@ -124,4 +124,11 @@ interface Board {
    * @return number of cells in the board.
    */
   int getTotalNumCells();
+
+  /**
+   * Returns a copy of this board without mutating it.
+   *
+   * @return returns a copy of this board
+   */
+  Board copy();
 }

@@ -106,4 +106,11 @@ public interface ReadOnlyModel {
    * @return the color corresponding to which player's turn it is
    */
   DiskColor getTurn();
+
+  /**
+   * Returns a copy of this model without mutating this model.
+   *
+   * @return a copy of this model.
+   */
+  ReadOnlyModel copy();
 }

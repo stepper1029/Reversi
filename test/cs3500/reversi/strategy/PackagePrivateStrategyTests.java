@@ -63,14 +63,25 @@ public class PackagePrivateStrategyTests {
   @Test
   public void testSort() {
     this.initModel();
-    ArrayList<ReversiCell> sorted = new ArrayList<ReversiCell>(Arrays.asList(
+    ArrayList<ReversiCell> sorted = new ArrayList<>(Arrays.asList(
             this.model.getCellAt(0, 0),
             this.model.getCellAt(3, 2),
             this.model.getCellAt(2, 3)));
     sorted.sort(new TopLeftComparator());
-    Assert.assertEquals(sorted, new ArrayList<ReversiCell>(Arrays.asList(
+    Assert.assertEquals(sorted, new ArrayList<>(Arrays.asList(
             this.model.getCellAt(0, 0),
             this.model.getCellAt(2, 3),
             this.model.getCellAt(3, 2))));
+    ArrayList<ReversiCell> sorted2 = new ArrayList<>(Arrays.asList(
+            this.model.getCellAt(3, 0),
+            this.model.getCellAt(0, 2),
+            this.model.getCellAt(4, 1),
+            this.model.getCellAt(3, 1)));
+    sorted2.sort(new TopLeftComparator());
+    Assert.assertEquals(sorted2, new ArrayList<>(Arrays.asList(
+            this.model.getCellAt(0, 2),
+            this.model.getCellAt(3, 0),
+            this.model.getCellAt(3, 1),
+            this.model.getCellAt(4, 1))));
   }
 }

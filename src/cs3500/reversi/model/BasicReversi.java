@@ -28,7 +28,8 @@ class BasicReversi implements MutableModel {
    * and cell structure) but is completely empty. Constructor sets the board with the initial
    * starting piece required to play the game. numPasses is initialized to zero because when no
    * moves have been made, no player could have passed. currColor begins at black as is
-   * convention in Reversi, black moves first.
+   * convention in Reversi, black moves first. Package-private so that classes outside of this
+   * package can only create a new model through the factory class.
    *
    * @param board board with a size and shape that the game should be played on.
    */
@@ -37,6 +38,20 @@ class BasicReversi implements MutableModel {
     this.board = Objects.requireNonNull(board);
     this.setBoard();
     this.currColor = DiskColor.Black;
+  }
+
+  /**
+   * Constructor to initialize the fields to the given values. Package-private so that classes
+   * outside of this package can only create a new model through the factory class.
+   *
+   * @param board the board that represents this placement of the pieces in this game
+   * @param numPasses the number of passes in a row that have occurred
+   * @param currColor the current color of the disc being placed
+   */
+  BasicReversi(Board board, int numPasses, DiskColor currColor) {
+    this.board = board;
+    this.numPasses = numPasses;
+    this.currColor = currColor;
   }
 
   /**
@@ -176,6 +191,11 @@ class BasicReversi implements MutableModel {
   }
 
   @Override
+  public ReadOnlyModel copy() {
+    return new BasicReversi(this.board.copy(), this.numPasses, this.currColor);
+  }
+
+  @Override
   public ReversiCell getCellAt(int numRow, int numCell) {
     if (numRow >= 0 && numRow < this.getNumRows() && numCell >= 0 && numCell < getRowSize(numRow)) {
       return this.board.getRow(numRow)[numCell];
@@ -265,4 +285,5 @@ class BasicReversi implements MutableModel {
     }
     return validMoves;
   }
+
 }
