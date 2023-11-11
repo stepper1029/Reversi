@@ -3,7 +3,12 @@ package cs3500.reversi.strategy;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 import cs3500.reversi.model.ReadOnlyModel;
+import cs3500.reversi.model.ReversiCell;
 import cs3500.reversi.model.ReversiCreator;
 
 /**
@@ -53,5 +58,19 @@ public class PackagePrivateStrategyTests {
             this.model.getCellAt(3, 1)) > 0);
     Assert.assertTrue(new TopLeftComparator().compare(this.model.getCellAt(3, 0),
             this.model.getCellAt(1, 3)) > 0);
+  }
+
+  @Test
+  public void testSort() {
+    this.initModel();
+    ArrayList<ReversiCell> sorted = new ArrayList<ReversiCell>(Arrays.asList(
+            this.model.getCellAt(0, 0),
+            this.model.getCellAt(3, 2),
+            this.model.getCellAt(2, 3)));
+    sorted.sort(new TopLeftComparator());
+    Assert.assertEquals(sorted, new ArrayList<ReversiCell>(Arrays.asList(
+            this.model.getCellAt(0, 0),
+            this.model.getCellAt(2, 3),
+            this.model.getCellAt(3, 2))));
   }
 }
