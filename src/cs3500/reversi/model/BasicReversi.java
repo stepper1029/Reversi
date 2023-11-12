@@ -191,7 +191,7 @@ class BasicReversi implements MutableModel {
   }
 
   @Override
-  public ReadOnlyModel copy() {
+  public MutableModel copy() {
     return new BasicReversi(this.board.copy(), this.numPasses, this.currColor);
   }
 

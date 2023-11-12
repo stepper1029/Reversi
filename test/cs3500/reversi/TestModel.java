@@ -5,7 +5,9 @@ import org.junit.Test;
 
 import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.MutableModel;
+import cs3500.reversi.model.ReversiCell;
 import cs3500.reversi.model.ReversiCreator;
+import cs3500.reversi.view.HexTextView;
 
 /**
  * Class to extensively test the model.
@@ -196,5 +198,32 @@ public class TestModel {
     this.initModels();
     Assert.assertThrows(IllegalStateException.class, () ->
             this.model3.place(this.model3.getCellAt(4, 1), DiskColor.White));
+  }
+
+  @Test
+  public void testCopyPass() {
+    this.initModels();
+    MutableModel copiedModel = this.model3.copy();
+    copiedModel.pass(DiskColor.Black);
+    copiedModel.pass(DiskColor.White);
+    Assert.assertFalse(this.model3.isGameOver());
+    Assert.assertTrue(copiedModel.isGameOver());
+  }
+
+  @Test
+  public void testCopyPlace() {
+    this.initModels();
+    MutableModel copiedModel = this.model3.copy();
+    Assert.assertEquals(this.model3.getScore(DiskColor.Black), 3);
+    Assert.assertEquals(this.model3.getScore(DiskColor.White), 3);
+    Assert.assertEquals(copiedModel.getScore(DiskColor.Black), 3);
+    Assert.assertEquals(copiedModel.getScore(DiskColor.White), 3);
+    HexTextView view = new HexTextView(copiedModel);
+    System.out.println(view.toString());
+ //   copiedModel.place(copiedModel.getCellAt(3, 0), DiskColor.Black);
+//    Assert.assertEquals(this.model3.getScore(DiskColor.Black), 3);
+//    Assert.assertEquals(this.model3.getScore(DiskColor.White), 3);
+//    Assert.assertEquals(copiedModel.getScore(DiskColor.Black), 5);
+//    Assert.assertEquals(copiedModel.getScore(DiskColor.White), 2);
   }
 }

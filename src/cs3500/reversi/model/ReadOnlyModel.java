@@ -112,5 +112,5 @@ public interface ReadOnlyModel {
    *
    * @return a copy of this model.
    */
-  ReadOnlyModel copy();
+  MutableModel copy();
 }

@@ -342,6 +342,32 @@ public class PackagePrivateModelTests {
             this.board3.getCells(DiskColor.Black));
   }
 
+  @Test
+  public void testCopy() {
+    this.initHexBoards();
+    Board copiedBoard = this.board3.copy();
+    Assert.assertEquals(this.board3.getBoardSize(), 3);
+    Assert.assertEquals(copiedBoard.getBoardSize(), 3);
+    Assert.assertEquals(this.board3.getCells(DiskColor.Black).size(), 0);
+    Assert.assertEquals(this.board3.getCells(DiskColor.White).size(), 0);
+    Assert.assertEquals(copiedBoard.getCells(DiskColor.Black).size(), 0);
+    Assert.assertEquals(copiedBoard.getCells(DiskColor.White).size(), 0);
+    // adding a black disk to the copied board and a white disk to the regular board
+    copiedBoard.placeDisk(new HexCell(0, -1, 1), DiskColor.Black);
+    this.board3.placeDisk(new HexCell(2, -1, -1), DiskColor.White);
+    Assert.assertEquals(this.board3.getCells(DiskColor.Black).size(), 0);
+    Assert.assertEquals(copiedBoard.getCells(DiskColor.Black).size(), 1);
+    Assert.assertEquals(this.board3.getCells(DiskColor.White).size(), 1);
+    Assert.assertEquals(copiedBoard.getCells(DiskColor.White).size(), 0);
+    // flips the disks in each board
+    copiedBoard.flipDisk(new HexCell(0, -1, 1));
+    this.board3.flipDisk(new HexCell(2, -1, -1));
+    Assert.assertEquals(this.board3.getCells(DiskColor.White).size(), 0);
+    Assert.assertEquals(copiedBoard.getCells(DiskColor.White).size(), 1);
+    Assert.assertEquals(this.board3.getCells(DiskColor.Black).size(), 1);
+    Assert.assertEquals(copiedBoard.getCells(DiskColor.Black).size(), 0);
+  }
+
   // BasicReversi null constructor test
   @Test
   public void testNullBoard() {
