@@ -145,7 +145,7 @@ public class BoardPanel extends JPanel {
       for (int cell = 0; cell < rowSize; cell++) {
         Hexagon currHex = new Hexagon(new Point2D.Double(x, y), cellWidth);
         this.drawHex(g2d, currHex);
-        // this.placeHex(currHex, rowIndex, cellIndex);
+        this.cells[rowIndex][cellIndex] = currHex;
         if (cell < middleReferenceCell) {
           x -= cellWidth / 2;
           cellIndex--;
@@ -172,7 +172,8 @@ public class BoardPanel extends JPanel {
     transformLogicalToPhysical().transform(logicalCenterCell, physicalCenterCell);
     Hexagon centerCell = new Hexagon(physicalCenterCell, cellWidth);
     this.drawHex(g2d, centerCell);
-    // this.placeHex(centerCell, midRow, (midRowSize - 1) / 2);
+    this.cells[midRow] = new Hexagon[midRowSize];
+    this.cells[midRow][(midRowSize - 1) / 2] = centerCell;
   }
 
   private Point2D setPhysicalCoords() {
@@ -207,7 +208,8 @@ public class BoardPanel extends JPanel {
       if (cell != evenMidCellNum) {
         Hexagon currCell = new Hexagon(new Point2D.Double(x, y), cellWidth);
         this.drawHex(g2d, currCell);
-        //this.placeHex(currCell, midRowNum, index);
+        this.cells[midRowNum][index] = currCell;
+        // this.placeHex(currCell, midRowNum, index);
       }
     }
   }
@@ -220,6 +222,11 @@ public class BoardPanel extends JPanel {
   }
 
   private void placeHex(Hexagon hex, int numRow, int numCell) {
+    System.out.println(hex.size);
+    System.out.println(hex.center);
+    System.out.println(numRow);
+    System.out.println(numCell);
+    System.out.println(this.cells[numRow][numCell]);
     this.cells[numRow][numCell] = hex;
   }
 

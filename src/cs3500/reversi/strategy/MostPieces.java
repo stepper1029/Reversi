@@ -37,7 +37,7 @@ public class MostPieces implements FallibleReversiStrategy {
               return modelCopy.getScore(player) == finalHighestScore;
             })
             .collect(Collectors.toList());
-    }
+  }
 
   @Override
   public Optional<ReversiCell> bestPotentialMove(ReadOnlyModel model, DiskColor player,
