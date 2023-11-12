@@ -18,7 +18,7 @@ public class MostPieces implements FallibleReversiStrategy {
           possibleMoves) {
     ArrayList<ReversiCell> goodMoves = new ArrayList<>();
     int highestScore = 0;
-    for (ReversiCell cell : model.allPossibleMoves(player)) {
+    for (ReversiCell cell : possibleMoves) {
       MutableModel modelCopy = model.copy();
       modelCopy.place(cell, player);
       if (modelCopy.getScore(player) > highestScore) {
@@ -42,6 +42,13 @@ public class MostPieces implements FallibleReversiStrategy {
   @Override
   public Optional<ReversiCell> bestPotentialMove(ReadOnlyModel model, DiskColor player,
                                                  List<ReversiCell> possibleMoves) {
-    return null;
+    List<ReversiCell> sortedMoves = this.allGoodMoves(model, player, possibleMoves);
+    sortedMoves.sort(new TopLeftComparator());
+    if (sortedMoves.isEmpty()) {
+      return Optional.empty();
+    }
+    else {
+      return Optional.ofNullable(sortedMoves.get(0));
+    }
   }
 }
