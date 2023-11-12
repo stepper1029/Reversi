@@ -41,6 +41,7 @@ public class GraphicalView extends JFrame implements ReversiView {
 
   public void setScoreLabels() {
     scorePanel = new JPanel();
+    scorePanel.setBackground(Color.GRAY);
     scorePanel.setLayout(new BoxLayout(scorePanel, BoxLayout.X_AXIS));
     scorePanel.add(Box.createVerticalStrut(25));
     this.add(scorePanel, BorderLayout.NORTH);

@@ -32,10 +32,6 @@ public class BoardPanel extends JPanel {
 
   private DiskColor activeColor;
 
-  /* fixme: make the center cell a logical coordinate, and all other cells physical coordinates
-      based on the center cell
-
-   */
   public BoardPanel(ReadOnlyModel model) {
     this.model = Objects.requireNonNull(model);
     this.featuresListeners = new ArrayList<>();
@@ -84,7 +80,7 @@ public class BoardPanel extends JPanel {
     this.makeRows(g2d);
 //    this.drawTopRows(g2d);
 //    this.drawBottomRows(g2d);
-    this.setDisksForAllRows(g2d);
+  //  this.setDisksForAllRows(g2d);
   }
 
   private void setDisksForAllRows(Graphics2D g2d) {
@@ -120,99 +116,111 @@ public class BoardPanel extends JPanel {
     double cellWidth = getCellWidth();
     double cellHeight = (cellWidth / Math.sqrt(3)) * 2;
     int midRow = this.model.getNumRows() / 2;
-    int rowSize;
     g2d.setColor(Color.BLACK);
-    Point2D logicalCenterCell = new Point2D.Double(0, 0);
-    Point2D physicalCenterCell = new Point2D.Double();
-    transformLogicalToPhysical().transform(logicalCenterCell, physicalCenterCell);
     double x;
-    double y = physicalCenterCell.getY();
+    double y = setPhysicalCoords().getY();
     int rowIndex = midRow;
     for (int row = 0; row < this.model.getNumRows(); row++) {
       int cellIndex;
       int middleReferenceCell;
-      if (row < midRow) {
+      if (row < midRow) { // top half
         y -= (cellHeight * 3) / 8;
         rowIndex--;
-      } else if (row > midRow){
+      } else if (row > midRow) { // bottom half
         y += (cellHeight * 3) / 8;
         rowIndex++;
-      } else {
+      } else { // mid row
         rowIndex = midRow;
-        y = physicalCenterCell.getY();
+        y = setPhysicalCoords().getY();
       }
-      rowSize = this.model.getRowSize(rowIndex);
+      int rowSize = this.model.getRowSize(rowIndex);
       if (rowIndex % 2 == 0) {
         middleReferenceCell = (rowSize - 1) / 2;
-        x = physicalCenterCell.getX();
+        x = setPhysicalCoords().getX();
       } else {
         middleReferenceCell = rowSize / 2;
-        x = physicalCenterCell.getX() + cellWidth / 4;
+        x = setPhysicalCoords().getX() + cellWidth / 4;
       }
-      Hexagon[] currRow = new Hexagon[rowSize];
       cellIndex = middleReferenceCell;
       for (int cell = 0; cell < rowSize; cell++) {
-        Point2D currCoord = new Point2D.Double(x, y);
-        Hexagon currHexagon = new Hexagon(currCoord, cellWidth);
-        g2d.draw(currHexagon);
-        currRow[cellIndex] = currHexagon;
+        Hexagon currHex = new Hexagon(new Point2D.Double(x, y), cellWidth);
+        this.drawHex(g2d, currHex);
+        // this.placeHex(currHex, rowIndex, cellIndex);
         if (cell < middleReferenceCell) {
           x -= cellWidth / 2;
           cellIndex--;
         } else if (cell == middleReferenceCell) {
           cellIndex = middleReferenceCell;
-          x = physicalCenterCell.getX() + (cellWidth  / 2);
+          x = setPhysicalCoords().getX() + (cellWidth / 2);
           if (rowIndex % 2 != 0) {
-            x = physicalCenterCell.getX() + ((cellWidth * 3) / 4);
+            x = setPhysicalCoords().getX() + ((cellWidth * 3) / 4);
           }
         } else {
           cellIndex++;
           x += cellWidth / 2;
         }
       }
-      this.cells[rowIndex] = currRow;
     }
   }
 
-  private void drawCenterRow(Graphics2D g2d) {
-    g2d.setColor(Color.BLACK);
+  private void drawCenterCell(Graphics2D g2d) {
     double cellWidth = getCellWidth();
     int midRow = (this.model.getNumRows() - 1) / 2;
     int midRowSize = this.model.getRowSize(midRow);
-    g2d.setColor(Color.BLACK);
-    // center hexCell
     Point2D logicalCenterCell = new Point2D.Double(0, 0);
     Point2D physicalCenterCell = new Point2D.Double();
     transformLogicalToPhysical().transform(logicalCenterCell, physicalCenterCell);
     Hexagon centerCell = new Hexagon(physicalCenterCell, cellWidth);
-    g2d.draw(centerCell);
-    Hexagon[] centerRow = new Hexagon[midRowSize];
-    centerRow[(midRowSize + 1) / 2] = centerCell;
-    double x = physicalCenterCell.getX();
-    double y = physicalCenterCell.getY();
-    int index = (midRowSize - 1) / 2;
-    // whole row
+    this.drawHex(g2d, centerCell);
+    // this.placeHex(centerCell, midRow, (midRowSize - 1) / 2);
+  }
+
+  private Point2D setPhysicalCoords() {
+    Point2D logicalCenterCell = new Point2D.Double(0, 0);
+    Point2D physicalCenterCell = new Point2D.Double();
+    transformLogicalToPhysical().transform(logicalCenterCell, physicalCenterCell);
+    return physicalCenterCell;
+  }
+
+  private void drawCenterRow(Graphics2D g2d) {
+    double cellWidth = getCellWidth();
+    int midRowNum = (this.model.getNumRows() - 1) / 2;
+    int midRowSize = this.model.getRowSize(midRowNum);
+    int evenMidCellNum = (midRowSize - 1) / 2;
+
+    this.drawCenterCell(g2d);
+
+    double x = setPhysicalCoords().getX();
+    double y = setPhysicalCoords().getY();
+    int index = evenMidCellNum;
     for (int cell = 0; cell < midRowSize + 1; cell++) {
-      if (cell < (midRowSize - 1) / 2) { // cells left of the center
+      if (cell < evenMidCellNum) { // cells left of the center
         x -= cellWidth / 2;
-        Point2D currPoint = new Point2D.Double(x, y);
-        Hexagon currCell = new Hexagon(currPoint, cellWidth);
-        g2d.draw(currCell);
         index--;
-        centerRow[index] = currCell;
-      } else if (cell > (midRowSize - 1) / 2) { // cells right of the center
+      } else if (cell > evenMidCellNum) { // cells right of the center
         x += cellWidth / 2;
-        Point2D currPoint = new Point2D.Double(x, y);
-        Hexagon currCell = new Hexagon(currPoint, cellWidth);
-        g2d.draw(currCell);
         index++;
-        centerRow[index] = currCell;
       } else { // center
         x += cellWidth / 2;
-        index = ((midRowSize - 1) / 2) - 1;
+        index = evenMidCellNum;
+      }
+      if (cell != evenMidCellNum) {
+        Hexagon currCell = new Hexagon(new Point2D.Double(x, y), cellWidth);
+        this.drawHex(g2d, currCell);
+        //this.placeHex(currCell, midRowNum, index);
       }
     }
-    cells[midRow] = centerRow;
+  }
+
+  private void drawHex(Graphics2D g2d, Hexagon hex) {
+    g2d.setColor(Color.LIGHT_GRAY);
+    g2d.fill(hex);
+    g2d.setColor(Color.BLACK);
+    g2d.draw(hex);
+  }
+
+  private void placeHex(Hexagon hex, int numRow, int numCell) {
+    this.cells[numRow][numCell] = hex;
   }
 
   private static class Hexagon extends Path2D.Double {
@@ -229,7 +237,7 @@ public class BoardPanel extends JPanel {
         double angle = Math.PI / 6 + i * Math.PI / 3;
         double x = this.center.getX() + size / 2 * Math.cos(angle);
         double y = this.center.getY() - size / 2 * Math.sin(angle);
-        lineTo(x, y); // Draw edges (excluding the last vertex)
+        lineTo(x, y);
       }
     }
 
@@ -239,8 +247,8 @@ public class BoardPanel extends JPanel {
       } else {
         g2d.setColor(Color.WHITE);
       }
-      Shape disk = new Ellipse2D.Double(this.center.getX() - (size*.25),
-              this.center.getY() - (size*.25), (size * .5), (size * .5));
+      Shape disk = new Ellipse2D.Double(this.center.getX() - (size * .25),
+              this.center.getY() - (size * .25), (size * .5), (size * .5));
       g2d.draw(disk);
       g2d.fill(disk);
     }
