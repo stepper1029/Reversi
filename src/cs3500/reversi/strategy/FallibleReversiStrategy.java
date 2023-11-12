@@ -3,7 +3,6 @@ package cs3500.reversi.strategy;
 import java.util.List;
 import java.util.Optional;
 
-import cs3500.reversi.Reversi;
 import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.ReadOnlyModel;
 import cs3500.reversi.model.ReversiCell;

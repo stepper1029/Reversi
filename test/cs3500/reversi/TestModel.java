@@ -218,12 +218,10 @@ public class TestModel {
     Assert.assertEquals(this.model3.getScore(DiskColor.White), 3);
     Assert.assertEquals(copiedModel.getScore(DiskColor.Black), 3);
     Assert.assertEquals(copiedModel.getScore(DiskColor.White), 3);
-    HexTextView view = new HexTextView(copiedModel);
-    System.out.println(view.toString());
- //   copiedModel.place(copiedModel.getCellAt(3, 0), DiskColor.Black);
-//    Assert.assertEquals(this.model3.getScore(DiskColor.Black), 3);
-//    Assert.assertEquals(this.model3.getScore(DiskColor.White), 3);
-//    Assert.assertEquals(copiedModel.getScore(DiskColor.Black), 5);
-//    Assert.assertEquals(copiedModel.getScore(DiskColor.White), 2);
+    copiedModel.place(copiedModel.getCellAt(3, 0), DiskColor.Black);
+    Assert.assertEquals(this.model3.getScore(DiskColor.Black), 3);
+    Assert.assertEquals(this.model3.getScore(DiskColor.White), 3);
+    Assert.assertEquals(copiedModel.getScore(DiskColor.Black), 5);
+    Assert.assertEquals(copiedModel.getScore(DiskColor.White), 2);
   }
 }

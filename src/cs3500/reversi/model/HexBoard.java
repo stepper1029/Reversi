@@ -225,7 +225,7 @@ class HexBoard implements Board {
       cellsCopy[row] = this.cells[row].clone();
     }
     return new HexBoard(this.boardSize, cellsCopy,
-            new ArrayList<>(this.blackCells), new ArrayList<>(this.blackCells));
+            new ArrayList<>(this.blackCells), new ArrayList<>(this.whiteCells));
   }
 
   // determines which of the given two cells is on the left. private because this functionality
