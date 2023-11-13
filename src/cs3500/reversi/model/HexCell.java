@@ -85,4 +85,14 @@ class HexCell implements ReversiCell {
     return new HexCell(this.q + directions[0], this.r
             + directions[1], this.s + directions[2]);
   }
-}
+
+  /**
+   * toString method to make testing and debugging easier.
+   *
+   * @return string representing the q, r, s value of this hexCell
+   */
+  @Override
+  public String toString() {
+    return "q: " + this.q + "r: " + this.r + "s: " + this.s;
+  }
+ }

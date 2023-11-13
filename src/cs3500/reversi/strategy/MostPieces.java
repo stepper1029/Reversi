@@ -10,8 +10,10 @@ import cs3500.reversi.model.ReadOnlyModel;
 import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.ReversiCell;
 
-
-
+/**
+ * Strategy that chooses the move that flips the most disks for the given player. Breaks ties by
+ * choosing the top-most left-most choice.
+ */
 public class MostPieces implements FallibleReversiStrategy {
   @Override
   public List<ReversiCell> allGoodMoves(ReadOnlyModel model, DiskColor player, List<ReversiCell>
