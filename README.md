@@ -70,3 +70,4 @@ is getting from the players and the model can enforce the rules by ensuring that
 player is moving.
 - New methods were created to make a copy of the model and board so that the strategy can have a
 copy of the current model to test different moves.
+- Implemented all required aspects of part 2 as outlined above. 

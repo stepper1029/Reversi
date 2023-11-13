@@ -93,6 +93,6 @@ class HexCell implements ReversiCell {
    */
   @Override
   public String toString() {
-    return "q: " + this.q + "r: " + this.r + "s: " + this.s;
+    return "q: " + this.q + " r: " + this.r + " s: " + this.s;
   }
  }

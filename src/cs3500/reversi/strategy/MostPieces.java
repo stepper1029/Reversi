@@ -20,6 +20,8 @@ public class MostPieces implements FallibleReversiStrategy {
           possibleMoves) {
     ArrayList<ReversiCell> goodMoves = new ArrayList<>();
     int highestScore = 0;
+
+    // finding the highest possible score based on the possible moves (therefore
     for (ReversiCell cell : possibleMoves) {
       MutableModel modelCopy = model.copy();
       modelCopy.place(cell, player);

@@ -1,6 +1,7 @@
 package cs3500.reversi.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -283,7 +284,6 @@ class BasicReversi implements MutableModel {
     for (ReversiCell cell : this.board.getCells(color)) {
       validMoves.addAll(this.validMovesInAllDirections(cell));
     }
-    return validMoves;
+    return new ArrayList<>(new HashSet<>(validMoves));
   }
-
 }

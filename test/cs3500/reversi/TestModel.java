@@ -198,6 +198,8 @@ public class TestModel {
     this.initModels();
     Assert.assertThrows(IllegalStateException.class, () ->
             this.model3.place(this.model3.getCellAt(4, 1), DiskColor.White));
+    Assert.assertThrows(IllegalStateException.class, () ->
+            this.model3.pass(DiskColor.White));
   }
 
   @Test

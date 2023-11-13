@@ -4,7 +4,6 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,7 +18,7 @@ import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.ReadOnlyModel;
 import cs3500.reversi.model.ReversiCell;
 
-public class BoardPanel extends JPanel {
+public class SimpleReversiBoard extends JPanel implements BoardView {
 
   private final ReadOnlyModel model;
 
@@ -32,7 +31,7 @@ public class BoardPanel extends JPanel {
 
   private DiskColor activeColor;
 
-  public BoardPanel(ReadOnlyModel model) {
+  public SimpleReversiBoard(ReadOnlyModel model) {
     this.model = Objects.requireNonNull(model);
     this.featuresListeners = new ArrayList<>();
     MouseEventsListener listener = new MouseEventsListener();
@@ -97,7 +96,7 @@ public class BoardPanel extends JPanel {
       Hexagon currHex = cells[rowNum][cellIndex];
       if (!this.model.isEmpty(currCell)) {
         DiskColor color = this.model.getColorAt(currCell);
-        currHex.addDisk(g2d, color);
+        currHex.addDisk(color);
       }
     }
   }
@@ -146,7 +145,7 @@ public class BoardPanel extends JPanel {
     int rowSize = this.model.getRowSize(rowNum);
     for (int i = 0; i < rowSize; i++) {
       Point2D currPoint = new Point2D.Double(x, y);
-      Hexagon currHex = new Hexagon(currPoint, cellWidth);
+      Hexagon currHex = new Hexagon(currPoint, cellWidth, g2d);
       this.drawHex(g2d, currHex);
       this.placeHex(currHex, rowNum, i);
 
@@ -172,13 +171,15 @@ public class BoardPanel extends JPanel {
     this.cells[numRow][numCell] = hex;
   }
 
-  private class Hexagon extends Path2D.Double {
+  protected class Hexagon extends Path2D.Double {
+    Graphics2D g2d;
     private final Point2D center;
     private final double size;
     private boolean hasDisk;
     private boolean filled;
 
-    private Hexagon(Point2D center, double width) {
+    private Hexagon(Point2D center, double width, Graphics2D g2d) {
+      this.g2d = g2d;
       this.size = width / Math.sqrt(3);
       this.center = center;
       this.hasDisk = false;
@@ -194,40 +195,45 @@ public class BoardPanel extends JPanel {
       }
     }
 
-    private void addDisk(Graphics2D g2d, DiskColor color) {
+    private void addDisk(DiskColor color) {
       this.hasDisk = true;
       if (color.equals(DiskColor.Black)) {
-        g2d.setColor(Color.BLACK);
+        this.g2d.setColor(Color.BLACK);
       } else {
-        g2d.setColor(Color.WHITE);
+        this.g2d.setColor(Color.WHITE);
       }
       Shape disk = new Ellipse2D.Double(this.center.getX() - (size * .25),
               this.center.getY() - (size * .25), (size * .5), (size * .5));
-      g2d.draw(disk);
-      g2d.fill(disk);
+      this.g2d.draw(disk);
+      this.g2d.fill(disk);
     }
 
-    private void unfill(Graphics2D g2d) {
-      g2d.setColor(Color.LIGHT_GRAY);
-      g2d.fill(this);
-      g2d.setColor(Color.BLACK);
-      g2d.draw(this);
+    private void unfill() {
+      this.g2d.setColor(Color.LIGHT_GRAY);
+      this.g2d.fill(this);
+      this.g2d.setColor(Color.BLACK);
+      this.g2d.draw(this);
     }
 
-    private void fill(Graphics2D g2d) {
-      for (Hexagon[] row : cells) {
-        for (Hexagon hex : row) {
-          if (this.filled) {
-            hex.unfill(g2d);
+    private void fill() {
+      if(this.filled) {
+        this.unfill();
+      } else if (!this.hasDisk) {
+        for (int row = 0; row < cells.length; row++ ) { //Hexagon[] row : cells) {
+          for (int cell = 0; cell < cells[row].length; row ++ ) { //Hexagon hex : row) {
+            if (cells[row][cell].filled) {
+              cells[row][cell].unfill();
+            }
+            if (cells[row][cell].equals(this)) {
+              System.out.println(String.format("HexCell(%d, %d)", row, cell));
+            }
           }
         }
-      }
-      this.filled = true;
-      if (!hasDisk) {
-        g2d.setColor(Color.CYAN);
-        g2d.fill(this);
-        g2d.setColor(Color.BLACK);
-        g2d.draw(this);
+        this.filled = true;
+        this.g2d.setColor(Color.CYAN);
+        this.g2d.fill(this);
+        this.g2d.setColor(Color.BLACK);
+        this.g2d.draw(this);
       }
     }
   }
@@ -271,7 +277,7 @@ public class BoardPanel extends JPanel {
   private class MouseEventsListener extends MouseInputAdapter {
     @Override
     public void mousePressed(MouseEvent e) {
-      BoardPanel.this.mouseIsDown = true;
+      SimpleReversiBoard.this.mouseIsDown = true;
       this.mouseDragged(e);
     }
 
