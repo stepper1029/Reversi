@@ -283,8 +283,21 @@ public class SimpleReversiBoard extends JPanel implements BoardView {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-      BoardPanel.this.mouseIsDown = false;
+      SimpleReversiBoard.this.mouseIsDown = false;
+
     }
+
+  @Override
+  public void mouseDragged(MouseEvent e) {
+    Point physicalPoint = e.getPoint();
+    for (Hexagon[] row : cells) {
+      for (Hexagon cell : row) {
+        if (cell.contains(physicalPoint)) {
+          cell.fill();
+        }
+      }
+    }
+  }
   }
 }
 

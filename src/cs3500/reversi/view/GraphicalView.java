@@ -55,6 +55,11 @@ public class GraphicalView extends JFrame implements ReversiView {
   }
 
   @Override
+  public void addFeatureListener(ViewFeatures features) {
+    //this.boardPanel.addFeaturesListener(features);
+  }
+
+  @Override
   public void refresh() {
     this.repaint();
   }

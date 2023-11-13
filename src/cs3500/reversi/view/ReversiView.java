@@ -16,4 +16,6 @@ public interface ReversiView {
    * Signal the view to draw itself
    */
   void refresh();
+
+  void addFeatureListener(ViewFeatures features);
 }
