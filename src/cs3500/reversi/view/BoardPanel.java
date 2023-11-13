@@ -26,7 +26,7 @@ public class BoardPanel extends JPanel {
   private final List<ViewFeatures> featuresListeners;
   // private final double cellWidth;
   //private final double cellHeight;
-  private final Hexagon[][] cells;
+  protected final Hexagon[][] cells;
 
   private boolean mouseIsDown;
 
@@ -172,13 +172,17 @@ public class BoardPanel extends JPanel {
     this.cells[numRow][numCell] = hex;
   }
 
-  private static class Hexagon extends Path2D.Double {
+  private class Hexagon extends Path2D.Double {
     private final Point2D center;
     private final double size;
+    private boolean hasDisk;
+    private boolean filled;
 
     private Hexagon(Point2D center, double width) {
       this.size = width / Math.sqrt(3);
       this.center = center;
+      this.hasDisk = false;
+      this.filled = false;
 
 
       moveTo(this.center.getX(), this.center.getY() - size / 2);
@@ -191,6 +195,7 @@ public class BoardPanel extends JPanel {
     }
 
     private void addDisk(Graphics2D g2d, DiskColor color) {
+      this.hasDisk = true;
       if (color.equals(DiskColor.Black)) {
         g2d.setColor(Color.BLACK);
       } else {
@@ -200,6 +205,30 @@ public class BoardPanel extends JPanel {
               this.center.getY() - (size * .25), (size * .5), (size * .5));
       g2d.draw(disk);
       g2d.fill(disk);
+    }
+
+    private void unfill(Graphics2D g2d) {
+      g2d.setColor(Color.LIGHT_GRAY);
+      g2d.fill(this);
+      g2d.setColor(Color.BLACK);
+      g2d.draw(this);
+    }
+
+    private void fill(Graphics2D g2d) {
+      for (Hexagon[] row : cells) {
+        for (Hexagon hex : row) {
+          if (this.filled) {
+            hex.unfill(g2d);
+          }
+        }
+      }
+      this.filled = true;
+      if (!hasDisk) {
+        g2d.setColor(Color.CYAN);
+        g2d.fill(this);
+        g2d.setColor(Color.BLACK);
+        g2d.draw(this);
+      }
     }
   }
 
@@ -249,7 +278,6 @@ public class BoardPanel extends JPanel {
     @Override
     public void mouseReleased(MouseEvent e) {
       BoardPanel.this.mouseIsDown = false;
-
     }
   }
 }
