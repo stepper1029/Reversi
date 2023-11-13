@@ -31,7 +31,7 @@ public class GraphicalView extends JFrame implements ReversiView {
     this.add(boardPanel, BorderLayout.CENTER);
 
 
-    // this.pack();
+     this.pack();
 
   }
 

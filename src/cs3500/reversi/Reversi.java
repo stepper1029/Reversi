@@ -1,7 +1,6 @@
 package cs3500.reversi;
 
 import cs3500.reversi.model.MutableModel;
-import cs3500.reversi.model.ReadOnlyModel;
 import cs3500.reversi.model.ReversiCreator;
 import cs3500.reversi.view.GraphicalView;
 import cs3500.reversi.view.ReversiView;
