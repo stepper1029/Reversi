@@ -87,12 +87,13 @@ class HexCell implements ReversiCell {
   }
 
   /**
-   * toString method to make testing and debugging easier.
+   * toString method to make testing and debugging easier and so that the mock can add the r q s
+   * value to the cell.
    *
    * @return string representing the q, r, s value of this hexCell
    */
   @Override
   public String toString() {
-    return "q: " + this.q + " r: " + this.r + " s: " + this.s;
+    return "Cell: q: " + this.q + " r: " + this.r + " s: " + this.s;
   }
  }
