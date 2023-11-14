@@ -18,7 +18,7 @@ public class Controller implements ViewFeatures {
     this.view.makeVisible();
   }
 
-  public void highlight() {
+  public void pass() {
 
   }
 

@@ -18,18 +18,12 @@ import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.ReadOnlyModel;
 import cs3500.reversi.model.ReversiCell;
 
-public class SimpleReversiBoard extends JPanel implements BoardView {
+public class SimpleReversiBoard extends JPanel {
 
   private final ReadOnlyModel model;
-
   private final List<ViewFeatures> featuresListeners;
-  // private final double cellWidth;
-  //private final double cellHeight;
   protected final Hexagon[][] cells;
 
-  private boolean mouseIsDown;
-
-  private DiskColor activeColor;
 
   public SimpleReversiBoard(ReadOnlyModel model) {
     this.model = Objects.requireNonNull(model);
@@ -37,7 +31,7 @@ public class SimpleReversiBoard extends JPanel implements BoardView {
     MouseEventsListener listener = new MouseEventsListener();
     this.addMouseListener(listener);
     this.addMouseMotionListener(listener);
-    cells = new Hexagon[this.model.getNumRows()][];
+    this.cells = new Hexagon[this.model.getNumRows()][];
   }
 
   /**
@@ -73,32 +67,36 @@ public class SimpleReversiBoard extends JPanel implements BoardView {
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics2D g2d = (Graphics2D) g.create();
-    g2d.setColor(Color.BLACK);
 
+    if (this.cells[0] == null) {
+      this.makeRows();
+    }
 
     for (int row = 0; row < this.model.getNumRows(); row ++) {
-      this.cells[row] = new Hexagon[this.model.getRowSize(row)];
-      this.makeRows(g2d, row);
-    }
-    this.setDisksForAllRows(g2d);
-  }
+      for (int cell = 0; cell < this.model.getRowSize(row); cell ++) {
+        Hexagon currHex = cells[row][cell];
+        ReversiCell currCell = this.model.getCellAt(row, cell);
 
-  private void setDisksForAllRows(Graphics2D g2d) {
-    for (int row = 0; row < cells.length; row++) {
-      setDisksForOneRow(g2d, row);
-    }
-  }
+       // this.drawHex(g2d, currHex);
+        g2d.setColor(currHex.fillColor);
+        g2d.fill(currHex);
+        g2d.setColor(Color.BLACK);
+        g2d.draw(currHex);
 
-  private void setDisksForOneRow(Graphics2D g2d, int rowNum) {
-    int rowSize = cells[rowNum].length;
-    for (int cellIndex = 0; cellIndex < rowSize; cellIndex++) {
-      ReversiCell currCell = this.model.getCellAt(rowNum, cellIndex);
-      Hexagon currHex = cells[rowNum][cellIndex];
-      if (!this.model.isEmpty(currCell)) {
-        DiskColor color = this.model.getColorAt(currCell);
-        currHex.addDisk(color);
+        // draw disks
+        if (!this.model.isEmpty(currCell)) {
+          DiskColor diskColor = this.model.getColorAt(currCell);
+          Shape disk = currHex.addDisk(diskColor);
+          g2d.setColor(currHex.diskColor);
+          g2d.fill(disk);
+        }
       }
     }
+  }
+
+  private void highlight(Hexagon hex) {
+    hex.fill();
+    repaint();
   }
 
   private Double getCellWidth() {
@@ -112,10 +110,16 @@ public class SimpleReversiBoard extends JPanel implements BoardView {
     return physicalPointB.getX() - physicalPointA.getX();
   }
 
-  private void makeRows(Graphics2D g2d, int rowNum) {
+  private void makeRows() {
+    for (int i = 0; i < this.model.getNumRows(); i ++) {
+      makeRow(i);
+    }
+  }
+
+  private void makeRow(int rowNum) {
     int rowSize = this.model.getRowSize(rowNum);
-    this.cells[rowNum] = new Hexagon[rowSize];
     double cellWidth = this.getCellWidth();
+    this.cells[rowNum] = new Hexagon[rowSize];
     double cellHeight = (cellWidth / Math.sqrt(3)) * 2;
     double x = setPhysicalCoords().getX();
     double y = setPhysicalCoords().getY();
@@ -135,18 +139,16 @@ public class SimpleReversiBoard extends JPanel implements BoardView {
         x -= ((cellWidth / 2) * (this.model.getRowSize(rowNum) / 2)) - (cellWidth / 4);
       }
     }
-
     y += ((cellHeight * 3) / 8) * (rowNum - midRowNum);
-    iterateCells(g2d, rowNum, x, y);
+    iterateCells(rowNum, x, y);
   }
 
-  private void iterateCells(Graphics2D g2d, int rowNum, double x, double y) {
-    double cellWidth = this.getCellWidth();
+  private void iterateCells(int rowNum, double x, double y) {
     int rowSize = this.model.getRowSize(rowNum);
+    double cellWidth = this.getCellWidth();
     for (int i = 0; i < rowSize; i++) {
       Point2D currPoint = new Point2D.Double(x, y);
-      Hexagon currHex = new Hexagon(currPoint, cellWidth, g2d);
-      this.drawHex(g2d, currHex);
+      Hexagon currHex = new Hexagon(currPoint, cellWidth);
       this.placeHex(currHex, rowNum, i);
 
       x += cellWidth / 2;
@@ -160,30 +162,24 @@ public class SimpleReversiBoard extends JPanel implements BoardView {
     return physicalCenterCell;
   }
 
-  private void drawHex(Graphics2D g2d, Hexagon hex) {
-    g2d.setColor(Color.LIGHT_GRAY);
-    g2d.fill(hex);
-    g2d.setColor(Color.BLACK);
-    g2d.draw(hex);
-  }
-
   private void placeHex(Hexagon hex, int numRow, int numCell) {
     this.cells[numRow][numCell] = hex;
   }
 
   protected class Hexagon extends Path2D.Double {
-    Graphics2D g2d;
     private final Point2D center;
     private final double size;
-    private boolean hasDisk;
+    protected boolean hasDisk;
     private boolean filled;
+    protected Color fillColor;
+    protected Color diskColor;
 
-    private Hexagon(Point2D center, double width, Graphics2D g2d) {
-      this.g2d = g2d;
+    private Hexagon(Point2D center, double width) {
       this.size = width / Math.sqrt(3);
       this.center = center;
       this.hasDisk = false;
       this.filled = false;
+      this.fillColor = Color.LIGHT_GRAY;
 
 
       moveTo(this.center.getX(), this.center.getY() - size / 2);
@@ -195,45 +191,38 @@ public class SimpleReversiBoard extends JPanel implements BoardView {
       }
     }
 
-    private void addDisk(DiskColor color) {
+    private Shape addDisk(DiskColor color) {
       this.hasDisk = true;
       if (color.equals(DiskColor.Black)) {
-        this.g2d.setColor(Color.BLACK);
+        this.diskColor = Color.BLACK;
       } else {
-        this.g2d.setColor(Color.WHITE);
+        this.diskColor = Color.WHITE;
       }
-      Shape disk = new Ellipse2D.Double(this.center.getX() - (size * .25),
+      return new Ellipse2D.Double(this.center.getX() - (size * .25),
               this.center.getY() - (size * .25), (size * .5), (size * .5));
-      this.g2d.draw(disk);
-      this.g2d.fill(disk);
     }
 
     private void unfill() {
-      this.g2d.setColor(Color.LIGHT_GRAY);
-      this.g2d.fill(this);
-      this.g2d.setColor(Color.BLACK);
-      this.g2d.draw(this);
+      this.fillColor = Color.LIGHT_GRAY;
+      this.filled = false;
     }
 
     private void fill() {
       if(this.filled) {
         this.unfill();
       } else if (!this.hasDisk) {
-        for (int row = 0; row < cells.length; row++ ) { //Hexagon[] row : cells) {
-          for (int cell = 0; cell < cells[row].length; row ++ ) { //Hexagon hex : row) {
+        for (int row = 0; row < cells.length; row++ ) {
+          for (int cell = 0; cell < cells[row].length; cell ++ ) {
             if (cells[row][cell].filled) {
               cells[row][cell].unfill();
             }
             if (cells[row][cell].equals(this)) {
-              System.out.println(String.format("HexCell(%d, %d)", row, cell));
+              System.out.printf("HexCell(%d, %d)%n", row, cell);
+              this.filled = true;
+              this.fillColor = Color.CYAN;
             }
           }
         }
-        this.filled = true;
-        this.g2d.setColor(Color.CYAN);
-        this.g2d.fill(this);
-        this.g2d.setColor(Color.BLACK);
-        this.g2d.draw(this);
       }
     }
   }
@@ -277,27 +266,32 @@ public class SimpleReversiBoard extends JPanel implements BoardView {
   private class MouseEventsListener extends MouseInputAdapter {
     @Override
     public void mousePressed(MouseEvent e) {
-      SimpleReversiBoard.this.mouseIsDown = true;
       this.mouseDragged(e);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-      SimpleReversiBoard.this.mouseIsDown = false;
-
-    }
-
-  @Override
-  public void mouseDragged(MouseEvent e) {
-    Point physicalPoint = e.getPoint();
-    for (Hexagon[] row : cells) {
-      for (Hexagon cell : row) {
-        if (cell.contains(physicalPoint)) {
-          cell.fill();
+      Point physicalPoint = e.getPoint();
+      boolean pointIsInBorder = false;
+      for (Hexagon[] row : cells) {
+        for (Hexagon cell : row) {
+          if (cell.contains(physicalPoint)) {
+            highlight(cell);
+            pointIsInBorder = true;
+          }
+        }
+      }
+      if (!pointIsInBorder) {
+        for (Hexagon[] row : cells) {
+          for (Hexagon cell : row) {
+            if (cell.filled) {
+              cell.unfill();
+              repaint();
+            }
+          }
         }
       }
     }
-  }
   }
 }
 

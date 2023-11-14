@@ -14,7 +14,7 @@ public class GraphicalView extends JFrame implements ReversiView {
   private JPanel scorePanel;
   private JLabel whiteScoreLabel, blackScoreLabel;
   private ReadOnlyModel model;
-  private SimpleReversiBoard boardPanel;
+  private final SimpleReversiBoard boardPanel;
 
   public GraphicalView(MutableModel model) {
     super();
@@ -28,7 +28,7 @@ public class GraphicalView extends JFrame implements ReversiView {
     this.setScoreLabels();
 
     boardPanel = new SimpleReversiBoard(model);
-    //this.add(boardPanel, BorderLayout.CENTER);
+    this.add(boardPanel, BorderLayout.CENTER);
 
 
      this.pack();
@@ -62,5 +62,9 @@ public class GraphicalView extends JFrame implements ReversiView {
   @Override
   public void refresh() {
     this.repaint();
+  }
+
+  public void highlight() {
+
   }
 }
