@@ -2,6 +2,7 @@ package cs3500.reversi.view;
 
 import java.awt.*;
 import java.util.Objects;
+import java.util.Optional;
 
 import javax.swing.*;
 
@@ -81,12 +82,12 @@ public class GraphicalView extends JFrame implements ReversiView {
   }
 
   @Override
-  public Integer getSelectedX(){
+  public Optional<Integer> getSelectedX(){
     return this.boardPanel.getSelectedX();
   }
 
   @Override
-  public Integer getSelectedY(){
+  public Optional<Integer> getSelectedY(){
     return this.boardPanel.getSelectedY();
   }
 }

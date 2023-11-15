@@ -65,11 +65,14 @@ public class Controller {
             }
     );
     keyPresses.put(KeyEvent.VK_ENTER, () -> {
-              ReversiCell cell = this.model.getCellAt(view.getSelectedX(), view.getSelectedY());
-              this.model.place(cell, this.model.getTurn());
-              this.view.place(this.model.getTurn());
-              System.out.println("placed");
-              view.update();
+              if (view.getSelectedX().isPresent() && view.getSelectedY().isPresent()) {
+                ReversiCell cell = this.model.getCellAt(
+                        view.getSelectedX().get(), view.getSelectedY().get());
+                this.model.place(cell, this.model.getTurn());
+                this.view.place(this.model.getTurn());
+                System.out.println("placed");
+                view.update();
+              }
             }
     );
 

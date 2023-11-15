@@ -1,6 +1,8 @@
 package cs3500.reversi.view;
 
 import java.awt.event.KeyListener;
+import java.util.Optional;
+
 import cs3500.reversi.model.DiskColor;
 
 /**
@@ -40,7 +42,7 @@ public interface ReversiView {
    * responsibility of the controller to catch it.
    * @return optional integer x coordinate of the highlighted cell
    */
-  Integer getSelectedX();
+  Optional<Integer> getSelectedX();
 
   /**
    * Returns the y coordinate of the user highlighted cell, so it can be passed from the view to
@@ -50,5 +52,5 @@ public interface ReversiView {
    * it's the responsibility of the controller to catch it.
    * @return optional integer y coordinate of the highlighted cell
    */
-  Integer getSelectedY();
+  Optional<Integer> getSelectedY();
 }

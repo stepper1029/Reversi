@@ -84,8 +84,8 @@ public class SimpleReversiBoard extends JPanel {
    * @param color color of the disk to be placed.
    */
   void place(DiskColor color) {
-    if(selectedX.isPresent()) {
-      Hexagon hex = this.cells[selectedX][selectedY];
+    if(selectedX.isPresent() && selectedY.isPresent()) {
+      Hexagon hex = this.cells[selectedX.get()][selectedY.get()];
       hex.addDisk(color);
       repaint();
     }
@@ -97,7 +97,7 @@ public class SimpleReversiBoard extends JPanel {
    */
   void update() {
     if (this.selectedX.isPresent() && this.selectedY.isPresent()) {
-      Hexagon selectedHex = cells[this.selectedX][this.selectedY];
+      Hexagon selectedHex = cells[this.selectedX.get()][this.selectedY.get()];
       selectedHex.unfill();
       repaint();
     }
@@ -334,9 +334,7 @@ public class SimpleReversiBoard extends JPanel {
               cells[row][cell].unfill();
             }
             if (cells[row][cell].equals(this)) {
-              System.out.printf("HexCell(%d, %d)%n", row, cell);
               this.filled = true;
-            //  this.fillColor = Color.CYAN;
             }
           }
         }
@@ -378,6 +376,7 @@ public class SimpleReversiBoard extends JPanel {
           if (hex.contains(physicalPoint)) {
             selectedX = Optional.of(row);
             selectedY = Optional.of(cell);
+            System.out.printf("HexCell(%d, %d)%n", selectedX.get(), selectedY.get());
             hex.fill();
             repaint();
             pointIsInBorder = true;
