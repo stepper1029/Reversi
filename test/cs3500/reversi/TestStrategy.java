@@ -133,6 +133,45 @@ public class TestStrategy {
     Assert.assertEquals(Optional.ofNullable(this.mock.getCellAt(0, 1)),
             this.mostPieces.bestPotentialMove(this.mock, DiskColor.Black,
                     this.mock.allPossibleMoves(DiskColor.Black)));
-    System.out.println(this.log);
+    // checking that the log tried placing all of the possible moves and received the correct
+    // value for each move
+    Assert.assertTrue(this.log.toString().contains(
+            "Checking/ placing black disk at Cell: q: 2 r: -1 s: -1\n" +
+                    "Returning score: 5"));
+    Assert.assertTrue(this.log.toString().contains(
+            "Checking/ placing black disk at Cell: q: -1 r: -1 s: 2\n" +
+                    "Returning score: 5"));
+    Assert.assertTrue(this.log.toString().contains(
+            "Checking/ placing black disk at Cell: q: 1 r: -2 s: 1\n" +
+                    "Returning score: 5"));
+    Assert.assertTrue(this.log.toString().contains(
+            "Checking/ placing black disk at Cell: q: -1 r: 2 s: -1\n" +
+                    "Returning score: 5"));
+    Assert.assertTrue(this.log.toString().contains(
+            "Checking/ placing black disk at Cell: q: -2 r: 1 s: 1\n" +
+                    "Returning score: 5"));
+    Assert.assertTrue(this.log.toString().contains(
+            "Checking/ placing black disk at Cell: q: 1 r: 1 s: -2\n" +
+                    "Returning score: 5"));
+  }
+
+  /**
+   * Lying mock returns the same value for the score for every move and returns illegal moves.
+   * No matter whose turn it is, the mock should return Cell: q = 0 , r = -2, s = 2 for the
+   * most pieces strategy because it breaks ties by finding the top-most left-most option.
+   */
+  @Test
+  public void testLyingMock() {
+    this.initMockStrategies();
+    // this is an invalid move for Black, but the strategy should still choose it based on how
+    // it calculates the best moves
+    Assert.assertEquals(Optional.ofNullable(this.lyingMock.getCellAt(0, 0)),
+            this.mostPieces.bestPotentialMove(this.lyingMock, DiskColor.Black,
+                    this.lyingMock.allPossibleMoves(DiskColor.Black)));
+    this.lyingMock.place(this.lyingMock.getCellAt(0, 0), DiskColor.Black);
+    // this is the same move and also invalid for white, but the strategy should still choose it
+    Assert.assertEquals(Optional.ofNullable(this.lyingMock.getCellAt(0, 0)),
+            this.mostPieces.bestPotentialMove(this.lyingMock, DiskColor.White,
+                    this.lyingMock.allPossibleMoves(DiskColor.White)));
   }
 }
