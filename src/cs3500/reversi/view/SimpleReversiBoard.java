@@ -142,7 +142,11 @@ public class SimpleReversiBoard extends JPanel {
         ReversiCell currCell = this.model.getCellAt(row, cell);
 
         // draw cells
-        g2d.setColor(currHex.fillColor);
+        if (currHex.filled) {
+          g2d.setColor(Color.CYAN);
+        } else {
+          g2d.setColor(Color.LIGHT_GRAY);
+        }
         g2d.fill(currHex);
         g2d.setColor(Color.BLACK);
         g2d.draw(currHex);
@@ -216,12 +220,11 @@ public class SimpleReversiBoard extends JPanel {
         Hexagon currHex = new Hexagon(currPoint);
         this.placeHex(currHex, rowNum, i);
       }
-//      else if (new Hexagon(currPoint).center != this.cells[rowNum][i].center){
-//        System.out.println("here");
-//        Hexagon currHex = this.cells[rowNum][i];
-//        Hexagon newHex = currHex.updateCenter(currPoint);
-//        this.placeHex(newHex, rowNum, i);
-//      }
+      else {
+        Hexagon currHex = this.cells[rowNum][i];
+        Hexagon newHex = currHex.updateCenter(currPoint);
+        this.placeHex(newHex, rowNum, i);
+      }
       x += cellWidth / 2;
     }
   }
@@ -253,7 +256,7 @@ public class SimpleReversiBoard extends JPanel {
     // if this hexagon is currently highlighted
     private boolean filled;
     // the color of this hexagon
-    protected Color fillColor;
+   // protected Color fillColor;
     // the color of the disk in this hexagon
     protected Color diskColor;
 
@@ -263,7 +266,7 @@ public class SimpleReversiBoard extends JPanel {
       this.center = center;
       this.hasDisk = false;
       this.filled = false;
-      this.fillColor = Color.LIGHT_GRAY;
+     // this.fillColor = Color.LIGHT_GRAY;
 
       moveTo(this.center.getX(), this.center.getY() - size / 2);
       for (int i = 0; i < 7; i++) {
@@ -277,14 +280,16 @@ public class SimpleReversiBoard extends JPanel {
     // makes a copy of this hexagon and returns it.
     protected Hexagon makeCopy() {
       Hexagon copy = new Hexagon(this.center);
-      if(filled) {
-        copy.fill();
+      if(this.filled) {
+        copy.filled = true;
+      //  copy.fillColor = Color.CYAN;
       }
-      if (hasDisk) {
+      if (this.hasDisk) {
         if (this.diskColor.equals(Color.BLACK)) {
-        copy.addDisk(DiskColor.Black);
-      }} else {
-        copy.addDisk(DiskColor.White);
+          copy.addDisk(DiskColor.Black);
+        } else {
+          copy.addDisk(DiskColor.White);
+        }
       }
       return copy;
     }
@@ -310,7 +315,7 @@ public class SimpleReversiBoard extends JPanel {
 
     // unhighlights this hexagon.
     private void unfill() {
-      this.fillColor = Color.LIGHT_GRAY;
+     // this.fillColor = Color.LIGHT_GRAY;
       this.filled = false;
     }
 
@@ -328,7 +333,7 @@ public class SimpleReversiBoard extends JPanel {
             if (cells[row][cell].equals(this)) {
               System.out.printf("HexCell(%d, %d)%n", row, cell);
               this.filled = true;
-              this.fillColor = Color.CYAN;
+            //  this.fillColor = Color.CYAN;
             }
           }
         }

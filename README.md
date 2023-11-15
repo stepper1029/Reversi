@@ -23,6 +23,8 @@ it is the access point for all other components. Things like the view, Board int
 interface, etc. are all "driven" by things like the Model, Creator, and Main.
 
 ## Key subcomponents:
+
+### Interface ReversiCell and Class HexCell:
 The smallest subcomponent of the program is a single Cell. There is an interface for all cells, but
 so far we have implemented only one HexCell class. This class has three fields, q, r, and s each 
 representing a plane in the 3D cubic coordinate system we used to keep track of cells and the board.
@@ -30,6 +32,7 @@ The origin is at (0, 0, 0), which is in the center of the board. q moves from bo
 to top right of the grid. r moves from top to bottom of the grid. s moves from bottom right to 
 top left of the grid (see the HexCell class for more details).
 
+### Interface Board and Class HexBoard:
 A Board is the next noun which itself has the cells which make it up and black and white pieces. 
 Because the board stores the cells in an array of arrays, to represent the rows and columns, there
 are now two ways to access a cell. Either through the index of the row and column or through 
@@ -39,6 +42,7 @@ Rows are organized by horizontal rows of the hexagonal board. The origin (0, 0) 
 of the board, and row number increases vertically down, while cell number increases horizontally 
 to the right(see the HexBoard class for more details).
 
+### Model:
 Next we have the Model. The model contains a board, and the number of consecutive
 passes. The Model enforces rules and behavior and then delegates to the board to actually perform
 actions. The model is split into a read-only and mutable interface. The read-only interface 
@@ -53,12 +57,14 @@ find which pieces can be flipped and which moves are legal. The other enum is Di
 contains the colors that represent the different players. It is convention for Reversi to be played
 by two players, represented by black and white, where black always goes first.
 
+
 ## Source organization:
 All components having to do with the model are in the src.cs3500.reversi.model package. This 
 includes things like the model, board, cells, DiskColor and CellDirection enums, and the Creator
-class. All components having to do with the view are in the src.cs3500.reversi.view package. Right 
-now, this only includes the text-based view and view interface. All tests are in the 
-test.cs3500.reversi package, with package private model tests being in test.cs3500.reversi.model.
+class. All components having to do with the view are in the src.cs3500.reversi.view package. This 
+includes both the textual view and the GUI. The stub of a controller is in the 
+src.cs3500.reversi.controller. All tests are in the test.cs3500.reversi package, with package 
+private model tests being in test.cs3500.reversi.model.
 
 ## Changes since Part 1:
 - HexTextView no longer implements the view interface. It's still included in the view package, but 
