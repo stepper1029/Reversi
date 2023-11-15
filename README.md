@@ -17,10 +17,12 @@ of the factory. There also is no controller or main yet so a user has no way to 
 model without explicitly calling methods like in a test class.
 
 ## Key components:
-Components that would "drive" the control-flow of the system would be a Main class and a Creator
-class. However, we don't yet have a main. I would also consider the Model a driving force because
-it is the access point for all other components. Things like the view, Board interface, Cell
-interface, etc. are all "driven" by things like the Model, Creator, and Main.
+Components that would "drive" the control-flow of the system would be our Main and View class.
+The Main gets the program running while the View takes in user input to push the game forward.
+Currently, we have implemented the stub of a controller to facilitate passing the user input to 
+the model. However, since its just a stub, the controller currently does not provide much of the 
+functionality that is required from a full-fledged controller. I would also consider the Model a 
+driving force because it is the central aspect of the project which holds the games logic.
 
 ## Key subcomponents:
 
@@ -56,6 +58,19 @@ cell in order to get a new cell in that direction. This is used to traverse thro
 find which pieces can be flipped and which moves are legal. The other enum is DiskColor which 
 contains the colors that represent the different players. It is convention for Reversi to be played
 by two players, represented by black and white, where black always goes first.
+
+### Controller:
+The controller is currently only a stub. It exists only to handle keyboard inputs and pass them
+to the model. It does not have the full functionality of a working controller.
+
+### View: 
+The View has a ReversiView interface to promise functionality of the frame. This is implemented
+by GraphicalView class which renders the frame of our GUI. This holds two panels, one for the 
+score and one for the board. The board gets its own Panel class called SimpleReversiBoard. This 
+board allows the user to highlight cells through mouse clicks and place disks using the 'enter' key.
+Players can also pass their turn using the 'P' key. We also implemented a class KeyboardListener
+which implements the KeyListener interface, so that its object can be used as a valid keylistener 
+for Java Swing.
 
 
 ## Source organization:

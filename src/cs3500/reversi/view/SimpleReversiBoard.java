@@ -11,6 +11,7 @@ import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
+import java.util.Optional;
 
 import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.ReadOnlyModel;
@@ -33,10 +34,10 @@ public class SimpleReversiBoard extends JPanel {
   protected final Hexagon[][] cells;
 
   // the X (or row) coordinate of the currently highlighted cell.
-  private Integer selectedX; // optional: null when nothing is highlighted
+  private Optional<Integer> selectedX; // optional: null when nothing is highlighted
 
   // the Y (or Hexagon / column) coordinate of the currently highlighted cell.
-  private Integer selectedY; // optional: null when nothing is highlighted
+  private Optional<Integer> selectedY; // optional: null when nothing is highlighted
 
 
   /**
@@ -83,9 +84,11 @@ public class SimpleReversiBoard extends JPanel {
    * @param color color of the disk to be placed.
    */
   void place(DiskColor color) {
-    Hexagon hex = this.cells[selectedX][selectedY];
-    hex.addDisk(color);
-    repaint();
+    if(selectedX.isPresent()) {
+      Hexagon hex = this.cells[selectedX][selectedY];
+      hex.addDisk(color);
+      repaint();
+    }
   }
 
   /**
@@ -93,7 +96,7 @@ public class SimpleReversiBoard extends JPanel {
    * highlighted.
    */
   void update() {
-    if (this.selectedX != null && this.selectedY != null) {
+    if (this.selectedX.isPresent() && this.selectedY.isPresent()) {
       Hexagon selectedHex = cells[this.selectedX][this.selectedY];
       selectedHex.unfill();
       repaint();
@@ -107,7 +110,7 @@ public class SimpleReversiBoard extends JPanel {
    * to observe an X coordinate.
    * @return optional Integer x coordinate of the highlighted cell.
    */
-  Integer getSelectedX() {
+  Optional<Integer> getSelectedX() {
     return this.selectedX;
   }
 
@@ -118,7 +121,7 @@ public class SimpleReversiBoard extends JPanel {
    * to observe an Y coordinate.
    * @return optional Integer Y coordinate of the highlighted cell.
    */
-  Integer getSelectedY() {
+  Optional<Integer> getSelectedY() {
     return this.selectedY;
   }
 
@@ -373,8 +376,8 @@ public class SimpleReversiBoard extends JPanel {
         for (int cell = 0; cell < cells[row].length; cell++) {
           Hexagon hex = cells[row][cell];
           if (hex.contains(physicalPoint)) {
-            selectedX = row;
-            selectedY = cell;
+            selectedX = Optional.of(row);
+            selectedY = Optional.of(cell);
             hex.fill();
             repaint();
             pointIsInBorder = true;
@@ -382,8 +385,10 @@ public class SimpleReversiBoard extends JPanel {
         }
       }
       if (!pointIsInBorder) {
-        cells[selectedX][selectedY].unfill();
-        repaint();
+        if (selectedX.isPresent() && selectedY.isPresent()) {
+          cells[selectedX.get()][selectedY.get()].unfill();
+          repaint();
+        }
       }
     }
   }
