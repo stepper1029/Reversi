@@ -3,18 +3,14 @@ package cs3500.reversi;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
-import javax.swing.text.html.Option;
-
 import cs3500.reversi.model.DiskColor;
+import cs3500.reversi.model.ModelMock;
 import cs3500.reversi.model.MutableModel;
-import cs3500.reversi.model.ReadOnlyModel;
 import cs3500.reversi.model.ReversiCell;
 import cs3500.reversi.model.ReversiCreator;
 import cs3500.reversi.strategy.FallibleReversiStrategy;
@@ -25,16 +21,39 @@ import cs3500.reversi.strategy.MostPieces;
  * Tests for the strategy of Reversi.
  */
 public class TestStrategy {
+  // model fields for testing
   private MutableModel model3;
   private MutableModel model4;
+
+  // strategy fields to test
   private FallibleReversiStrategy mostPieces;
   private InfallibleReversiStrategy mostPiecesInfallible;
 
-  private void initStrategies() {
+  // fields for testing the strategy with the mock
+  private ModelMock mock;
+  private ModelMock lyingMock;
+  private StringBuilder log;
+
+  // initializes the models
+  private void initModels() {
     this.model3 = ReversiCreator.create(3);
     this.model4 = ReversiCreator.create(4);
+  }
+
+  // initializes strategies
+  private void initStrategies() {
+    this.initModels();
     this.mostPieces = new MostPieces();
     this.mostPiecesInfallible = new InfallibleReversiStrategy(this.mostPieces);
+  }
+
+  // initializes fields for testing the strategy with the mock
+  private void initMockStrategies() {
+    this.initModels();
+    this.initStrategies();
+    this.log = new StringBuilder();
+    this.mock = new ModelMock(this.model3, false, this.log);
+    this.lyingMock = new ModelMock(this.model3, true, this.log);
   }
 
   /**
@@ -54,9 +73,9 @@ public class TestStrategy {
     this.model3.place(this.model3.getCellAt(0, 1), DiskColor.Black);
     // testing correct move chosen for white piece after the black piece is placed
     Assert.assertEquals(new ArrayList<ReversiCell>(Arrays.asList(
-            this.model3.getCellAt(3, 0),
             this.model3.getCellAt(1, 3),
-            this.model3.getCellAt(4, 1))),
+            this.model3.getCellAt(4, 1),
+            this.model3.getCellAt(3, 0))),
             this.mostPieces.allGoodMoves(this.model3, DiskColor.White,
                     this.model3.allPossibleMoves(DiskColor.White)));
     Assert.assertEquals(Optional.ofNullable(this.model3.getCellAt(1, 3)),
@@ -81,6 +100,22 @@ public class TestStrategy {
                     this.model3.allPossibleMoves(DiskColor.Black)));
   }
 
+  /**
+   * Tests the same functions on a bigger model.
+   */
+  @Test
+  public void testMostPiecesSize4() {
+    this.initStrategies();
+    this.model4.place(this.model4.getCellAt(4, 1), DiskColor.Black);
+    Assert.assertEquals(Optional.ofNullable(this.model4.getCellAt(4, 0)),
+            this.mostPieces.bestPotentialMove(this.model4, DiskColor.White,
+                    this.model4.allPossibleMoves(DiskColor.White)));
+    this.model4.place(this.model4.getCellAt(4, 0), DiskColor.White);
+    Assert.assertEquals(Optional.ofNullable(this.model4.getCellAt(5, 2)),
+            this.mostPieces.bestPotentialMove(this.model4, DiskColor.Black,
+                    this.model4.allPossibleMoves(DiskColor.Black)));
+  }
+
   @Test
   public void testInfallibleStrategy() {
     this.initStrategies();
@@ -90,5 +125,14 @@ public class TestStrategy {
     // white should have no legal moves
     Assert.assertThrows(IllegalStateException.class, () ->
             this.mostPiecesInfallible.chooseMove(this.model3, DiskColor.White));
+  }
+
+  @Test
+  public void testMostPiecesMock() {
+    this.initMockStrategies();
+    Assert.assertEquals(Optional.ofNullable(this.mock.getCellAt(0, 1)),
+            this.mostPieces.bestPotentialMove(this.mock, DiskColor.Black,
+                    this.mock.allPossibleMoves(DiskColor.Black)));
+    System.out.println(this.log);
   }
 }

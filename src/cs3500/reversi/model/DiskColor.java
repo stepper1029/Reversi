@@ -27,4 +27,19 @@ public enum DiskColor {
       return values[ordinal + 1];
     }
   }
+
+  /**
+   * toString method for adding to the mock.
+   *
+   * @return a string representation of this disk
+   */
+  @Override
+  public String toString() {
+    if (this.equals(DiskColor.Black)) {
+      return "black disk";
+    }
+    else {
+      return "white disk";
+    }
+  }
 }

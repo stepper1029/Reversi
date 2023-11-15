@@ -21,29 +21,28 @@ public class MostPieces implements FallibleReversiStrategy {
   @Override
   public List<ReversiCell> allGoodMoves(ReadOnlyModel model, DiskColor player, List<ReversiCell>
           possibleMoves) {
-    ArrayList<ReversiCell> goodMoves = new ArrayList<>();
+    // map representing the numerical values of each move
+    Map<ReversiCell, Integer> moveVals = new HashMap<>();
     int highestScore = 0;
+    int currScore = 0;
 
-    // finding the highest possible score based on the possible moves (therefore
+    // finding the highest possible score based on the possible moves (therefore the move that
+    // flips the most pieces
     for (ReversiCell cell : possibleMoves) {
       MutableModel modelCopy = model.copy();
       modelCopy.place(cell, player);
-      if (modelCopy.getScore(player) > highestScore) {
-        highestScore = modelCopy.getScore(player);
-        goodMoves.add(cell);
+      currScore = modelCopy.getScore(player);
+      if (currScore > highestScore) {
+        highestScore = currScore;
       }
-      else if (modelCopy.getScore(player) == highestScore) {
-        goodMoves.add(cell);
-      }
+      moveVals.put(cell, currScore);
     }
-    int finalHighestScore = highestScore;
-    return goodMoves.stream()
-            .filter(cell -> {
-              MutableModel modelCopy = model.copy();
-              modelCopy.place(cell, player);
-              return modelCopy.getScore(player) == finalHighestScore;
-            })
-            .collect(Collectors.toList());
+    // must make highestScore final for the lambda
+    final int finalHighScore = highestScore;
+    Map<ReversiCell, Integer> goodMoves = moveVals.entrySet().stream()
+            .filter(moveVal -> moveVal.getValue() == finalHighScore)
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    return new ArrayList<>(goodMoves.keySet());
   }
 
   @Override
