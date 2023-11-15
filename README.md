@@ -72,7 +72,7 @@ Players can also pass their turn using the 'P' key. We also implemented a class 
 which implements the KeyListener interface, so that its object can be used as a valid keylistener 
 for Java Swing.
 
-### Strategy: 
+### Strategy:
 
 ### Player:
 
@@ -95,5 +95,6 @@ player is moving.
 - New methods were created to make a copy of the model and board so that the strategy can have a
 copy of the current model to test different moves.
 - Updated the Player interface to contain a method called play and getColor, instead of pass
-and play. Based on how the strategy determines moves, this setup 
+and play. Based on how the strategy determines moves, this setup makes more sense for taking in 
+input from the strategy objects and passing it to the controller. 
 - Implemented all required aspects of part 2 as outlined above. 

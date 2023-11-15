@@ -8,8 +8,8 @@ import cs3500.reversi.model.DiskColor;
 public interface Player {
 
   /**
-   * Returns the color of this
-   * @return
+   * Returns the color of the disk corresponding to this player.
+   * @return DiskColor
    */
   DiskColor getColor();
 }
