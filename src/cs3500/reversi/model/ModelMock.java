@@ -48,7 +48,7 @@ public class ModelMock implements MutableModel {
 
   @Override
   public int getBoardSize() {
-    return 0;
+    return this.realModel.getBoardSize();
   }
 
   @Override
@@ -91,8 +91,9 @@ public class ModelMock implements MutableModel {
   @Override
   public List<ReversiCell> allPossibleMoves(DiskColor color) {
     if (!shouldLie) {
-      this.log.append("Returning true possible moves\n");
-      return this.realModel.allPossibleMoves(DiskColor.Black);
+      this.log.append("Returning true possible moves\n" +
+              this.realModel.allPossibleMoves(color) + "\n");
+      return this.realModel.allPossibleMoves(color);
     }
     else {
       List<ReversiCell> fakeList = new ArrayList<>(Arrays.asList(

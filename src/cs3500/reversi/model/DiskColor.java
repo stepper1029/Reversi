@@ -11,14 +11,13 @@ public enum DiskColor {
   Black, White;
 
   /**
-   * Returns the next DiskColor in the order of colors within this enum. Package private because
-   * the model needs to be able to switch the current color but the view and controller should
-   * not have that permission.
+   * Returns the next DiskColor in the order of colors within this enum. Public so that the
+   * strategy can determine which player's turn is next.
    *
    * @param color the current color
    * @return the next DiskColor in the order of colors
    */
-  static DiskColor getNextColor(DiskColor color) {
+  public static DiskColor getNextColor(DiskColor color) {
     int ordinal = color.ordinal();
     DiskColor[] values = DiskColor.values();
     if (ordinal == values.length - 1) {

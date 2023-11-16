@@ -15,6 +15,7 @@ import cs3500.reversi.model.ReversiCell;
 import cs3500.reversi.model.ReversiCreator;
 import cs3500.reversi.strategy.AvoidCornerAdjacent;
 import cs3500.reversi.strategy.ChooseCorners;
+import cs3500.reversi.strategy.CombineStrategies;
 import cs3500.reversi.strategy.FallibleReversiStrategy;
 import cs3500.reversi.strategy.InfallibleReversiStrategy;
 import cs3500.reversi.strategy.MostPieces;
@@ -200,5 +201,96 @@ public class TestStrategy {
             this.model4.getCellAt(6, 0))),
             this.chooseCorners.allGoodMoves(this.model4, DiskColor.White,
                     this.model4.allPossibleMoves(DiskColor.White)));
+  }
+
+  // Only one valid corner move. Checking that the log checks it.
+  @Test
+  public void testChooseCornerMock() {
+    this.initMockStrategies();
+    this.mock = new ModelMock(this.model4, false, this.log);
+    this.mock.place(this.mock.getCellAt(4, 1), DiskColor.Black);
+    this.mock.place(this.mock.getCellAt(4, 0), DiskColor.White);
+    this.mock.place(this.mock.getCellAt(5, 0), DiskColor.Black);
+    Assert.assertEquals(new ArrayList<ReversiCell>(Collections.singletonList(
+                    this.mock.getCellAt(6, 0))),
+            this.chooseCorners.allGoodMoves(this.mock, DiskColor.White,
+                    this.mock.allPossibleMoves(DiskColor.White)));
+    Assert.assertTrue(this.log.toString().contains(
+            this.mock.getCellAt(6, 0).toString()));
+  }
+
+  // test that there is a valid corner move in the lying mock even though there should not be
+  @Test
+  public void testChooseCornerLyingMock() {
+    this.initMockStrategies();
+    Assert.assertEquals(new ArrayList<ReversiCell>(Collections.singletonList(
+                    this.lyingMock.getCellAt(0, 0))),
+            this.chooseCorners.allGoodMoves(this.lyingMock, DiskColor.Black,
+                    this.lyingMock.allPossibleMoves(DiskColor.Black)));
+    Assert.assertEquals(Optional.ofNullable(this.lyingMock.getCellAt(0, 0)),
+            this.chooseCorners.bestPotentialMove(this.lyingMock, DiskColor.Black,
+                    this.lyingMock.allPossibleMoves(DiskColor.Black)));
+  }
+
+  // should have no good moves because a board with side length 3 has no possible moves
+  // that are not next to a corner cell
+  @Test
+  public void testAvoidCornerAdjacentSize3() {
+    this.initStrategies();
+    Assert.assertTrue(this.avoidCornerAdjacent.allGoodMoves(this.model3, DiskColor.Black,
+            this.model3.allPossibleMoves(DiskColor.Black)).isEmpty());
+  }
+
+  @Test
+  public void testAvoidCornerAdjacentMultipleMoves() {
+    this.initStrategies();
+    Assert.assertEquals(Optional.of(this.model4.getCellAt(1, 2)),
+            this.avoidCornerAdjacent.bestPotentialMove(this.model4, DiskColor.Black,
+                    this.model4.allPossibleMoves(DiskColor.Black)));
+    this.model4.place(this.model4.getCellAt(1, 2), DiskColor.Black);
+    // white has a move that flips more cells but is next to a corner so ensure that that move
+    // is not chosen
+    Assert.assertEquals(Optional.of(this.model4.getCellAt(2, 4)),
+            this.avoidCornerAdjacent.bestPotentialMove(this.model4, DiskColor.White,
+                    this.model4.allPossibleMoves(DiskColor.White)));
+  }
+
+  // tests that a cell adjacent to a corner is tested but is not ultimately chosen
+  @Test
+  public void testAvoidCornerAdjacentMock() {
+    this.initMockStrategies();
+    this.mock = new ModelMock(this.model4, false, this.log);
+    this.mock.place(this.mock.getCellAt(1, 2), DiskColor.Black);
+    Assert.assertEquals(Optional.of(this.mock.getCellAt(2, 4)),
+            this.avoidCornerAdjacent.bestPotentialMove(this.mock, DiskColor.White,
+                    this.mock.allPossibleMoves(DiskColor.White)));
+    // cell that is valid and flips more pieces but is adjacent to a corner
+    Assert.assertTrue(this.log.toString().contains("Cell: q: 2 r: -3 s: 1 "));
+    System.out.println(this.model4.getCellAt(0, 2));
+  }
+
+  // test that there is a valid move not next to a corner for a size 3 board when there is not
+  @Test
+  public void testAvoidCornerAdjacentLyingMock() {
+    this.initMockStrategies();
+    Assert.assertEquals(new ArrayList<ReversiCell>(Arrays.asList(
+                    this.lyingMock.getCellAt(0, 0),
+                    this.lyingMock.getCellAt(2, 2))),
+            this.avoidCornerAdjacent.allGoodMoves(this.lyingMock, DiskColor.Black,
+                    this.lyingMock.allPossibleMoves(DiskColor.Black)));
+    Assert.assertEquals(Optional.ofNullable(this.lyingMock.getCellAt(0, 0)),
+            this.avoidCornerAdjacent.bestPotentialMove(this.lyingMock, DiskColor.Black,
+                    this.lyingMock.allPossibleMoves(DiskColor.Black)));
+  }
+
+  // tests combining two strategies
+  @Test
+  public void testCombineMostPiecesAvoid() {
+    this.initStrategies();
+    FallibleReversiStrategy combined =
+            new CombineStrategies(this.mostPieces, this.avoidCornerAdjacent);
+    Assert.assertEquals(Optional.ofNullable(this.model4.getCellAt(1, 2)),
+            combined.bestPotentialMove(this.model4, DiskColor.Black,
+                    this.model4.allPossibleMoves(DiskColor.Black)));
   }
 }
