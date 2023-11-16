@@ -79,11 +79,14 @@ while the InfallibleReversiStrategy represents a strategy that should never fail
 an error if it cannot return a move. Players have an InfallibleReversiStrategy field. All strategy
 objects work by taking in a list of valid moves to choose from and filtering through the list
 based on its particular strategy, and then breaking ties. Ties are currently broken by choosing the
-uppermost, leftmost option. Strategies can be com
+uppermost, leftmost option, which is the purpose of the TopLeftComparator. Strategies can be 
+composed dynamically, allowing us to mix and match between them. 
 
 There are 4 specific strategy classes: 
-- MostPieces: chooses the move with the most pieces
-- 
+- MostPieces: chooses the move that flips the most pieces
+- AvoidCornerAdjacent: chooses moves that are not next to one of the six corners
+- ChooseCorners: chooses moves that are in one of the six corners
+- MiniMax: tries to minimize the scoring options for the other player
 
 ### Player:
 The Player interface has two methods: play and getColor. play allows the player to choose a move, 

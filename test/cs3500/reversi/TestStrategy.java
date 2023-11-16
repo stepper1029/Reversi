@@ -18,6 +18,7 @@ import cs3500.reversi.strategy.ChooseCorners;
 import cs3500.reversi.strategy.CombineStrategies;
 import cs3500.reversi.strategy.FallibleReversiStrategy;
 import cs3500.reversi.strategy.InfallibleReversiStrategy;
+import cs3500.reversi.strategy.MiniMax;
 import cs3500.reversi.strategy.MostPieces;
 
 /**
@@ -33,6 +34,7 @@ public class TestStrategy {
   private InfallibleReversiStrategy mostPiecesInfallible;
   private FallibleReversiStrategy chooseCorners;
   private FallibleReversiStrategy avoidCornerAdjacent;
+  private FallibleReversiStrategy minimax;
 
   // fields for testing the strategy with the mock
   private ModelMock mock;
@@ -52,6 +54,7 @@ public class TestStrategy {
     this.mostPiecesInfallible = new InfallibleReversiStrategy(this.mostPieces);
     this.chooseCorners = new ChooseCorners();
     this.avoidCornerAdjacent = new AvoidCornerAdjacent();
+    this.minimax = new MiniMax();
   }
 
   // initializes fields for testing the strategy with the mock
@@ -292,5 +295,6 @@ public class TestStrategy {
     Assert.assertEquals(Optional.ofNullable(this.model4.getCellAt(1, 2)),
             combined.bestPotentialMove(this.model4, DiskColor.Black,
                     this.model4.allPossibleMoves(DiskColor.Black)));
+    this.model4.place(this.model4.getCellAt(1, 2), DiskColor.Black);
   }
 }
