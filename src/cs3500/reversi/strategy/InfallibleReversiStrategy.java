@@ -6,6 +6,9 @@ import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.ReadOnlyModel;
 import cs3500.reversi.model.ReversiCell;
 
+/**
+ * A strategy for Reversi that will never fail. If it cannot find a move, it will throw an error.
+ */
 public class InfallibleReversiStrategy {
   FallibleReversiStrategy strategyAttempt;
 

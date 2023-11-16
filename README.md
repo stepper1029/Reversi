@@ -73,8 +73,23 @@ which implements the KeyListener interface, so that its object can be used as a 
 for Java Swing.
 
 ### Strategy:
+The strategy determines how a player should move in a game of Reversi. It includes decisions for
+placing and passing. the FallibleReversiStrategy interface represents a strategy that may fail, 
+while the InfallibleReversiStrategy represents a strategy that should never fail and will throw 
+an error if it cannot return a move. Players have an InfallibleReversiStrategy field. All strategy
+objects work by taking in a list of valid moves to choose from and filtering through the list
+based on its particular strategy, and then breaking ties. Ties are currently broken by choosing the
+uppermost, leftmost option. Strategies can be com
+
+There are 4 specific strategy classes: 
+- MostPieces: chooses the move with the most pieces
+- 
 
 ### Player:
+The Player interface has two methods: play and getColor. play allows the player to choose a move, 
+or return Optional.empty if they wish to pass. This information will then be handled by the
+controller. getColor allows the controller to access the color associated with the player in order
+to pass into model methods. 
 
 ## Source organization:
 All components having to do with the model are in the src.cs3500.reversi.model package. This 
@@ -101,3 +116,7 @@ input from the strategy objects and passing it to the controller.
 all coordinates of the HexCell. This makes it easier to implement the strategy and check whether
 a cell is a corner or next to a corner. 
 - Implemented all required aspects of part 2 as outlined above. 
+
+## Extra credit: 
+All four strategies were implemented and can be composed. See Strategy section above for more 
+details.

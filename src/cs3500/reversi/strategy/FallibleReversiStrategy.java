@@ -15,7 +15,7 @@ public interface FallibleReversiStrategy {
   /**
    * Determines all the best moves based on this strategy. Represented as a list because there
    * could be ties. Allows strategies to be composed by passing in a list of all possible moves
-   * from another strategy.
+   * from another strategy. Filters through the list of possibleMoves based on this strategy.
    *
    * @param model the current model to make moves based on
    * @param player the player to make a move for
@@ -27,7 +27,8 @@ public interface FallibleReversiStrategy {
 
   /**
    * Determines the best potential move out of the given moves based on this strategy. Breaks ties
-   * by using choosing the top-most left-most option.
+   * by using choosing the top-most left-most option. Chooses the best potential move from the
+   * given list.
    *
    * @param model the current model to make moves based on
    * @param player the player to make a move for

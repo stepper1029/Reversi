@@ -8,7 +8,8 @@ import cs3500.reversi.model.ReadOnlyModel;
 import cs3500.reversi.model.ReversiCell;
 
 /**
- * Strategy that tries to avoid moves adjacent to the
+ * Strategy that tries to avoid moves adjacent to corners (either on an edge or in the middle of
+ * the board).
  */
 public class AvoidCornerAdjacent extends SimpleBreakTiesPassStrategy {
 
