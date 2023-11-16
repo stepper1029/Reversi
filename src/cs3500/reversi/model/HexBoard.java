@@ -68,13 +68,13 @@ class HexBoard implements Board {
    * outside the model interface should have permission to construct an instance of a specific
    * board. This is necessary for the copy method. This is necessary for the copy method.
    *
-   * @param boardSize the size of the board
-   * @param cells a list of all cells in this board
+   * @param boardSize  the size of the board
+   * @param cells      a list of all cells in this board
    * @param blackCells a list of all cells with black pieces
    * @param whiteCells a list of all cells with white pieces
    */
   public HexBoard(int boardSize, ReversiCell[][] cells, List<ReversiCell> blackCells,
-           List<ReversiCell> whiteCells) {
+                  List<ReversiCell> whiteCells) {
     this.boardSize = boardSize;
     this.cells = cells;
     this.blackCells = blackCells;
@@ -221,7 +221,7 @@ class HexBoard implements Board {
   @Override
   public Board copy() {
     ReversiCell[][] cellsCopy = new ReversiCell[this.cells.length][];
-    for(int row = 0; row < this.cells.length; row++) {
+    for (int row = 0; row < this.cells.length; row++) {
       cellsCopy[row] = this.cells[row].clone();
     }
     return new HexBoard(this.boardSize, cellsCopy,

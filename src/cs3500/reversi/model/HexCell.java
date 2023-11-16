@@ -2,8 +2,6 @@ package cs3500.reversi.model;
 
 import java.util.Objects;
 
-import jdk.jshell.Snippet;
-
 
 /**
  * Class HexCell implements ReversiCell to represents a hexagonal cell. The class is package
@@ -118,4 +116,4 @@ class HexCell implements ReversiCell {
   public String toString() {
     return "Cell: q: " + this.q + " r: " + this.r + " s: " + this.s;
   }
- }
+}

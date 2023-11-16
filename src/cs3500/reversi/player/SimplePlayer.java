@@ -1,6 +1,5 @@
 package cs3500.reversi.player;
 
-import java.nio.file.attribute.PosixFileAttributes;
 import java.util.Optional;
 
 import cs3500.reversi.model.DiskColor;

@@ -5,9 +5,7 @@ import org.junit.Test;
 
 import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.MutableModel;
-import cs3500.reversi.model.ReversiCell;
 import cs3500.reversi.model.ReversiCreator;
-import cs3500.reversi.view.HexTextView;
 
 /**
  * Class to extensively test the model.

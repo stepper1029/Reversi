@@ -16,10 +16,11 @@ import cs3500.reversi.model.ReversiCell;
  */
 public class CombineStrategies extends SimpleBreakTiesPassStrategy {
   // the two strategies combined in this object
-  private final FallibleReversiStrategy strategyOne, strategyTwo;
+  private final FallibleReversiStrategy strategyOne;
+  private final FallibleReversiStrategy strategyTwo;
 
   /**
-   * Constructor to initialize the two strategies
+   * Constructor to initialize the two strategies.
    * @param strategyOne the first strategy to be tried
    * @param strategyTwo the second strategy to be tried
    */
@@ -61,7 +62,7 @@ public class CombineStrategies extends SimpleBreakTiesPassStrategy {
     List<ReversiCell> combinedMoves = this.strategyTwo.allGoodMoves(model, player,
             this.strategyOne.allGoodMoves(model, player, possibleMoves));
 
-    if(!combinedMoves.isEmpty()) {
+    if (!combinedMoves.isEmpty()) {
       return super.bestPotentialMove(model, player, possibleMoves);
     }
     else if (this.strategyOne.bestPotentialMove(model, player, possibleMoves).isPresent()) {
