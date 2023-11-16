@@ -48,7 +48,6 @@ public class TestView {
     Assert.assertEquals(expected, actual);
   }
 
-  // todo finish debugging
   @Test
   public void testToStringAfterMovesMade() {
     MutableModel model = ReversiCreator.create(3);
