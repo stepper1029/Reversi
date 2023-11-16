@@ -13,6 +13,8 @@ import cs3500.reversi.model.ModelMock;
 import cs3500.reversi.model.MutableModel;
 import cs3500.reversi.model.ReversiCell;
 import cs3500.reversi.model.ReversiCreator;
+import cs3500.reversi.strategy.AvoidCornerAdjacent;
+import cs3500.reversi.strategy.ChooseCorners;
 import cs3500.reversi.strategy.FallibleReversiStrategy;
 import cs3500.reversi.strategy.InfallibleReversiStrategy;
 import cs3500.reversi.strategy.MostPieces;
@@ -28,6 +30,8 @@ public class TestStrategy {
   // strategy fields to test
   private FallibleReversiStrategy mostPieces;
   private InfallibleReversiStrategy mostPiecesInfallible;
+  private FallibleReversiStrategy chooseCorners;
+  private FallibleReversiStrategy avoidCornerAdjacent;
 
   // fields for testing the strategy with the mock
   private ModelMock mock;
@@ -45,6 +49,8 @@ public class TestStrategy {
     this.initModels();
     this.mostPieces = new MostPieces();
     this.mostPiecesInfallible = new InfallibleReversiStrategy(this.mostPieces);
+    this.chooseCorners = new ChooseCorners();
+    this.avoidCornerAdjacent = new AvoidCornerAdjacent();
   }
 
   // initializes fields for testing the strategy with the mock
@@ -173,5 +179,26 @@ public class TestStrategy {
     Assert.assertEquals(Optional.ofNullable(this.lyingMock.getCellAt(0, 0)),
             this.mostPieces.bestPotentialMove(this.lyingMock, DiskColor.White,
                     this.lyingMock.allPossibleMoves(DiskColor.White)));
+  }
+
+  @Test
+  public void testChooseCornersNoCorners() {
+    this.initStrategies();
+    Assert.assertTrue(this.chooseCorners.allGoodMoves(this.model3, DiskColor.Black,
+            this.model3.allPossibleMoves(DiskColor.Black)).isEmpty());
+    Assert.assertTrue(this.chooseCorners.allGoodMoves(this.model3, DiskColor.White,
+            this.model3.allPossibleMoves(DiskColor.White)).isEmpty());
+  }
+
+  @Test
+  public void testChooseCornersMultipleMoves() {
+    this.initStrategies();
+    this.model4.place(this.model4.getCellAt(4, 1), DiskColor.Black);
+    this.model4.place(this.model4.getCellAt(4, 0), DiskColor.White);
+    this.model4.place(this.model4.getCellAt(5, 0), DiskColor.Black);
+    Assert.assertEquals(new ArrayList<ReversiCell>(Collections.singletonList(
+            this.model4.getCellAt(6, 0))),
+            this.chooseCorners.allGoodMoves(this.model4, DiskColor.White,
+                    this.model4.allPossibleMoves(DiskColor.White)));
   }
 }

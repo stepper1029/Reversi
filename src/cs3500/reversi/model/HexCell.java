@@ -2,6 +2,8 @@ package cs3500.reversi.model;
 
 import java.util.Objects;
 
+import jdk.jshell.Snippet;
+
 
 /**
  * Class HexCell implements ReversiCell to represents a hexagonal cell. The class is package
@@ -84,6 +86,26 @@ class HexCell implements ReversiCell {
     }
     return new HexCell(this.q + directions[0], this.r
             + directions[1], this.s + directions[2]);
+  }
+
+  @Override
+  public boolean contains(int coord) {
+    return this.q == coord || this.r == coord || this.s == coord;
+  }
+
+  @Override
+  public boolean containsAllCoords(int[] coords) {
+    if (coords.length != 3) {
+      throw new IllegalArgumentException("A HexCell contains 3 coordinates, only given " +
+              coords.length);
+    }
+    for (int coord : coords) {
+      if (!this.contains(coord)) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   /**

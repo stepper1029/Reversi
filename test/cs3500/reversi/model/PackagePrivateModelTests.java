@@ -166,6 +166,19 @@ public class PackagePrivateModelTests {
             this.upperMiddle.addVector(new int[] {1, -2, 2}));
   }
 
+  @Test
+  public void testContainsAllCoords() {
+    this.initCells();
+    Assert.assertTrue(this.center.containsAllCoords(new int[] {0, 0, 0}));
+    Assert.assertTrue(this.upperLeft.containsAllCoords(new int[] {-1, 1, 0}));
+    Assert.assertTrue(this.upperMiddle.containsAllCoords(new int[] {1, -2, 1}));
+    Assert.assertTrue(this.outerUpperLeft.containsAllCoords(new int[] {0, 2, -2}));
+    Assert.assertTrue(this.right.containsAllCoords(new int[] {1, 0, -1}));
+    Assert.assertFalse(this.center.containsAllCoords(new int[] {0, 2, -2}));
+    Assert.assertFalse(this.left.containsAllCoords(new int[] {1, -1, 0}));
+
+  }
+
   // HexBoard tests
   private HexBoard board3;
   private HexBoard board4;

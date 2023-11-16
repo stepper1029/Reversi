@@ -15,9 +15,10 @@ import cs3500.reversi.model.ReversiCell;
 
 /**
  * Strategy that chooses the move that flips the most disks for the given player. Breaks ties by
- * choosing the top-most left-most choice.
+ * choosing the top-most left-most choice. Uses the SimpleBreakTiesPassStrategy to choose the
+ * best move and to decide when to pass.
  */
-public class MostPieces implements FallibleReversiStrategy {
+public class MostPieces extends SimpleBreakTiesPassStrategy {
   @Override
   public List<ReversiCell> allGoodMoves(ReadOnlyModel model, DiskColor player, List<ReversiCell>
           possibleMoves) {
@@ -43,18 +44,5 @@ public class MostPieces implements FallibleReversiStrategy {
             .filter(moveVal -> moveVal.getValue() == finalHighScore)
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     return new ArrayList<>(goodMoves.keySet());
-  }
-
-  @Override
-  public Optional<ReversiCell> bestPotentialMove(ReadOnlyModel model, DiskColor player,
-                                                 List<ReversiCell> possibleMoves) {
-    List<ReversiCell> sortedMoves = this.allGoodMoves(model, player, possibleMoves);
-    sortedMoves.sort(new TopLeftComparator());
-    if (sortedMoves.isEmpty()) {
-      return Optional.empty();
-    }
-    else {
-      return Optional.ofNullable(sortedMoves.get(0));
-    }
   }
 }

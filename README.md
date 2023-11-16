@@ -97,4 +97,7 @@ copy of the current model to test different moves.
 - Updated the Player interface to contain a method called play and getColor, instead of pass
 and play. Based on how the strategy determines moves, this setup makes more sense for taking in 
 input from the strategy objects and passing it to the controller. 
+- Added a new method to the Cell interface that determines whether the given integer values are
+all coordinates of the HexCell. This makes it easier to implement the strategy and check whether
+a cell is a corner or next to a corner. 
 - Implemented all required aspects of part 2 as outlined above. 

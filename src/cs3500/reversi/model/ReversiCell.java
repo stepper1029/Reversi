@@ -49,4 +49,24 @@ public interface ReversiCell {
    *                                  of coordinates.
    */
   ReversiCell addVector(int[] directions);
+
+  /**
+   * Determines whether the cell contains the given coordinate value as either q r or s. This is
+   * used in the strategy and in containsAllCoords because the strategy makes moves based on
+   * the location of coordinates on the board.
+   *
+   * @param coord coordinate value to see if it is one of the coordinate values of this cell
+   * @return true if this coordinate is one of the coordinate values of this cell
+   */
+  boolean contains(int coord);
+
+  /**
+   * Determines whether the cell contains all coordinate values in the list of coordinates. This
+   * is used in the strategy because corners and other positions are determined by the
+   * combination of coordinates.
+   *
+   * @param coords array of coordinates to check if this cell contains
+   * @return true if all values match are contained within this cell's coordinates and false if not
+   */
+  boolean containsAllCoords(int[] coords);
 }

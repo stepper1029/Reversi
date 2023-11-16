@@ -37,4 +37,13 @@ public interface FallibleReversiStrategy {
    */
   Optional<ReversiCell> bestPotentialMove(ReadOnlyModel model, DiskColor player, List<ReversiCell>
           possibleMoves);
+
+  /**
+   * Determines if the player should pass or not.
+   *
+   * @param model the current
+   * @param player the current model to make moves based on
+   * @return true if the player should pass
+   */
+  boolean shouldPass(ReadOnlyModel model, DiskColor player);
 }
