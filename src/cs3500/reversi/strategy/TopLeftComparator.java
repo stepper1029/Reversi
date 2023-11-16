@@ -1,4 +1,5 @@
 package cs3500.reversi.strategy;
+
 import java.util.Comparator;
 import cs3500.reversi.model.ReversiCell;
 

@@ -1,13 +1,20 @@
 package cs3500.reversi.view;
 
-import java.awt.*;
+//import java.awt.*;
+
+import java.awt.Color;
+import java.awt.BorderLayout;
 import java.util.Objects;
 import java.util.Optional;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.Box;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+// import javax.swing.*;
 
 import cs3500.reversi.model.DiskColor;
-import cs3500.reversi.model.MutableModel;
 import cs3500.reversi.model.ReadOnlyModel;
 
 /**
@@ -18,8 +25,6 @@ public class GraphicalView extends JFrame implements ReversiView {
 
   // Private JPanel to hold the scores. Gets updated after each move.
   private JPanel scorePanel;
-  // Private JLabels to hold each player's score. Gets updated after each move.
-  private JLabel blackScore, whiteScore;
   //Private ReadOnlyModel so the view can observe the model, but not mutate it. Does not need to
   //be visible outside the class.
   private final ReadOnlyModel model;
@@ -29,6 +34,7 @@ public class GraphicalView extends JFrame implements ReversiView {
   /**
    * Constructor for the Frame, initializes the parameters as well as other features of the frame
    * such as the title and size.
+   *
    * @param model Is passed in as a Mutable Model but the field type is a ReadOnlyModel
    */
   public GraphicalView(ReadOnlyModel model) {
@@ -45,7 +51,7 @@ public class GraphicalView extends JFrame implements ReversiView {
     boardPanel = new SimpleReversiBoard(model);
     this.add(boardPanel, BorderLayout.CENTER);
 
-     this.pack();
+    this.pack();
   }
 
   @Override
@@ -60,10 +66,11 @@ public class GraphicalView extends JFrame implements ReversiView {
     scorePanel.setLayout(new BoxLayout(scorePanel, BoxLayout.X_AXIS));
     scorePanel.add(Box.createVerticalStrut(25));
     this.add(scorePanel, BorderLayout.NORTH);
-    this.blackScore = new JLabel("Black: " + black);
+    // JLabels to hold each player's score. Gets updated after each move.
+    JLabel blackScore = new JLabel("Black: " + black);
     scorePanel.add(blackScore);
     scorePanel.add(Box.createHorizontalStrut(150));
-    whiteScore = new JLabel("White: " + white);
+    JLabel whiteScore = new JLabel("White: " + white);
     scorePanel.add(whiteScore);
     scorePanel.add(Box.createHorizontalGlue());
   }
@@ -82,12 +89,12 @@ public class GraphicalView extends JFrame implements ReversiView {
   }
 
   @Override
-  public Optional<Integer> getSelectedX(){
+  public Optional<Integer> getSelectedX() {
     return this.boardPanel.getSelectedX();
   }
 
   @Override
-  public Optional<Integer> getSelectedY(){
+  public Optional<Integer> getSelectedY() {
     return this.boardPanel.getSelectedY();
   }
 }

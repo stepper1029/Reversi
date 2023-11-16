@@ -18,7 +18,7 @@ public interface ReversiView {
 
   /**
    * Forces the view to be able to accept key commands.
-   * @param listener
+   * @param listener key listener
    */
   void addKeyListener(KeyListener listener);
 

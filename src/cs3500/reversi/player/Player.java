@@ -16,12 +16,13 @@ public interface Player {
    *
    * @param model a model to represent the current game
    * @return a ReversiCell representing where the player wants to move or empty if the player
-   * wants to pass.
+   *         wants to pass.
    */
   Optional<ReversiCell> play(MutableModel model);
 
   /**
    * Returns the color of the disk corresponding to this player.
+   *
    * @return DiskColor
    */
   DiskColor getColor();

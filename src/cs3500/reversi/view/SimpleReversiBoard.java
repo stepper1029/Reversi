@@ -5,10 +5,15 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.util.Objects;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Color;
+import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.util.Optional;
@@ -43,6 +48,7 @@ public class SimpleReversiBoard extends JPanel {
   /**
    * Constructor for the class, initializes the model and cells structure,and the mouse listener.
    * Creates a new instance of the Panel.
+   *
    * @param model ReadOnlyModel because the view is only allowed observability not mutability.
    */
   public SimpleReversiBoard(ReadOnlyModel model) {
@@ -81,10 +87,11 @@ public class SimpleReversiBoard extends JPanel {
    * Package private so it can be called by the Frame. Places a disk of the given color
    * in the currently highlighted cell. The controller handles the case in which no cell
    * is highlighted or the currently highlighted cell is an invalid move.
+   *
    * @param color color of the disk to be placed.
    */
   void place(DiskColor color) {
-    if(selectedX.isPresent() && selectedY.isPresent()) {
+    if (selectedX.isPresent() && selectedY.isPresent()) {
       Hexagon hex = this.cells[selectedX.get()][selectedY.get()];
       hex.addDisk(color);
       repaint();
@@ -108,6 +115,7 @@ public class SimpleReversiBoard extends JPanel {
    * highlighted cell, so it can be observed by the controller and potentially observed by the
    * model. Returns and Optional Integer because there is not always a highlighted cell of which
    * to observe an X coordinate.
+   *
    * @return optional Integer x coordinate of the highlighted cell.
    */
   Optional<Integer> getSelectedX() {
@@ -119,6 +127,7 @@ public class SimpleReversiBoard extends JPanel {
    * highlighted cell, so it can be observed by the controller and potentially observed by the
    * model. Returns and Optional Integer because there is not always a highlighted cell of which
    * to observe an Y coordinate.
+   *
    * @return optional Integer Y coordinate of the highlighted cell.
    */
   Optional<Integer> getSelectedY() {
@@ -222,8 +231,7 @@ public class SimpleReversiBoard extends JPanel {
       if (this.cells[rowNum][i] == null) {
         Hexagon currHex = new Hexagon(currPoint);
         this.placeHex(currHex, rowNum, i);
-      }
-      else {
+      } else {
         Hexagon currHex = this.cells[rowNum][i];
         Hexagon newHex = currHex.updateCenter(currPoint);
         this.placeHex(newHex, rowNum, i);
@@ -259,7 +267,7 @@ public class SimpleReversiBoard extends JPanel {
     // if this hexagon is currently highlighted
     private boolean filled;
     // the color of this hexagon
-   // protected Color fillColor;
+    // protected Color fillColor;
     // the color of the disk in this hexagon
     protected Color diskColor;
 
@@ -269,7 +277,7 @@ public class SimpleReversiBoard extends JPanel {
       this.center = center;
       this.hasDisk = false;
       this.filled = false;
-     // this.fillColor = Color.LIGHT_GRAY;
+      // this.fillColor = Color.LIGHT_GRAY;
 
       moveTo(this.center.getX(), this.center.getY() - size / 2);
       for (int i = 0; i < 7; i++) {
@@ -283,9 +291,9 @@ public class SimpleReversiBoard extends JPanel {
     // makes a copy of this hexagon and returns it.
     protected Hexagon makeCopy() {
       Hexagon copy = new Hexagon(this.center);
-      if(this.filled) {
+      if (this.filled) {
         copy.filled = true;
-      //  copy.fillColor = Color.CYAN;
+        //  copy.fillColor = Color.CYAN;
       }
       if (this.hasDisk) {
         if (this.diskColor.equals(Color.BLACK)) {
@@ -318,7 +326,7 @@ public class SimpleReversiBoard extends JPanel {
 
     // unhighlights this hexagon.
     private void unfill() {
-     // this.fillColor = Color.LIGHT_GRAY;
+      // this.fillColor = Color.LIGHT_GRAY;
       this.filled = false;
     }
 
@@ -347,8 +355,6 @@ public class SimpleReversiBoard extends JPanel {
    * (with (0,0) in center, width and height our logical size)
    * into screen coordinates (with (0,0) in upper-left,
    * width and height in pixels).
-   * <p>
-   *
    * @return The necessary transformation
    */
   protected AffineTransform transformLogicalToPhysical() {
