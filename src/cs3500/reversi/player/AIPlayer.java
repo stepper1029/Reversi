@@ -8,7 +8,7 @@ import cs3500.reversi.model.ReversiCell;
 import cs3500.reversi.strategy.InfallibleReversiStrategy;
 
 /**
- * Represents a simple player with a strategy all the functionality of the player interface.
+ * Represents an AI player in a game of Reversi.
  */
 public class AIPlayer implements Player {
   // represents the color of the disks corresponding to this player
