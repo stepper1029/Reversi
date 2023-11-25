@@ -1,6 +1,5 @@
 package cs3500.reversi.view;
 
-import java.awt.event.KeyListener;
 import java.util.Optional;
 
 import cs3500.reversi.model.DiskColor;
@@ -15,12 +14,13 @@ public interface ReversiView {
    */
   void makeVisible();
 
+  void addFeatures(ViewFeatures viewFeatures);
 
   /**
-   * Forces the view to be able to accept key commands.
-   * @param listener key listener
+   * Reset the focus on the appropriate part of the view that has the keyboard listener attached to
+   * it, so that keyboard events will still flow through.
    */
-  void addKeyListener(KeyListener listener);
+  void resetFocus();
 
   /**
    * Refreshes the view to include any mutations or changes.

@@ -4,6 +4,8 @@ package cs3500.reversi.view;
 
 import java.awt.Color;
 import java.awt.BorderLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -57,6 +59,39 @@ public class GraphicalView extends JFrame implements ReversiView {
   @Override
   public void makeVisible() {
     this.setVisible(true);
+  }
+
+  @Override
+  public void addFeatures(ViewFeatures viewFeatures) {
+//    echoButton.addActionListener(evt -> features.echoOutput(input.getText()));
+//    toggleButton.addActionListener(evt -> features.toggleColor());
+//    exitButton.addActionListener(evt -> features.exitProgram());
+    this.addKeyListener(new KeyListener() {
+      @Override
+      public void keyTyped(KeyEvent e) {}
+
+      @Override
+      public void keyPressed(KeyEvent e) {
+        switch (e.getKeyCode()) {
+          case KeyEvent.VK_P:
+            viewFeatures.pass();
+            break;
+
+          case KeyEvent.VK_ENTER:
+            viewFeatures.place(model.getTurn());
+            break;
+        }
+      }
+
+      @Override
+      public void keyReleased(KeyEvent e) {}
+    });
+  }
+
+  @Override
+  public void resetFocus() {
+    this.setFocusable(true);
+    this.requestFocus();
   }
 
   // initializes and updates the scores on the GUI
