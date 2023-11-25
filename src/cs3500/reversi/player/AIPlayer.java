@@ -10,7 +10,7 @@ import cs3500.reversi.strategy.InfallibleReversiStrategy;
 /**
  * Represents a simple player with a strategy all the functionality of the player interface.
  */
-public class SimplePlayer implements Player {
+public class AIPlayer implements Player {
   // represents the color of the disks corresponding to this player
   private final DiskColor color;
   // the strategy that this player is using
@@ -21,7 +21,7 @@ public class SimplePlayer implements Player {
    * @param color the color to assign to this player
    * @param strategy the strategy this player is using
    */
-  public SimplePlayer(DiskColor color, InfallibleReversiStrategy strategy) {
+  public AIPlayer(DiskColor color, InfallibleReversiStrategy strategy) {
     this.color = color;
     this.strategy = strategy;
   }
