@@ -29,6 +29,8 @@ public class GraphicalView extends JFrame implements ReversiView {
   //Private final custom JPanel class to hold the rendering of the board.
   private final SimpleReversiBoard boardPanel;
 
+  private JPanel popup;
+
   /**
    * Constructor for the Frame, initializes the parameters as well as other features of the frame
    * such as the title and size.
@@ -46,8 +48,11 @@ public class GraphicalView extends JFrame implements ReversiView {
     // score labels
     this.setScoreLabels(this.model.getScore(DiskColor.Black), this.model.getScore(DiskColor.White));
 
+    this.setLayout(new OverlayLayout(this));
     boardPanel = new SimpleReversiBoard(model);
-    this.add(boardPanel, BorderLayout.CENTER);
+    //this.add(boardPanel, OverlayLayout.BasePanel());
+
+    this.popUpNotification("InvalidMove");
 
     this.pack();
   }
@@ -128,5 +133,21 @@ public class GraphicalView extends JFrame implements ReversiView {
   @Override
   public Optional<Integer> getSelectedY() {
     return this.boardPanel.getSelectedY();
+  }
+
+  @Override
+  public void popUpNotification(String message) {
+    this.popup = new JPanel();
+    this.popup.setBackground(Color.WHITE);
+    this.popup.setLayout(new BorderLayout());
+    JLabel notif = new JLabel(message);
+    notif.setForeground(Color.RED);
+    this.popup.add(notif, BorderLayout.CENTER);
+    JButton exit = new JButton("continue");
+    exit.setBackground(Color.LIGHT_GRAY);
+    exit.setForeground(Color.BLACK);
+    exit.addActionListener(e -> popup.setVisible(false));
+    this.popup.add(exit, BorderLayout.SOUTH);
+    this.add(popup, BorderLayout.CENTER);
   }
 }

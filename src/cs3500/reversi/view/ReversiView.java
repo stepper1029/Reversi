@@ -14,6 +14,8 @@ public interface ReversiView {
    */
   void makeVisible();
 
+  void popUpNotification(String message);
+
   void addFeatures(ViewFeatures viewFeatures);
 
   /**
