@@ -1,6 +1,7 @@
 package cs3500.reversi.controller;
 
 import cs3500.reversi.model.DiskColor;
+import cs3500.reversi.model.ModelFeatures;
 import cs3500.reversi.model.MutableModel;
 import cs3500.reversi.model.ReversiCell;
 import cs3500.reversi.view.ReversiView;
@@ -13,7 +14,7 @@ import cs3500.reversi.view.ViewFeatures;
  * of whose turn it is, check if a move is valid, etc. The only functionality it currently supports
  * is for the keys 'p' and 'enter' to pass and place cells, respectively.
  */
-public class Controller implements ViewFeatures {
+public class Controller implements ViewFeatures, ModelFeatures {
 
   // private final: one model for the game, it should never be reassigned. Only the controller
   // should have access to this model.
@@ -58,7 +59,13 @@ public class Controller implements ViewFeatures {
       view.update();
     }
   }
+
+  public void notifyTurn() {
+    // call to the view to put a message to notify turn
+  }
 }
+
+
 
 
 /**

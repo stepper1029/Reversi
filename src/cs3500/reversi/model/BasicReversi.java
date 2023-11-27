@@ -286,4 +286,8 @@ class BasicReversi implements MutableModel {
     }
     return new ArrayList<>(new HashSet<>(validMoves));
   }
+
+  void notifyTurn() {
+    // call to the controller notifyTurn
+  }
 }
