@@ -1,5 +1,6 @@
 package cs3500.reversi.controller;
 
+import cs3500.reversi.Reversi;
 import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.ModelFeatures;
 import cs3500.reversi.model.MutableModel;
@@ -43,13 +44,13 @@ public class Controller implements ViewFeatures, ModelFeatures {
 //    //configureKeyBoardListener();
   }
 
-  public void pass() {
+  public void receivePass() {
     model.pass(this.model.getTurn());
     System.out.println("passed");
     view.update();
   }
 
-  public void place(DiskColor color) {
+  public void receivePlace(DiskColor color, ReversiCell cell) {
     if (view.getSelectedX().isPresent() && view.getSelectedY().isPresent()) {
       ReversiCell cell = this.model.getCellAt(
               view.getSelectedX().get(), view.getSelectedY().get());
@@ -60,53 +61,19 @@ public class Controller implements ViewFeatures, ModelFeatures {
     }
   }
 
-  public void notifyTurn() {
-    // call to the view to put a message to notify turn
+  @Override
+  public void recieveTurnNotif() {
+
+  }
+
+  @Override
+  public void receiveInvalidMoveNotif() {
+    view.popUpNotification("This move is not valid.");
+  }
+
+  @Override
+  public void receiveOutOfTurnNotif() {
+
   }
 }
 
-
-
-
-/**
- * Creates and sets a keyboard listener for the view. In effect, it creates snippets of code
- * as Runnable object, one for each time a key is typed, pressed and released, only for those
- * that the program needs.
- * <p>
- * So far, we need to place a disk when the ENTER key is released and pass the current
- * players turn when the P key is released. These listeners are created and put in the
- * appropriate map.
- * </p>
- * Last we create our KeyboardListener object, set all its maps and then give it to
- * the view.
- */
-//  private void configureKeyBoardListener() {
-//    Map<Character, Runnable> keyTypes = new HashMap<Character, Runnable>();
-//    Map<Integer, Runnable> keyPresses = new HashMap<Integer, Runnable>();
-//    Map<Integer, Runnable> keyReleases = new HashMap<Integer, Runnable>();
-//
-//    keyReleases.put(KeyEvent.VK_P, () -> {
-//      model.pass(this.model.getTurn());
-//      System.out.println("passed");
-//      view.update();
-//    }
-//    );
-//    keyPresses.put(KeyEvent.VK_ENTER, () -> {
-//      if (view.getSelectedX().isPresent() && view.getSelectedY().isPresent()) {
-//        ReversiCell cell = this.model.getCellAt(
-//                view.getSelectedX().get(), view.getSelectedY().get());
-//        this.model.place(cell, this.model.getTurn());
-//        this.view.place(this.model.getTurn());
-//        System.out.println("placed");
-//        view.update();
-//              }
-//            }
-//    );
-//
-//    KeyboardListener kbd = new KeyboardListener();
-//    kbd.setKeyTypedMap(keyTypes);
-//    kbd.setKeyPressedMap(keyPresses);
-//    kbd.setKeyReleasedMap(keyReleases);
-//
-//    view.addKeyListener(kbd);
-//  }

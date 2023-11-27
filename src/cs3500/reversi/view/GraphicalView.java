@@ -9,11 +9,7 @@ import java.awt.event.KeyListener;
 import java.util.Objects;
 import java.util.Optional;
 
-import javax.swing.BoxLayout;
-import javax.swing.Box;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
+import javax.swing.*;
 // import javax.swing.*;
 
 import cs3500.reversi.model.DiskColor;
@@ -74,11 +70,12 @@ public class GraphicalView extends JFrame implements ReversiView {
       public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
           case KeyEvent.VK_P:
-            viewFeatures.pass();
+            viewFeatures.receivePass();
             break;
 
           case KeyEvent.VK_ENTER:
-            viewFeatures.place(model.getTurn());
+            viewFeatures.receivePlace(model.getTurn(),
+                    model.getCellAt(getSelectedX().get(), getSelectedY().get()));
             break;
         }
       }

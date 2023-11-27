@@ -1,6 +1,7 @@
 package cs3500.reversi.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +25,9 @@ class BasicReversi implements MutableModel {
   // the board size being >2. Should only be visible to this BasicReversi
   private final Board board;
 
+  // a map that stores the connections between player color and the corresponding observer
+  private HashMap<DiskColor, ModelFeatures> observerMap;
+
   /**
    * Constructor for BasicReversi initializes all fields. Takes in a board (which has a size, shape,
    * and cell structure) but is completely empty. Constructor sets the board with the initial
@@ -39,6 +43,7 @@ class BasicReversi implements MutableModel {
     this.board = Objects.requireNonNull(board);
     this.setBoard();
     this.currColor = DiskColor.Black;
+    this.observerMap = new HashMap<>();
   }
 
   /**
@@ -53,6 +58,25 @@ class BasicReversi implements MutableModel {
     this.board = board;
     this.numPasses = numPasses;
     this.currColor = currColor;
+    this.observerMap = new HashMap<>();
+  }
+
+  /**
+   * Adds a new observer with the given disk color to the observerMap.
+   *
+   * @param color the color corresponding to this observer
+   * @param observer the observer to add
+   */
+  public void addObserver(DiskColor color, ModelFeatures observer) {
+    this.observerMap.put(color, observer);
+  }
+
+  /**
+   * Starts the game of Reversi and sends a notification to the first player telling them that it
+   * is their turn.
+   */
+  public void startGame() {
+
   }
 
   /**
@@ -97,21 +121,19 @@ class BasicReversi implements MutableModel {
   }
 
   /**
-   * Throws an exception if the given color does not match the current color, meaning the player
-   * is trying to move out of turn.
+   * Notifies the correct observer if the given player is playing out of turn.
    *
    * @param color color corresponding to the player trying to move
-   * @throws IllegalStateException if the color does not match the current player whose turn it is
    */
-  private void outOfTurnException(DiskColor color) {
+  private void outOfTurnNotification(DiskColor color) {
     if (!this.currColor.equals(color)) {
-      throw new IllegalStateException("Player is playing out of turn");
+      this.observerMap.get(color).receiveOutOfTurnNotif();
     }
   }
 
   @Override
   public void pass(DiskColor color) {
-    this.outOfTurnException(color);
+    //this.outOfTurnNotification(color);
     this.numPasses += 1;
     this.setNextColor();
   }
@@ -131,7 +153,7 @@ class BasicReversi implements MutableModel {
 
   @Override
   public void place(ReversiCell cell, DiskColor color) {
-    this.outOfTurnException(color);
+    //this.outOfTurnNotification(color);
     if (this.allPossibleMoves(color).contains(cell)) {
       this.numPasses = 0;
       this.board.placeDisk(cell, color);
@@ -140,7 +162,7 @@ class BasicReversi implements MutableModel {
       }
       this.setNextColor();
     } else {
-      throw new IllegalStateException("Invalid move");
+      //this.observerMap.get(color).receiveInvalidMoveNotif();
     }
   }
 
