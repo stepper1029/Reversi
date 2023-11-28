@@ -26,6 +26,8 @@ public class GraphicalView extends JFrame implements ReversiView {
   private final ReadOnlyModel model;
   //Private final custom JPanel class to hold the rendering of the board.
   private final SimpleReversiBoard boardPanel;
+  // private panel to display a message when the game is over
+  private JPanel gameOverPanel;
   // color of the player who this view belongs to
   private final DiskColor color;
 
@@ -43,6 +45,9 @@ public class GraphicalView extends JFrame implements ReversiView {
     this.setSize(500, 500);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLayout(new BorderLayout());
+
+    // game over panel
+    this.gameOverPanel = new JPanel();
 
     // score labels
     this.setScoreLabels(this.model.getScore(DiskColor.Black), this.model.getScore(DiskColor.White));
@@ -133,8 +138,20 @@ public class GraphicalView extends JFrame implements ReversiView {
   }
 
   @Override
-  public void popUpMessage(String message) {
-    JOptionPane.showMessageDialog(this.boardPanel,
-            message, "Notification", JOptionPane.INFORMATION_MESSAGE);
+  public void gameOver() {
+    String message;
+    if (this.model.getWinner().equals(Optional.empty())) {
+      message = "Game over. You tied!";
+    } else if (this.model.getWinner().isPresent() && this.model.getWinner().equals(this.color)) {
+      message = "Game over. You win!";
+    } else {
+      message = "Game Over. You lose :(";
+    }
+
+    JLabel gameOverLabel = new JLabel(message);
+    this.gameOverPanel.setLayout(new BorderLayout());
+    this.gameOverPanel.add(gameOverLabel, BorderLayout.CENTER);
+    this.gameOverPanel.setForeground(Color.RED);
+    this.add(gameOverPanel, BorderLayout.SOUTH);
   }
 }

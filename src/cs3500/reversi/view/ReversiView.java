@@ -22,12 +22,7 @@ public interface ReversiView {
    */
   void popUpError(String message);
 
-  /**
-   * Creates a popup window and shows the provided message. Displays an icon
-   * which represents an informational message.
-   * @param message
-   */
-  void popUpMessage(String message);
+  void gameOver();
 
   /**
    * Add a feature, or increase the functionality of a player.

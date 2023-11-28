@@ -56,7 +56,6 @@ public class SimpleReversiBoard extends JPanel {
    */
   public SimpleReversiBoard(ReadOnlyModel model, DiskColor color) {
     this.color = color;
-    this.setBackground(new Color(179, 236, 255));
     this.model = Objects.requireNonNull(model);
     MouseEventsListener listener = new MouseEventsListener();
     this.addMouseListener(listener);
@@ -143,6 +142,12 @@ public class SimpleReversiBoard extends JPanel {
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics2D g2d = (Graphics2D) g.create();
+
+    if (this.color == this.model.getTurn()) {
+      this.setBackground(new Color(179, 236, 255));
+    } else {
+      this.setBackground(Color.WHITE);
+    }
 
     // find the physical center of the frame, calculates the cell width, and initializes the
     // hexagons to be centered in the frame. If they have already been initialized and the frame
@@ -337,6 +342,8 @@ public class SimpleReversiBoard extends JPanel {
     private void unfill() {
       // this.fillColor = Color.LIGHT_GRAY;
       this.filled = false;
+      selectedX = Optional.empty();
+      selectedY = Optional.empty();
     }
 
     // highlights this hexagon, possible unhighlighting other hexagons or this hexagon

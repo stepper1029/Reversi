@@ -75,21 +75,13 @@ public class Controller implements PlayerActions, ModelFeatures {
   @Override
   public void receiveTurnNotif() {
     view.update();
-    this.view.popUpMessage("It's your turn !");
     this.player.play();
   }
 
   @Override
   public void receiveGameOverNotif() {
-    if (this.model.getWinner().isEmpty()) {
-      this.view.popUpMessage("Game over!\nGame tied");
-    }
-    else if (this.model.getWinner().get().equals(this.player.getColor())){
-      this.view.popUpMessage("Game over! You won :)");
-    }
-    else {
-      this.view.popUpMessage("Game over! You lost :(");
-    }
+    view.gameOver();
+    view.update();
   }
 }
 
