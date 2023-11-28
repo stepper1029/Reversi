@@ -95,9 +95,10 @@ public class SimpleReversiBoard extends JPanel {
    */
   void place(DiskColor color) {
     if (selectedX.isPresent() && selectedY.isPresent()) {
-      update();
+      //update();
       Hexagon hex = this.cells[selectedX.get()][selectedY.get()];
       hex.addDisk(color);
+      update();
       repaint();
     }
   }

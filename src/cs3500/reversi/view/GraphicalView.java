@@ -1,7 +1,6 @@
 package cs3500.reversi.view;
 
-import java.awt.Color;
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Objects;
@@ -139,19 +138,44 @@ public class GraphicalView extends JFrame implements ReversiView {
 
   @Override
   public void gameOver() {
-    String message;
+    String message = "";
+    int blackScore = this.model.getScore(DiskColor.Black);
+    int whiteScore = this.model.getScore(DiskColor.White);
     if (this.model.getWinner().equals(Optional.empty())) {
       message = "Game over. You tied!";
-    } else if (this.model.getWinner().isPresent() && this.model.getWinner().equals(this.color)) {
+    } else if (this.model.getWinner().isPresent() && this.model.getWinner().get().equals(this.color)) {
       message = "Game over. You win!";
-    } else {
+    } else if (this.model.getWinner().isPresent() && !this.model.getWinner().get().equals(this.color)){
       message = "Game Over. You lose :(";
     }
 
+    message += " Your score: " + this.model.getScore(this.color);
     JLabel gameOverLabel = new JLabel(message);
-    this.gameOverPanel.setLayout(new BorderLayout());
-    this.gameOverPanel.add(gameOverLabel, BorderLayout.CENTER);
-    this.gameOverPanel.setForeground(Color.RED);
+    gameOverLabel.setForeground(Color.RED);
+    gameOverPanel.setLayout(new BoxLayout(gameOverPanel, BoxLayout.X_AXIS));
+    gameOverPanel.add(Box.createHorizontalStrut(150));
+    gameOverPanel.add(gameOverLabel, BorderLayout.CENTER);
+    gameOverPanel.setBackground(Color.yellow);
     this.add(gameOverPanel, BorderLayout.SOUTH);
+    //this.boardPanel.update();
+    this.setScoreLabels(blackScore, whiteScore);
+//    this.scorePanel.revalidate();
+    this.scorePanel.repaint();
+
+
+
+
+//    scorePanel = new JPanel();
+//    scorePanel.setBackground(Color.LIGHT_GRAY);
+//    scorePanel.setLayout(new BoxLayout(scorePanel, BoxLayout.X_AXIS));
+//    scorePanel.add(Box.createVerticalStrut(25));
+//    this.add(scorePanel, BorderLayout.NORTH);
+//    // JLabels to hold each player's score. Gets updated after each move.
+//    JLabel blackScore = new JLabel("Black: " + black);
+//    scorePanel.add(blackScore);
+//    scorePanel.add(Box.createHorizontalStrut(150));
+//    JLabel whiteScore = new JLabel("White: " + white);
+//    scorePanel.add(whiteScore);
+//    scorePanel.add(Box.createHorizontalGlue());
   }
 }
