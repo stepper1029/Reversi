@@ -31,8 +31,8 @@ public class Controller implements PlayerActions, ModelFeatures {
   private final Player player;
 
   /**
-   * Constructor for the controller class initializes the model and view, configures the
-   * keyboard listener, and makes the view visible to the user.
+   * Constructor for the controller class initializes the model and view, sets this as
+   * a listener to the view and model, and makes the view visible to the user.
    *
    * @param model model of the current game
    * @param view  view for the current game
@@ -43,11 +43,8 @@ public class Controller implements PlayerActions, ModelFeatures {
     this.view = view;
     view.makeVisible();
     view.addFeatures(this);
-
-//    this.view = view;
-//    view.makeVisible();
-//    view.setListeners(this);
-//    //configureKeyBoardListener();
+    this.player = player;
+    this.player.setListener(this);
   }
 
   @Override
@@ -75,30 +72,24 @@ public class Controller implements PlayerActions, ModelFeatures {
     }
   }
 
-  public void receivePlace(DiskColor color, ReversiCell cell) {
-    if (view.getSelectedX().isPresent() && view.getSelectedY().isPresent()) {
-      ReversiCell cell = this.model.getCellAt(
-              view.getSelectedX().get(), view.getSelectedY().get());
-      this.model.place(cell, this.model.getTurn());
-      this.view.place(this.model.getTurn());
-      System.out.println("placed");
-      view.update();
+  @Override
+  public void receiveTurnNotif() {
+    view.update();
+    this.view.popUpMessage("It's your turn !");
+    this.player.play();
+  }
+
+  @Override
+  public void receiveGameOverNotif() {
+    if (this.model.getWinner().isEmpty()) {
+      this.view.popUpMessage("Game over!\nGame tied");
     }
-  }
-
-  @Override
-  public void recieveTurnNotif() {
-
-  }
-
-  @Override
-  public void receiveInvalidMoveNotif() {
-    view.popUpNotification("This move is not valid.");
-  }
-
-  @Override
-  public void receiveOutOfTurnNotif() {
-
+    else if (this.model.getWinner().get().equals(this.player.getColor())){
+      this.view.popUpMessage("Game over! You won :)");
+    }
+    else {
+      this.view.popUpMessage("Game over! You lost :(");
+    }
   }
 }
 

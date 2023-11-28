@@ -44,6 +44,9 @@ public class SimpleReversiBoard extends JPanel {
   // the Y (or Hexagon / column) coordinate of the currently highlighted cell.
   private Optional<Integer> selectedY; // optional: null when nothing is highlighted
 
+  // color of the play which this view belongs to
+  private final DiskColor color;
+
 
   /**
    * Constructor for the class, initializes the model and cells structure,and the mouse listener.
@@ -51,7 +54,9 @@ public class SimpleReversiBoard extends JPanel {
    *
    * @param model ReadOnlyModel because the view is only allowed observability not mutability.
    */
-  public SimpleReversiBoard(ReadOnlyModel model) {
+  public SimpleReversiBoard(ReadOnlyModel model, DiskColor color) {
+    this.color = color;
+    this.setBackground(new Color(179, 236, 255));
     this.model = Objects.requireNonNull(model);
     MouseEventsListener listener = new MouseEventsListener();
     this.addMouseListener(listener);
@@ -72,11 +77,8 @@ public class SimpleReversiBoard extends JPanel {
   }
 
   /**
-   * Conceptually, we can choose a different coordinate system
-   * and pretend that our panel is 40x40 "cells" big. You can choose
-   * any dimension you want here, including the same as your physical
-   * size (in which case each logical pixel will be the same size as a physical
-   * pixel, but perhaps your calculations to position things might be trickier)
+   * The "logical" size of our board, in cells. This uses the width of the widest row and the
+   * number of rows.
    *
    * @return Our preferred *logical* size.
    */
@@ -94,6 +96,7 @@ public class SimpleReversiBoard extends JPanel {
    */
   void place(DiskColor color) {
     if (selectedX.isPresent() && selectedY.isPresent()) {
+      update();
       Hexagon hex = this.cells[selectedX.get()][selectedY.get()];
       hex.addDisk(color);
       repaint();
@@ -108,8 +111,8 @@ public class SimpleReversiBoard extends JPanel {
     if (this.selectedX.isPresent() && this.selectedY.isPresent()) {
       Hexagon selectedHex = cells[this.selectedX.get()][this.selectedY.get()];
       selectedHex.unfill();
-      repaint();
     }
+    repaint();
   }
 
   /**
@@ -158,9 +161,13 @@ public class SimpleReversiBoard extends JPanel {
         // draw cells
         if (currHex.filled) {
           g2d.setColor(Color.CYAN);
+        } else if (model.allPossibleMoves(this.color).contains(currCell)
+                && model.getTurn() == this.color) {
+          g2d.setColor(new Color(252, 197, 231));
         } else {
           g2d.setColor(Color.LIGHT_GRAY);
         }
+
         g2d.fill(currHex);
         g2d.setColor(Color.BLACK);
         g2d.draw(currHex);
@@ -381,7 +388,7 @@ public class SimpleReversiBoard extends JPanel {
       for (int row = 0; row < cells.length; row++) {
         for (int cell = 0; cell < cells[row].length; cell++) {
           Hexagon hex = cells[row][cell];
-          if (hex.contains(physicalPoint)) {
+          if (hex.contains(physicalPoint) && model.getTurn() == color) {
             selectedX = Optional.of(row);
             selectedY = Optional.of(cell);
             System.out.printf("HexCell(%d, %d)%n", selectedX.get(), selectedY.get());

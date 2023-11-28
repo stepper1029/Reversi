@@ -22,7 +22,12 @@ import cs3500.reversi.view.ReversiView;
 public class Reversi {
 
   /**
-   * main method for our Reversi game. Instantiates a game with a boardSize of 3 by default.
+   * Main method for our Reversi game. Instantiates a game with a boardSize of 4 by default
+   * with two human players. Creates two players, two views, and two controllers which all
+   * are connected by one model. Board size can be specified using the first arg, args[1] and
+   * args[2] can be used to specify the player types, either "human" or "strategy1", "strategy2",
+   * "strategy3", "strategy4", to pick increasingly difficult and chained strategies.
+   *
    * @param args input
    */
   public static void main(String[] args) {
@@ -56,5 +61,34 @@ public class Reversi {
     controller1 = new Controller(model, view1, p1);
     controller2 = new Controller(model, view2, p2);
     model.startGame();
+  }
+
+  private static Player chooseStrategy(String arg, DiskColor color, MutableModel model) {
+    Player player;
+    switch (arg) {
+      case "human":
+        player = new HumanPlayer(color);
+        break;
+      case "strategy1":
+        player = new AIPlayer(color, new InfallibleReversiStrategy(new MostPieces()), model);
+        break;
+      case "strategy2":
+        player = new AIPlayer(color, new InfallibleReversiStrategy(new CombineStrategies(
+                new AvoidCornerAdjacent(), new MostPieces())), model);
+        break;
+      case "strategy3":
+        player = new AIPlayer(color, new InfallibleReversiStrategy(new CombineStrategies(
+                new ChooseCorners(), new CombineStrategies(new AvoidCornerAdjacent(),
+                new MostPieces()))), model);
+        break;
+      case "strategy4":
+        player = new AIPlayer(color, new InfallibleReversiStrategy(new CombineStrategies(
+                new MiniMax(), new CombineStrategies(new ChooseCorners(), new CombineStrategies(
+                new AvoidCornerAdjacent(), new MostPieces())))), model);
+        break;
+      default:
+        throw new IllegalArgumentException("invalid player type");
+    }
+    return player;
   }
 }

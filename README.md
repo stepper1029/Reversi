@@ -10,19 +10,23 @@ A board class in the Board interface can work with any type of cell, so it only 
 ReversiCell interface rather than, say, the HexCell class. This way, if we wanted to add square
 cells in a SquareCell class, the board still works.
 
-## Quick Start: 
-To get started, a user can use the ReversiCreator class to create a game. So far, we
-have only created BasicReversi on a hexagonal board with hexagonal squares so this is the default
-of the factory. There also is no controller or main yet so a user has no way to interact with the 
-model without explicitly calling methods like in a test class.
+## Quick Start:
+To get started, a user can run the main class and begin interacting with the displayed view. This 
+game will have BasicReversi rules on a hexagonal board with hexagonal cells. To customize the game,
+the player can input 1 or 3 args. If only one arg is input, it should be an int to change
+the board size. If three args are input, the first one remains an int to customize the board size.
+The following two args are to specify the player types, args[1] being for the first player, and
+args[2] being for the second player. Inputting "human" creates a human player, and inputting
+"strategy1", "strategy2", "strategy3", or "strategy4" creates and AI player. Strategy1 uses the
+least complex strategy, MostPieces. Strategy4 chains all the strategies together, and so is
+the hardest AI player to compete against. From Strategy1 to Strategy4, the AI adds a new 
+method of choosing a move and becomes increasingly complex and difficult.
 
 ## Key components:
-Components that would "drive" the control-flow of the system would be our Main and View class.
-The Main gets the program running while the View takes in user input to push the game forward.
-Currently, we have implemented the stub of a controller to facilitate passing the user input to 
-the model. However, since its just a stub, the controller currently does not provide much of the 
-functionality that is required from a full-fledged controller. I would also consider the Model a 
-driving force because it is the central aspect of the project which holds the games logic.
+Components that would "drive" the control-flow of the system would be our Main, Controller
+and View classes. The Main gets the program running while the View takes in user input to push 
+the game forward. The controller helps the different components communicate and oversees their
+interactions.
 
 ## Key subcomponents:
 
@@ -60,17 +64,18 @@ contains the colors that represent the different players. It is convention for R
 by two players, represented by black and white, where black always goes first.
 
 ### Controller:
-The controller is currently only a stub. It exists only to handle keyboard inputs and pass them
-to the model. It does not have the full functionality of a working controller.
+The controller is a listener for the Model and the View. It takes notifications like turns
+and invalid moves from the model and sends them to players via the View. It also takes view 
+interactions from the player in the form of mouse clicks and keyboard presses and sends them 
+to the model. Each player has its own controller and the controller is ignorant to the type of
+player it belongs to, human or computer.
 
 ### View: 
 The View has a ReversiView interface to promise functionality of the frame. This is implemented
 by GraphicalView class which renders the frame of our GUI. This holds two panels, one for the 
 score and one for the board. The board gets its own Panel class called SimpleReversiBoard. This 
 board allows the user to highlight cells through mouse clicks and place disks using the 'enter' key.
-Players can also pass their turn using the 'P' key. We also implemented a class KeyboardListener
-which implements the KeyListener interface, so that its object can be used as a valid keylistener 
-for Java Swing.
+Players can also pass their turn using the 'P' key.
 
 ### Strategy:
 The strategy determines how a player should move in a game of Reversi. It includes decisions for
@@ -90,7 +95,7 @@ There are 4 specific strategy classes:
 
 ### Player:
 The Player interface has two methods: play and getColor. play allows the player to choose a move, 
-or return Optional.empty if they wish to pass. This information will then be handled by the
+or return Optional.empty() if they wish to pass. This information will then be handled by the
 controller. getColor allows the controller to access the color associated with the player in order
 to pass into model methods. 
 
@@ -119,6 +124,11 @@ input from the strategy objects and passing it to the controller.
 all coordinates of the HexCell. This makes it easier to implement the strategy and check whether
 a cell is a corner or next to a corner. 
 - Implemented all required aspects of part 2 as outlined above. 
+
+## Changes since Part 2:
+- There is no longer a keyboard listener and instead the view uses a features interface. So the 
+controller now implements two features interfaces.
+- The view highlights the cells which are valid moves.
 
 ## Extra credit: 
 All four strategies were implemented and can be composed. See Strategy section above for more 

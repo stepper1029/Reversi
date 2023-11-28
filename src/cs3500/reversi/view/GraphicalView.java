@@ -1,7 +1,5 @@
 package cs3500.reversi.view;
 
-//import java.awt.*;
-
 import java.awt.Color;
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
@@ -10,14 +8,13 @@ import java.util.Objects;
 import java.util.Optional;
 
 import javax.swing.*;
-// import javax.swing.*;
 
 import cs3500.reversi.controller.PlayerActions;
 import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.ReadOnlyModel;
 
 /**
- * Graphical view represents the requirements of the model for assignment 6. This class extends
+ * Graphical view represents the view require for assignment 7. This class extends
  * the class JFrame and implements ReversiView.
  */
 public class GraphicalView extends JFrame implements ReversiView {
@@ -29,8 +26,8 @@ public class GraphicalView extends JFrame implements ReversiView {
   private final ReadOnlyModel model;
   //Private final custom JPanel class to hold the rendering of the board.
   private final SimpleReversiBoard boardPanel;
-
-  private JPanel popup;
+  // color of the player who this view belongs to
+  private final DiskColor color;
 
   /**
    * Constructor for the Frame, initializes the parameters as well as other features of the frame
@@ -38,10 +35,11 @@ public class GraphicalView extends JFrame implements ReversiView {
    *
    * @param model Is passed in as a Mutable Model but the field type is a ReadOnlyModel
    */
-  public GraphicalView(ReadOnlyModel model) {
+  public GraphicalView(ReadOnlyModel model, DiskColor color) {
     super();
+    this.color = color;
     this.model = Objects.requireNonNull(model);
-    this.setTitle("Reversi");
+    this.setTitle("Reversi - " + this.color);
     this.setSize(500, 500);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLayout(new BorderLayout());
@@ -49,11 +47,9 @@ public class GraphicalView extends JFrame implements ReversiView {
     // score labels
     this.setScoreLabels(this.model.getScore(DiskColor.Black), this.model.getScore(DiskColor.White));
 
-    this.setLayout(new OverlayLayout(this));
-    boardPanel = new SimpleReversiBoard(model);
-    //this.add(boardPanel, OverlayLayout.BasePanel());
-
-    this.popUpNotification("InvalidMove");
+    // board panel
+    boardPanel = new SimpleReversiBoard(model, this.color);
+    this.add(boardPanel, BorderLayout.CENTER);
 
     this.pack();
   }
@@ -67,7 +63,7 @@ public class GraphicalView extends JFrame implements ReversiView {
   public void addFeatures(PlayerActions playerActions) {
     this.addKeyListener(new KeyListener() {
       @Override
-      public void keyTyped(KeyEvent e) {}
+      public void keyTyped(KeyEvent e) { update(); }
 
       @Override
       public void keyPressed(KeyEvent e) {
@@ -86,20 +82,14 @@ public class GraphicalView extends JFrame implements ReversiView {
       }
 
       @Override
-      public void keyReleased(KeyEvent e) {}
+      public void keyReleased(KeyEvent e) {  }
     });
-  }
-
-  @Override
-  public void resetFocus() {
-    this.setFocusable(true);
-    this.requestFocus();
   }
 
   // initializes and updates the scores on the GUI
   private void setScoreLabels(int black, int white) {
     scorePanel = new JPanel();
-    scorePanel.setBackground(Color.GRAY);
+    scorePanel.setBackground(Color.LIGHT_GRAY);
     scorePanel.setLayout(new BoxLayout(scorePanel, BoxLayout.X_AXIS));
     scorePanel.add(Box.createVerticalStrut(25));
     this.add(scorePanel, BorderLayout.NORTH);
@@ -114,7 +104,7 @@ public class GraphicalView extends JFrame implements ReversiView {
 
   @Override
   public void update() {
-    this.setScoreLabels(this.model.getScore(DiskColor.Black), this.model.getScore(DiskColor.White));
+    this.setScoreLabels(model.getScore(DiskColor.Black), model.getScore(DiskColor.White));
     this.scorePanel.revalidate();
     this.scorePanel.repaint();
     this.boardPanel.update();
@@ -123,6 +113,7 @@ public class GraphicalView extends JFrame implements ReversiView {
   @Override
   public void place(DiskColor color) {
     this.boardPanel.place(color);
+    this.update();
   }
 
   @Override
@@ -136,18 +127,14 @@ public class GraphicalView extends JFrame implements ReversiView {
   }
 
   @Override
-  public void popUpNotification(String message) {
-    this.popup = new JPanel();
-    this.popup.setBackground(Color.WHITE);
-    this.popup.setLayout(new BorderLayout());
-    JLabel notif = new JLabel(message);
-    notif.setForeground(Color.RED);
-    this.popup.add(notif, BorderLayout.CENTER);
-    JButton exit = new JButton("continue");
-    exit.setBackground(Color.LIGHT_GRAY);
-    exit.setForeground(Color.BLACK);
-    exit.addActionListener(e -> popup.setVisible(false));
-    this.popup.add(exit, BorderLayout.SOUTH);
-    this.add(popup, BorderLayout.CENTER);
+  public void popUpError(String message) {
+    JOptionPane.showMessageDialog(this.boardPanel,
+            message, "Notification", JOptionPane.ERROR_MESSAGE);
+  }
+
+  @Override
+  public void popUpMessage(String message) {
+    JOptionPane.showMessageDialog(this.boardPanel,
+            message, "Notification", JOptionPane.INFORMATION_MESSAGE);
   }
 }
