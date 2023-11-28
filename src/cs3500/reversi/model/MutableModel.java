@@ -9,6 +9,19 @@ package cs3500.reversi.model;
  * given only one interface.
  */
 public interface MutableModel extends ReadOnlyModel {
+  /**
+   * Adds a new listener with the given disk color to the observerMap.
+   *
+   * @param color the color corresponding to this observer
+   * @param listener the listener to add
+   */
+  void addListener(DiskColor color, ModelFeatures listener);
+
+  /**
+   * Starts the game of Reversi after the fields have been initialized and sends the first
+   * your turn notification to the first player.
+   */
+  void startGame();
 
   /**
    * Allows the given player to pass their turn, if they have no moves or do not want to make

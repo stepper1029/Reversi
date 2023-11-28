@@ -3,6 +3,7 @@ package cs3500.reversi.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Mock model for testing the strategy. Keeps a log of certain calls that have been made to
@@ -24,6 +25,16 @@ public class ModelMock implements MutableModel {
     this.realModel = realModel;
     this.shouldLie = shouldLie;
     this.log = log;
+  }
+
+  @Override
+  public void addListener(DiskColor color, ModelFeatures listener) {
+
+  }
+
+  @Override
+  public void startGame() {
+
   }
 
   @Override
@@ -133,5 +144,10 @@ public class ModelMock implements MutableModel {
   @Override
   public MutableModel copy() {
     return new ModelMock(this.realModel.copy(), this.shouldLie, this.log);
+  }
+
+  @Override
+  public Optional<DiskColor> getWinner() {
+    return Optional.empty();
   }
 }

@@ -56,6 +56,8 @@ public class SimpleReversiBoard extends JPanel {
     MouseEventsListener listener = new MouseEventsListener();
     this.addMouseListener(listener);
     this.cells = new Hexagon[this.model.getNumRows()][];
+    this.selectedX = Optional.empty();
+    this.selectedY = Optional.empty();
   }
 
   /**

@@ -1,28 +1,34 @@
 package cs3500.reversi.player;
 
-import java.util.Optional;
-
+import cs3500.reversi.controller.PlayerActions;
 import cs3500.reversi.model.DiskColor;
-import cs3500.reversi.model.MutableModel;
-import cs3500.reversi.model.ReversiCell;
 
 /**
- * Represents a human player in a Reversi game. Takes user input rather than computing a strategy.
+ * Represents a human player in a Reversi game. The implementation for play is just empty because
+ * a human player should interact through the view.
  */
 public class HumanPlayer implements Player{
   // represents the color of the disks corresponding to this player
   private final DiskColor color;
 
+  // represents the controller for this player
+  private PlayerActions controller;
+
   public HumanPlayer(DiskColor color) {
     this.color = color;
-  }
-  @Override
-  public Optional<ReversiCell> play(MutableModel model) {
-    return Optional.empty();
   }
 
   @Override
   public DiskColor getColor() {
-    return null;
+    return this.color;
+  }
+
+  @Override
+  public void setListener(PlayerActions listener) {
+    this.controller = listener;
+  }
+
+  @Override
+  public void play() {
   }
 }

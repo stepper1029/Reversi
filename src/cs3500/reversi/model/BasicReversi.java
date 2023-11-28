@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Class BasicReversi represents a game of Reversi with standard rules and gameplay. Implements
@@ -54,29 +55,29 @@ class BasicReversi implements MutableModel {
    * @param numPasses the number of passes in a row that have occurred
    * @param currColor the current color of the disc being placed
    */
-  BasicReversi(Board board, int numPasses, DiskColor currColor) {
+  BasicReversi(Board board, int numPasses, DiskColor currColor,
+               HashMap<DiskColor, ModelFeatures> observerMap) {
     this.board = board;
     this.numPasses = numPasses;
     this.currColor = currColor;
-    this.observerMap = new HashMap<>();
+    this.observerMap = observerMap;
   }
 
-  /**
-   * Adds a new observer with the given disk color to the observerMap.
-   *
-   * @param color the color corresponding to this observer
-   * @param observer the observer to add
-   */
-  public void addObserver(DiskColor color, ModelFeatures observer) {
-    this.observerMap.put(color, observer);
+  @Override
+  public void addListener(DiskColor color, ModelFeatures listener) {
+    this.observerMap.put(color, listener);
   }
 
-  /**
-   * Starts the game of Reversi and sends a notification to the first player telling them that it
-   * is their turn.
-   */
+  @Override
   public void startGame() {
-
+    if (this.observerMap.containsKey(DiskColor.Black) &&
+            this.observerMap.containsKey(DiskColor.White) &&
+            this.observerMap.size() == 2) {
+      this.observerMap.get(this.currColor).receiveTurnNotif();
+    }
+    else {
+      throw new IllegalStateException("Not enough controllers to start the game");
+    }
   }
 
   /**
@@ -103,6 +104,7 @@ class BasicReversi implements MutableModel {
 
   @Override
   public int getScore(DiskColor color) {
+
     return this.board.getCells(color).size();
   }
 
@@ -121,21 +123,33 @@ class BasicReversi implements MutableModel {
   }
 
   /**
-   * Notifies the correct observer if the given player is playing out of turn.
+   * Throws an exception if the given color does not match the current color, meaning the player
+   * is trying to move out of turn.
    *
    * @param color color corresponding to the player trying to move
+   * @throws IllegalStateException if the color does not match the current player whose turn it is
    */
-  private void outOfTurnNotification(DiskColor color) {
+  private void outOfTurnException(DiskColor color) {
     if (!this.currColor.equals(color)) {
-      this.observerMap.get(color).receiveOutOfTurnNotif();
+      throw new IllegalStateException("Not your turn!");
     }
   }
 
   @Override
   public void pass(DiskColor color) {
-    //this.outOfTurnNotification(color);
-    this.numPasses += 1;
-    this.setNextColor();
+    if (!this.isGameOver()) {
+      this.outOfTurnException(color);
+      this.numPasses += 1;
+      if (this.isGameOver()) {
+        for(ModelFeatures mf : this.observerMap.values()) {
+          mf.receiveGameOverNotif();
+        }
+      }
+      else {
+        this.setNextColor();
+        this.observerMap.get(this.currColor).receiveTurnNotif();
+      }
+    }
   }
 
   /**
@@ -153,16 +167,26 @@ class BasicReversi implements MutableModel {
 
   @Override
   public void place(ReversiCell cell, DiskColor color) {
-    //this.outOfTurnNotification(color);
-    if (this.allPossibleMoves(color).contains(cell)) {
-      this.numPasses = 0;
-      this.board.placeDisk(cell, color);
-      for (ReversiCell connectingCell : this.getConnections(cell)) {
-        this.flipAll(this.board.getCellsBetween(cell, connectingCell));
+    if (!this.isGameOver()) {
+      this.outOfTurnException(color);
+      if (this.allPossibleMoves(color).contains(cell)) {
+        this.numPasses = 0;
+        this.board.placeDisk(cell, color);
+        for (ReversiCell connectingCell : this.getConnections(cell)) {
+          this.flipAll(this.board.getCellsBetween(cell, connectingCell));
+        }
+        if (this.isGameOver()) {
+          for(ModelFeatures mf : this.observerMap.values()) {
+            mf.receiveGameOverNotif();
+          }
+        }
+        else {
+          this.setNextColor();
+          this.observerMap.get(this.currColor).receiveTurnNotif();
+        }
+      } else {
+        throw new IllegalStateException("Invalid move");
       }
-      this.setNextColor();
-    } else {
-      //this.observerMap.get(color).receiveInvalidMoveNotif();
     }
   }
 
@@ -215,7 +239,28 @@ class BasicReversi implements MutableModel {
 
   @Override
   public MutableModel copy() {
-    return new BasicReversi(this.board.copy(), this.numPasses, this.currColor);
+    return new BasicReversi(this.board.copy(), this.numPasses, this.currColor,
+            new HashMap(this.observerMap));
+  }
+
+  @Override
+  public Optional<DiskColor> getWinner() {
+    if(this.isGameOver()) {
+      int blackScore = this.getScore(DiskColor.Black);
+      int whiteScore = this.getScore(DiskColor.White);
+      if (blackScore == whiteScore) {
+        return Optional.empty();
+      }
+      else if (blackScore > whiteScore) {
+        return Optional.of(DiskColor.Black);
+      }
+      else {
+        return Optional.of(DiskColor.White);
+      }
+    }
+    else {
+      throw new IllegalStateException("Game is not over yet");
+    }
   }
 
   @Override
@@ -307,9 +352,5 @@ class BasicReversi implements MutableModel {
       validMoves.addAll(this.validMovesInAllDirections(cell));
     }
     return new ArrayList<>(new HashSet<>(validMoves));
-  }
-
-  void notifyTurn() {
-    // call to the controller notifyTurn
   }
 }

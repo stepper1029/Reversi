@@ -1,6 +1,9 @@
 package cs3500.reversi.model;
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.swing.text.html.Option;
 
 /**
  * An interface to represent the mutable methods of a model. The two phase interface is used
@@ -113,4 +116,13 @@ public interface ReadOnlyModel {
    * @return a copy of this model.
    */
   MutableModel copy();
+
+  /**
+   * Determines which player won the game. Returns the color of the winner or empty if the game
+   * is tied. Throws an exception if the game is not over yet.
+   *
+   * @return the color of the winning player or empty if the game is tied
+   * @throws IllegalStateException if the game is not over yet
+   */
+  Optional<DiskColor> getWinner();
 }

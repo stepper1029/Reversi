@@ -12,6 +12,7 @@ import java.util.Optional;
 import javax.swing.*;
 // import javax.swing.*;
 
+import cs3500.reversi.controller.PlayerActions;
 import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.ReadOnlyModel;
 
@@ -63,10 +64,7 @@ public class GraphicalView extends JFrame implements ReversiView {
   }
 
   @Override
-  public void addFeatures(ViewFeatures viewFeatures) {
-//    echoButton.addActionListener(evt -> features.echoOutput(input.getText()));
-//    toggleButton.addActionListener(evt -> features.toggleColor());
-//    exitButton.addActionListener(evt -> features.exitProgram());
+  public void addFeatures(PlayerActions playerActions) {
     this.addKeyListener(new KeyListener() {
       @Override
       public void keyTyped(KeyEvent e) {}
@@ -75,12 +73,14 @@ public class GraphicalView extends JFrame implements ReversiView {
       public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
           case KeyEvent.VK_P:
-            viewFeatures.receivePass();
+            playerActions.receivePass();
             break;
 
           case KeyEvent.VK_ENTER:
-            viewFeatures.receivePlace(model.getTurn(),
-                    model.getCellAt(getSelectedX().get(), getSelectedY().get()));
+            if (getSelectedX().isPresent() && getSelectedY().isPresent()) {
+              playerActions.receivePlace(
+                      model.getCellAt(getSelectedX().get(), getSelectedY().get()));
+            }
             break;
         }
       }

@@ -2,6 +2,7 @@ package cs3500.reversi.view;
 
 import java.util.Optional;
 
+import cs3500.reversi.controller.PlayerActions;
 import cs3500.reversi.model.DiskColor;
 
 /**
@@ -14,9 +15,25 @@ public interface ReversiView {
    */
   void makeVisible();
 
-  void popUpNotification(String message);
+  /**
+   * Creates a popup window and shows the provided message. Displays an icon
+   * which represents an error.
+   * @param message string to be displayed
+   */
+  void popUpError(String message);
 
-  void addFeatures(ViewFeatures viewFeatures);
+  /**
+   * Creates a popup window and shows the provided message. Displays an icon
+   * which represents an informational message.
+   * @param message
+   */
+  void popUpMessage(String message);
+
+  /**
+   * Add a feature, or increase the functionality of a player.
+   * @param playerActions the new functionality
+   */
+  void addFeatures(PlayerActions playerActions);
 
   /**
    * Reset the focus on the appropriate part of the view that has the keyboard listener attached to
