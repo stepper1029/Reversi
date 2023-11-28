@@ -158,9 +158,9 @@ public class GraphicalView extends JFrame implements ReversiView {
     gameOverPanel.setBackground(Color.yellow);
     this.add(gameOverPanel, BorderLayout.SOUTH);
     //this.boardPanel.update();
-    this.setScoreLabels(blackScore, whiteScore);
-//    this.scorePanel.revalidate();
-    this.scorePanel.repaint();
+//    this.setScoreLabels(blackScore, whiteScore);
+////    this.scorePanel.revalidate();
+//    this.scorePanel.repaint();
 
 
 
