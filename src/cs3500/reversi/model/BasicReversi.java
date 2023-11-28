@@ -48,19 +48,19 @@ class BasicReversi implements MutableModel {
   }
 
   /**
-   * Constructor to initialize the fields to the given values. Package-private so that classes
-   * outside of this package can only create a new model through the factory class.
+   * Constructor to initialize the fields to all the given values. Used for testing purposes and
+   * for creating a copy of the model. The observer map is not initialized because for testing
+   * the functionality of pass and place, the model does not need to send notifications to the
+   * controller.
    *
    * @param board the board that represents this placement of the pieces in this game
    * @param numPasses the number of passes in a row that have occurred
    * @param currColor the current color of the disc being placed
    */
-  BasicReversi(Board board, int numPasses, DiskColor currColor,
-               HashMap<DiskColor, ModelFeatures> observerMap) {
+  BasicReversi(Board board, int numPasses, DiskColor currColor) {
     this.board = board;
     this.numPasses = numPasses;
     this.currColor = currColor;
-    this.observerMap = observerMap;
   }
 
   @Override
@@ -140,14 +140,16 @@ class BasicReversi implements MutableModel {
     if (!this.isGameOver()) {
       this.outOfTurnException(color);
       this.numPasses += 1;
-      if (this.isGameOver()) {
+      if (this.isGameOver() && this.observerMap != null) {
         for(ModelFeatures mf : this.observerMap.values()) {
           mf.receiveGameOverNotif();
         }
       }
       else {
         this.setNextColor();
-        this.observerMap.get(this.currColor).receiveTurnNotif();
+        if (this.observerMap != null) {
+          this.observerMap.get(this.currColor).receiveTurnNotif();
+        }
       }
     }
   }
@@ -175,14 +177,16 @@ class BasicReversi implements MutableModel {
         for (ReversiCell connectingCell : this.getConnections(cell)) {
           this.flipAll(this.board.getCellsBetween(cell, connectingCell));
         }
-        if (this.isGameOver()) {
+        if (this.isGameOver() && this.observerMap != null) {
           for(ModelFeatures mf : this.observerMap.values()) {
             mf.receiveGameOverNotif();
           }
         }
         else {
           this.setNextColor();
-          this.observerMap.get(this.currColor).receiveTurnNotif();
+          if (this.observerMap != null) {
+            this.observerMap.get(this.currColor).receiveTurnNotif();
+          }
         }
       } else {
         throw new IllegalStateException("Invalid move");
@@ -239,8 +243,7 @@ class BasicReversi implements MutableModel {
 
   @Override
   public MutableModel copy() {
-    return new BasicReversi(this.board.copy(), this.numPasses, this.currColor,
-            new HashMap(this.observerMap));
+    return new BasicReversi(this.board.copy(), this.numPasses, this.currColor);
   }
 
   @Override

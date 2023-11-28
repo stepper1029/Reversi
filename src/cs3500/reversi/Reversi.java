@@ -26,36 +26,55 @@ public class Reversi {
    * with two human players. Creates two players, two views, and two controllers which all
    * are connected by one model. Board size can be specified using the first arg, args[1] and
    * args[2] can be used to specify the player types, either "human" or "strategy1", "strategy2",
-   * "strategy3", "strategy4", to pick increasingly difficult and chained strategies.
+   * "strategy3", "strategy4", to pick increasingly difficult and chained strategies. The default,
+   * with no inputs to main is a board of size 4 with two human players.
    *
    * @param args input
    */
   public static void main(String[] args) {
-    MutableModel model = ReversiCreator.create(4);
-    ReversiView view1 = new GraphicalView(model, DiskColor.Black);
-    ReversiView view2 = new GraphicalView(model, DiskColor.White);
-    Player p1 = new HumanPlayer(DiskColor.Black);
-    Player p2 = new HumanPlayer(DiskColor.White);
+    MutableModel model;
+    ReversiView view1;
+    ReversiView view2;
+    Player p1;
+    Player p2;
     Controller controller1;
     Controller controller2;
 
-    if (args.length == 1) {
+    if (args.length == 0) {
+      model = ReversiCreator.create(4);
+      view1 = new GraphicalView(model, DiskColor.Black);
+      view2 = new GraphicalView(model, DiskColor.White);
+      p1 = new HumanPlayer(DiskColor.Black);
+      p2 = new HumanPlayer(DiskColor.White);
+    }
+    else if (args.length == 1) {
       try {
         int boardSize = Integer.parseInt(args[0]);
         model = ReversiCreator.create(boardSize);
-      } catch (NumberFormatException e) {
-        System.err.println("If there is only one argument, it must be the desired board size");
+        view1 = new GraphicalView(model, DiskColor.Black);
+        view2 = new GraphicalView(model, DiskColor.White);
+        p1 = new HumanPlayer(DiskColor.Black);
+        p2 = new HumanPlayer(DiskColor.White);
+      } catch (IllegalArgumentException e) {
+        throw new IllegalArgumentException("If there is only one argument, it must be the desired " +
+                "board size. Board size must be at least 3.");
       }
     } else if (args.length == 3) {
       try {
         int boardSize = Integer.parseInt(args[0]);
         model = ReversiCreator.create(boardSize);
-      } catch (NumberFormatException e) {
-        System.err.println("First argument must be the desired board size");
+      } catch (IllegalArgumentException e) {
+        throw new IllegalArgumentException("First argument must be the desired board size. Board " +
+                "size must be at least 3.");
       }
+      view1 = new GraphicalView(model, DiskColor.Black);
+      view2 = new GraphicalView(model, DiskColor.White);
 
       p1 = chooseStrategy(args[1], DiskColor.Black, model);
       p2 = chooseStrategy(args[2], DiskColor.White, model);
+    }
+    else {
+      throw new IllegalArgumentException("Invalid number of inputs.");
     }
 
     controller1 = new Controller(model, view1, p1);
