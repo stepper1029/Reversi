@@ -49,7 +49,7 @@ public class GraphicalView extends JFrame implements ReversiView {
     this.gameOverPanel = new JPanel();
 
     // score labels
-    this.setScoreLabels(this.model.getScore(DiskColor.Black), this.model.getScore(DiskColor.White));
+    this.setScoreLabels();
 
     // board panel
     boardPanel = new SimpleReversiBoard(model, this.color);
@@ -91,24 +91,25 @@ public class GraphicalView extends JFrame implements ReversiView {
   }
 
   // initializes and updates the scores on the GUI
-  private void setScoreLabels(int black, int white) {
+  private void setScoreLabels() {
     scorePanel = new JPanel();
     scorePanel.setBackground(Color.LIGHT_GRAY);
     scorePanel.setLayout(new BoxLayout(scorePanel, BoxLayout.X_AXIS));
     scorePanel.add(Box.createVerticalStrut(25));
     this.add(scorePanel, BorderLayout.NORTH);
     // JLabels to hold each player's score. Gets updated after each move.
-    JLabel blackScore = new JLabel("Black: " + black);
+    JLabel blackScore = new JLabel("Black: " + this.model.getScore(DiskColor.Black));
+    System.out.println(this.model.getScore(DiskColor.Black));
     scorePanel.add(blackScore);
     scorePanel.add(Box.createHorizontalStrut(150));
-    JLabel whiteScore = new JLabel("White: " + white);
+    JLabel whiteScore = new JLabel("White: " + this.model.getScore(DiskColor.White));
     scorePanel.add(whiteScore);
     scorePanel.add(Box.createHorizontalGlue());
   }
 
   @Override
   public void update() {
-    this.setScoreLabels(model.getScore(DiskColor.Black), model.getScore(DiskColor.White));
+    this.setScoreLabels();
     this.scorePanel.revalidate();
     this.scorePanel.repaint();
     this.boardPanel.update();
@@ -145,7 +146,7 @@ public class GraphicalView extends JFrame implements ReversiView {
       message = "Game over. You tied!";
     } else if (this.model.getWinner().isPresent() && this.model.getWinner().get().equals(this.color)) {
       message = "Game over. You win!";
-    } else if (this.model.getWinner().isPresent() && !this.model.getWinner().get().equals(this.color)){
+    } else {
       message = "Game Over. You lose :(";
     }
 
@@ -157,25 +158,7 @@ public class GraphicalView extends JFrame implements ReversiView {
     gameOverPanel.add(gameOverLabel, BorderLayout.CENTER);
     gameOverPanel.setBackground(Color.yellow);
     this.add(gameOverPanel, BorderLayout.SOUTH);
-    //this.boardPanel.update();
-//    this.setScoreLabels(blackScore, whiteScore);
-////    this.scorePanel.revalidate();
-//    this.scorePanel.repaint();
-
-
-
-
-//    scorePanel = new JPanel();
-//    scorePanel.setBackground(Color.LIGHT_GRAY);
-//    scorePanel.setLayout(new BoxLayout(scorePanel, BoxLayout.X_AXIS));
-//    scorePanel.add(Box.createVerticalStrut(25));
-//    this.add(scorePanel, BorderLayout.NORTH);
-//    // JLabels to hold each player's score. Gets updated after each move.
-//    JLabel blackScore = new JLabel("Black: " + black);
-//    scorePanel.add(blackScore);
-//    scorePanel.add(Box.createHorizontalStrut(150));
-//    JLabel whiteScore = new JLabel("White: " + white);
-//    scorePanel.add(whiteScore);
-//    scorePanel.add(Box.createHorizontalGlue());
+    this.update();
+    setScoreLabels();
   }
 }

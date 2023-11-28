@@ -65,7 +65,9 @@ public class Controller implements PlayerActions, ModelFeatures {
     try {
       this.model.pass(this.player.getColor());
       System.out.println("passed");
-      this.view.update();
+      if (!this.model.isGameOver()) {
+        this.view.update();
+      }
     }
     catch (IllegalStateException e) {
       this.view.popUpError(e.getMessage());
@@ -80,7 +82,7 @@ public class Controller implements PlayerActions, ModelFeatures {
 
   @Override
   public void receiveGameOverNotif() {
-    view.update();
+    //view.update();
     view.gameOver();
   }
 }
