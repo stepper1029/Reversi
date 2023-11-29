@@ -19,17 +19,16 @@ import cs3500.reversi.model.ReadOnlyModel;
 public class GraphicalView extends JFrame implements ReversiView {
 
   // Private JPanel to hold the scores. Gets updated after each move.
-  private JPanel scorePanel;
-
-  private JLabel blackScore;
-  private JLabel whiteScore;
+  private final JPanel scorePanel;
+  private final JLabel blackScore;
+  private final JLabel whiteScore;
   //Private ReadOnlyModel so the view can observe the model, but not mutate it. Does not need to
   //be visible outside the class.
   private final ReadOnlyModel model;
   //Private final custom JPanel class to hold the rendering of the board.
   private final SimpleReversiBoard boardPanel;
   // private panel to display a message when the game is over
-  private JPanel gameOverPanel;
+  private final JPanel gameOverPanel;
   // color of the player who this view belongs to
   private final DiskColor color;
 

@@ -5,15 +5,28 @@ import java.util.Optional;
 
 import cs3500.reversi.controller.PlayerActions;
 import cs3500.reversi.model.DiskColor;
+import cs3500.reversi.model.ReadOnlyModel;
+
+/**
+ * Mock for the view for testing purposes.
+ */
 
 public class ViewMock implements ReversiView {
 
   private final DiskColor color;
   private final StringBuilder log;
+  private final ReadOnlyModel model;
 
-  public ViewMock(DiskColor color, StringBuilder log) {
+  /**
+   * Constructor with a log to create an instance of the mock view.
+   * @param color disk color ( player who this view belongs to )
+   * @param log stringbuilder to test interactions
+   */
+  public ViewMock(ReadOnlyModel model, DiskColor color, StringBuilder log) {
     this.color = color;
     this.log = log;
+    this.model = model;
+    new BoardPanelMock(model, color, log);
   }
 
   @Override
@@ -33,7 +46,14 @@ public class ViewMock implements ReversiView {
   }
 
   @Override
-  public void addFeatures(PlayerActions playerActions) {}
+  public void addFeatures(PlayerActions playerActions) {
+    this.log.append("View for ").append(this.color).append(" is adding a new action listener\n");
+    playerActions.receivePlace(this.model.getCellAt(2, 2));
+    playerActions.receivePass();
+  }
+
+  private void addKeyListener(KeyListener keyListener) {
+  }
 
   @Override
   public void update() {}

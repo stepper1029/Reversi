@@ -23,9 +23,7 @@ import cs3500.reversi.model.ReadOnlyModel;
 import cs3500.reversi.model.ReversiCell;
 
 /**
- * SimpleReversiBoard extends JPanel. This class represents a JPanel which holds a rendering of
- * the current board in a game of Reversi. This class has features that allow the user to highlight
- * cells using mouse clicks as well as place disks.
+ * Mock
  */
 public class BoardPanelMock extends JPanel {
 
