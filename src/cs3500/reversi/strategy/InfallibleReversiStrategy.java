@@ -10,7 +10,7 @@ import cs3500.reversi.model.ReversiCell;
  * A strategy for Reversi that will never fail. If it cannot find a move, it will throw an error.
  */
 public class InfallibleReversiStrategy {
-  FallibleReversiStrategy strategyAttempt;
+  private FallibleReversiStrategy strategyAttempt;
 
   /**
    * Constructor to initialize the strategy.
