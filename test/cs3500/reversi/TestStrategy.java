@@ -8,25 +8,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
-import javax.swing.text.View;
-
-import cs3500.reversi.controller.Controller;
-import cs3500.reversi.controller.PlayerActions;
 import cs3500.reversi.model.DiskColor;
-import cs3500.reversi.model.ModelFeatures;
 import cs3500.reversi.model.ModelMock;
-import cs3500.reversi.model.MutableModel;
 import cs3500.reversi.model.ReversiCell;
-import cs3500.reversi.model.ReversiCreator;
-import cs3500.reversi.player.HumanPlayer;
-import cs3500.reversi.player.Player;
-import cs3500.reversi.strategy.AvoidCornerAdjacent;
-import cs3500.reversi.strategy.ChooseCorners;
 import cs3500.reversi.strategy.CombineStrategies;
 import cs3500.reversi.strategy.FallibleReversiStrategy;
-import cs3500.reversi.strategy.InfallibleReversiStrategy;
-import cs3500.reversi.strategy.MiniMax;
-import cs3500.reversi.strategy.MostPieces;
 
 /**
  * Tests for the strategy of Reversi.

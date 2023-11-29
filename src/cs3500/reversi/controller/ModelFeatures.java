@@ -1,4 +1,4 @@
-package cs3500.reversi.model;
+package cs3500.reversi.controller;
 
 /**
  * This Features interface connects the model and the controller in order to sent notifications

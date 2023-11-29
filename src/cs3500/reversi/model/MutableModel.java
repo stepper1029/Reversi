@@ -1,5 +1,7 @@
 package cs3500.reversi.model;
 
+import cs3500.reversi.controller.ModelFeatures;
+
 /**
  * An interface to represent the mutable methods of a model. The Model is responsible for keeping
  * track of the rules and moves of the game. The two phase interface is used to restrict access

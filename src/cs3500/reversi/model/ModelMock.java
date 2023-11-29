@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import cs3500.reversi.controller.ModelFeatures;
+
 /**
  * Mock model for testing the strategy. Keeps a log of certain calls that have been made to
  * the mock and can lie about the legality of moves and the score.

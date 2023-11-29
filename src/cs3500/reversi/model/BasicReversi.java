@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import cs3500.reversi.controller.ModelFeatures;
+
 /**
  * Class BasicReversi represents a game of Reversi with standard rules and gameplay. Implements
  * MutableModel interface. Class is package private because the controller and view should go

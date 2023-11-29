@@ -4,11 +4,12 @@ standard rules and game play of Reversi, also known as Othello, but on a hexagon
 This means there are disks of colors white and black which can be placed on the board to
 flip pieces of the opposite color and capture them. The winner is the one who captures the most
 pieces. We made the code extensible for different board shapes, cell shapes, views, and even
-alternate rule sets by making each of these things interfaces. All classes and interfaces assume
-that they are working with interfaces rather than individual classes when applicable. For example,
-A board class in the Board interface can work with any type of cell, so it only works with the
-ReversiCell interface rather than, say, the HexCell class. This way, if we wanted to add square
-cells in a SquareCell class, the board still works.
+alternate rule sets by making each of these things interfaces. The game allows for 2-players, which
+can be either human or AI players. Most classes and interfaces assume that they are working with 
+interfaces rather than individual classes when applicable. For example, a board class in the Board 
+interface can work with any type of cell, so it only works with the ReversiCell interface rather 
+than, say, the HexCell class. This way, if we wanted to add square cells in a SquareCell class, 
+the board still works.
 
 ## Quick Start:
 To get started, a user can run the main class and begin interacting with the displayed view. This 
@@ -53,7 +54,8 @@ Next we have the Model. The model contains a board, and the number of consecutiv
 passes. The Model enforces rules and behavior and then delegates to the board to actually perform
 actions. The model is split into a read-only and mutable interface. The read-only interface 
 provides observable methods, while the mutable interface provides the pass() and place() methods
-to interact with the model. 
+to interact with the model. The model has the ability to add ModelFeatures listeners to send 
+notifications to the controller when it is a player's turn or when the game is over. 
 
 In the Model, we also have two enums we use throughout our code. First is CellDirection which 
 contains the possible directions from which you can make connections between a starting cell and 
@@ -64,11 +66,12 @@ contains the colors that represent the different players. It is convention for R
 by two players, represented by black and white, where black always goes first.
 
 ### Controller:
-The controller is a listener for the Model and the View. It takes notifications like turns
-and invalid moves from the model and sends them to players via the View. It also takes view 
-interactions from the player in the form of mouse clicks and keyboard presses and sends them 
+The controller is a listener for the Model and the View, meaning it implements both the
+PlayerActions interface and the ModelFeatures interface (see more below). It takes notifications 
+like turns and invalid moves from the model and sends them to players via the View. It also takes 
+view interactions from the player in the form of mouse clicks and keyboard presses and sends them 
 to the model. Each player has its own controller and the controller is ignorant to the type of
-player it belongs to, human or computer.
+player it belongs to, human or computer. 
 
 ### View: 
 The View has a ReversiView interface to promise functionality of the frame. This is implemented
@@ -78,8 +81,22 @@ board allows the user to highlight cells through mouse clicks and place disks us
 Players can also pass their turn using the 'P' key. The background of the board becomes light blue
 when it is the corresponding player's turn. It turns white when it is no longer that player's turn
 and does not allow for any interactions with the board. In addition to the background being light 
-blue, all possible moves for the player are highlighted in light pink. When a player selects a cell
-with their mouse, it is highlighted in cyan. 
+blue, all possible moves for the current player are highlighted in light pink. When the user 
+selects a cell with their mouse, it is highlighted in cyan. A user cannot select a cell that
+already has a disk placed on it. It has the ability to register a PlayerActions listener to notify
+the controller when a human player makes a move. 
+
+## PlayerActions
+An interface to represent player actions that come from either a human player through the view or
+an AI player through the AI player class. It is implemented by the controller and contains the
+functionality of handling a player passing and playing. Notifies the listener when either of these
+events occur and handles the event properly. 
+
+## ModelFeatures
+An interface to represent notifications that a model can send. It is implemented by the controller
+and contains the functionality of handling a notification that it is the corresponding player's
+turn or that the game is over. Notifies the listener when either of these events occur and handles
+the event properly. 
 
 ### Strategy:
 The strategy determines how a player should move in a game of Reversi. It includes decisions for
@@ -101,7 +118,9 @@ There are 4 specific strategy classes:
 The Player interface has two methods: play and getColor. play allows the player to choose a move, 
 or return Optional.empty() if they wish to pass. This information will then be handled by the
 controller. getColor allows the controller to access the color associated with the player in order
-to pass into model methods. 
+to pass into model methods. A player can either be a human player or an AI player, which makes
+moves based on a strategy. It has the ability to register a PlayerActions listener to notify
+the controller when an AI player makes a move.
 
 ## Source organization:
 All components having to do with the model are in the src.cs3500.reversi.model package. This 
@@ -129,11 +148,12 @@ all coordinates of the HexCell. This makes it easier to implement the strategy a
 a cell is a corner or next to a corner. 
 - Implemented all required aspects of part 2 as outlined above. 
 
+## Extra credit (part 2):
+All four strategies were implemented and can be composed. See Strategy section above for more
+details.
+
 ## Changes since Part 2:
 - There is no longer a keyboard listener and instead the view uses a features interface. So the 
 controller now implements two features interfaces.
 - The view highlights the cells which are valid moves.
-
-## Extra credit: 
-All four strategies were implemented and can be composed. See Strategy section above for more 
-details.
+- Implemented all required aspects of part 3 as outlined above. 

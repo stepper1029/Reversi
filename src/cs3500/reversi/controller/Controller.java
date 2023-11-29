@@ -1,7 +1,5 @@
 package cs3500.reversi.controller;
 
-import cs3500.reversi.model.DiskColor;
-import cs3500.reversi.model.ModelFeatures;
 import cs3500.reversi.model.MutableModel;
 import cs3500.reversi.model.ReversiCell;
 import cs3500.reversi.player.Player;
