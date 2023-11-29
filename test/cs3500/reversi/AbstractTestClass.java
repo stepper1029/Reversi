@@ -106,11 +106,20 @@ public abstract class AbstractTestClass {
     this.log = new StringBuilder();
     this.mock = new ModelMock(this.model3, false, this.log);
     this.playerMockBlack = new PlayerMock(this.log, this.playerBlack);
-    this.playerMockWhite = new PlayerMock(this.log, this.playerWhite);
+    this.playerMockWhite = new PlayerMock(this.log, new AIPlayer(DiskColor.White,
+            new InfallibleReversiStrategy(new MostPieces()), this.model3));
     this.viewMockBlack = new ViewMock(this.model3, DiskColor.Black, this.log);
     this.viewMockWhite = new ViewMock(this.model3, DiskColor.White, this.log);
     this.controllerBlack = new Controller(this.model3, this.viewBlack, this.playerMockBlack);
     this.controllerWhite = new Controller(this.model3, this.viewWhite, this.playerMockWhite);
+    this.listenerMockBlack = new ListenerMock(this.log, this.playerBlack, this.controllerBlack);
+    this.listenerMockWhite = new ListenerMock(this.log, this.playerWhite, this.controllerWhite);
+  }
+
+  protected void initControllerMock() {
+    this.initModels();
+    this.log = new StringBuilder();
+    this.initGameComponentsHumanAI();
     this.listenerMockBlack = new ListenerMock(this.log, this.playerBlack, this.controllerBlack);
     this.listenerMockWhite = new ListenerMock(this.log, this.playerWhite, this.controllerWhite);
   }

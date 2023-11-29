@@ -37,10 +37,10 @@ public class TestPlayerActions extends AbstractTestClass {
   @Test
   public void testPlayerCallsListener() {
     this.initMocks();
-    System.out.println(this.mock.getTurn());
     this.mock.place(this.mock.getCellAt(0, 1), DiskColor.Black);
     this.listenerMockWhite.receiveTurnNotif();
     System.out.println(this.log);
-    Assert.assertTrue(this.log.toString().contains("black disk"));
+    Assert.assertTrue(this.log.toString().contains("Listener is receiving notification to place a "
+            + "piece at: Cell: q: 0 r: 0 s: 0\nListener is receiving notification to pass"));
   }
 }

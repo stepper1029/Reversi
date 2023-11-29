@@ -143,16 +143,7 @@ class BasicReversi implements MutableModel {
     if (!this.isGameOver()) {
       this.outOfTurnException(color);
       this.numPasses += 1;
-      if (this.isGameOver() && this.observerMap != null) {
-        for (ModelFeatures mf : this.observerMap.values()) {
-          mf.receiveGameOverNotif();
-        }
-      } else {
-        this.setNextColor();
-        if (this.observerMap != null) {
-          this.observerMap.get(this.currColor).receiveTurnNotif();
-        }
-      }
+      this.sendTurnNotif();
     }
   }
 
@@ -179,18 +170,23 @@ class BasicReversi implements MutableModel {
         for (ReversiCell connectingCell : this.getConnections(cell)) {
           this.flipAll(this.board.getCellsBetween(cell, connectingCell));
         }
-        if (this.isGameOver() && this.observerMap != null) {
-          for (ModelFeatures mf : this.observerMap.values()) {
-            mf.receiveGameOverNotif();
-          }
-        } else {
-          this.setNextColor();
-          if (this.observerMap != null) {
-            this.observerMap.get(this.currColor).receiveTurnNotif();
-          }
-        }
+        this.sendTurnNotif();
       } else {
         throw new IllegalStateException("Invalid move");
+      }
+    }
+  }
+
+  // method to send a turn notification to the listeners
+  private void sendTurnNotif() {
+    if (this.isGameOver() && this.observerMap != null) {
+      for (ModelFeatures mf : this.observerMap.values()) {
+        mf.receiveGameOverNotif();
+      }
+    } else {
+      this.setNextColor();
+      if (this.observerMap != null) {
+        this.observerMap.get(this.currColor).receiveTurnNotif();
       }
     }
   }
