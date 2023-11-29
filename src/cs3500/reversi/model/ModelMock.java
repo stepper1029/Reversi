@@ -11,7 +11,7 @@ import cs3500.reversi.controller.ModelFeatures;
  * Mock model for testing the strategy. Keeps a log of certain calls that have been made to
  * the mock and can lie about the legality of moves and the score.
  */
-public class ModelMock implements MutableModel {
+public class ModelMock implements MutableModel, ReadOnlyModel {
   private MutableModel realModel;
   private boolean shouldLie;
   private final StringBuilder log;
@@ -31,12 +31,13 @@ public class ModelMock implements MutableModel {
 
   @Override
   public void addListener(DiskColor color, ModelFeatures listener) {
-
+    this.log.append("Adding a ModelFeatures listener for " + color + "\n");
+    this.realModel.addListener(color, listener);
   }
 
   @Override
   public void startGame() {
-
+    this.realModel.startGame();
   }
 
   @Override
@@ -140,7 +141,7 @@ public class ModelMock implements MutableModel {
 
   @Override
   public DiskColor getTurn() {
-    return null;
+    return this.realModel.getTurn();
   }
 
   @Override

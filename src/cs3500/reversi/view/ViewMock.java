@@ -1,5 +1,6 @@
 package cs3500.reversi.view;
 
+import java.awt.event.KeyListener;
 import java.util.Optional;
 
 import cs3500.reversi.controller.PlayerActions;
@@ -28,7 +29,7 @@ public class ViewMock implements ReversiView {
 
   @Override
   public void gameOver() {
-    log.append("Display game over.");
+    log.append("Display game over.\n");
   }
 
   @Override
