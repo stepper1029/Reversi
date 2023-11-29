@@ -91,20 +91,9 @@ public class GraphicalView extends JFrame implements ReversiView {
   }
 
   // initializes and updates the scores on the GUI
-  private void setScoreLabels() {
-    scorePanel = new JPanel();
-    scorePanel.setBackground(Color.LIGHT_GRAY);
-    scorePanel.setLayout(new BoxLayout(scorePanel, BoxLayout.X_AXIS));
-    scorePanel.add(Box.createVerticalStrut(25));
-    this.add(scorePanel, BorderLayout.NORTH);
-    // JLabels to hold each player's score. Gets updated after each move.
-    JLabel blackScore = new JLabel("Black: " + this.model.getScore(DiskColor.Black));
-    System.out.println(this.model.getScore(DiskColor.Black));
-    scorePanel.add(blackScore);
-    scorePanel.add(Box.createHorizontalStrut(150));
-    JLabel whiteScore = new JLabel("White: " + this.model.getScore(DiskColor.White));
-    scorePanel.add(whiteScore);
-    scorePanel.add(Box.createHorizontalGlue());
+  private void updateScoreLabels() {
+    blackScore.setText("Black: " + this.model.getScore(DiskColor.Black));
+    whiteScore.setText("White: " + this.model.getScore(DiskColor.White));
   }
 
   @Override
@@ -144,7 +133,8 @@ public class GraphicalView extends JFrame implements ReversiView {
     int whiteScore = this.model.getScore(DiskColor.White);
     if (this.model.getWinner().equals(Optional.empty())) {
       message = "Game over. You tied!";
-    } else if (this.model.getWinner().isPresent() && this.model.getWinner().get().equals(this.color)) {
+    } else if (this.model.getWinner().isPresent() &&
+            this.model.getWinner().get().equals(this.color)) {
       message = "Game over. You win!";
     } else {
       message = "Game Over. You lose :(";

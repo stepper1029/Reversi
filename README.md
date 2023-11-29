@@ -75,7 +75,11 @@ The View has a ReversiView interface to promise functionality of the frame. This
 by GraphicalView class which renders the frame of our GUI. This holds two panels, one for the 
 score and one for the board. The board gets its own Panel class called SimpleReversiBoard. This 
 board allows the user to highlight cells through mouse clicks and place disks using the 'enter' key.
-Players can also pass their turn using the 'P' key.
+Players can also pass their turn using the 'P' key. The background of the board becomes light blue
+when it is the corresponding player's turn. It turns white when it is no longer that player's turn
+and does not allow for any interactions with the board. In addition to the background being light 
+blue, all possible moves for the player are highlighted in light pink. When a player selects a cell
+with their mouse, it is highlighted in cyan. 
 
 ### Strategy:
 The strategy determines how a player should move in a game of Reversi. It includes decisions for
