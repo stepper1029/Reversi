@@ -14,6 +14,11 @@ public class HumanPlayer implements Player{
   // represents the controller for this player
   private PlayerActions controller;
 
+  /**
+   * Constructor to initialize the color of this player.
+   *
+   * @param color DiskColor to set as the color for this player
+   */
   public HumanPlayer(DiskColor color) {
     this.color = color;
   }

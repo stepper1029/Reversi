@@ -14,14 +14,14 @@ the board still works.
 ## Quick Start:
 To get started, a user can run the main class and begin interacting with the displayed view. This 
 game will have BasicReversi rules on a hexagonal board with hexagonal cells. To customize the game,
-the player can input 1 or 3 args. If only one arg is input, it should be an int to change
-the board size. If three args are input, the first one remains an int to customize the board size.
-The following two args are to specify the player types, args[1] being for the first player, and
-args[2] being for the second player. Inputting "human" creates a human player, and inputting
-"strategy1", "strategy2", "strategy3", or "strategy4" creates and AI player. Strategy1 uses the
-least complex strategy, MostPieces. Strategy4 chains all the strategies together, and so is
-the hardest AI player to compete against. From Strategy1 to Strategy4, the AI adds a new 
-method of choosing a move and becomes increasingly complex and difficult.
+the player can input 1 or 3 args into the main method in the Reversi class. If only one arg is 
+input, it should be an int to change the board size. If three args are input, the first one remains 
+an int to customize the board size. The following two args are to specify the player types, args[1] 
+being for the first player, and args[2] being for the second player. Inputting "human" creates a 
+human player, and inputting "strategy1", "strategy2", "strategy3", or "strategy4" creates and AI 
+player. Strategy1 uses the least complex strategy, MostPieces. Strategy4 chains all the strategies
+together, and so is the hardest AI player to compete against. From Strategy1 to Strategy4, the AI 
+adds a new method of choosing a move and becomes increasingly complex and difficult.
 
 ## Key components:
 Components that would "drive" the control-flow of the system would be our Main, Controller
@@ -120,7 +120,9 @@ or return Optional.empty() if they wish to pass. This information will then be h
 controller. getColor allows the controller to access the color associated with the player in order
 to pass into model methods. A player can either be a human player or an AI player, which makes
 moves based on a strategy. It has the ability to register a PlayerActions listener to notify
-the controller when an AI player makes a move.
+the controller when an AI player makes a move. The human player implementation just has stub 
+methods because human players should interact with the game through the view and not through the 
+player interface. 
 
 ## Source organization:
 All components having to do with the model are in the src.cs3500.reversi.model package. This 

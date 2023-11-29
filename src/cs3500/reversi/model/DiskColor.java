@@ -35,10 +35,10 @@ public enum DiskColor {
   @Override
   public String toString() {
     if (this.equals(DiskColor.Black)) {
-      return "Black";
+      return "black disk";
     }
     else {
-      return "White";
+      return "white disk";
     }
   }
 }

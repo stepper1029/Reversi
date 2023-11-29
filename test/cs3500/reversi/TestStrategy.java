@@ -17,7 +17,7 @@ import cs3500.reversi.strategy.FallibleReversiStrategy;
 /**
  * Tests for the strategy of Reversi.
  */
-public class TestStrategy extends AbstractTestClass{
+public class TestStrategy extends AbstractTestClass {
   /**
    * Tests that the MostPieces strategy can break ties between moves that have the same value.
    */
@@ -220,7 +220,8 @@ public class TestStrategy extends AbstractTestClass{
             this.avoidCornerAdjacent.bestPotentialMove(this.mock, DiskColor.White,
                     this.mock.allPossibleMoves(DiskColor.White)));
     // cell that is valid and flips more pieces but is adjacent to a corner
-    Assert.assertTrue(this.log.toString().contains("Cell: q: 2 r: -3 s: 1 "));
+    System.out.println(this.log);
+    Assert.assertTrue(this.log.toString().contains("Cell: q: 2 r: -3 s: 1"));
     System.out.println(this.model4.getCellAt(0, 2));
   }
 
