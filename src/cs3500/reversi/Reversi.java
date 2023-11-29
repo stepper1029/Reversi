@@ -56,16 +56,16 @@ public class Reversi {
         p1 = new HumanPlayer(DiskColor.Black);
         p2 = new HumanPlayer(DiskColor.White);
       } catch (IllegalArgumentException e) {
-        throw new IllegalArgumentException("If there is only one argument, it must be the desired " +
-                "board size. Board size must be at least 3.");
+        throw new IllegalArgumentException("If there is only one argument, it must be the desired "
+                + "board size. Board size must be at least 3.");
       }
     } else if (args.length == 3) {
       try {
         int boardSize = Integer.parseInt(args[0]);
         model = ReversiCreator.create(boardSize);
       } catch (IllegalArgumentException e) {
-        throw new IllegalArgumentException("First argument must be the desired board size. Board " +
-                "size must be at least 3.");
+        throw new IllegalArgumentException("First argument must be the desired board size. Board "
+                + "size must be at least 3.");
       }
       view1 = new GraphicalView(model, DiskColor.Black);
       view2 = new GraphicalView(model, DiskColor.White);

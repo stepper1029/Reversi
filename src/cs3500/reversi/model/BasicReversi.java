@@ -54,7 +54,7 @@ class BasicReversi implements MutableModel {
    * Constructor to initialize the fields to all the given values. Used for creating a copy
    * of the model. Private because it is only used to create a copy of the model within this class.
    *
-   * @param board the board that represents this placement of the pieces in this game
+   * @param board     the board that represents this placement of the pieces in this game
    * @param numPasses the number of passes in a row that have occurred
    * @param currColor the current color of the disc being placed
    */
@@ -78,8 +78,7 @@ class BasicReversi implements MutableModel {
             this.observerMap.containsKey(DiskColor.White) &&
             this.observerMap.size() == 2) {
       this.observerMap.get(this.currColor).receiveTurnNotif();
-    }
-    else {
+    } else {
       throw new IllegalStateException("Not enough controllers to start the game");
     }
   }
@@ -145,11 +144,10 @@ class BasicReversi implements MutableModel {
       this.outOfTurnException(color);
       this.numPasses += 1;
       if (this.isGameOver() && this.observerMap != null) {
-        for(ModelFeatures mf : this.observerMap.values()) {
+        for (ModelFeatures mf : this.observerMap.values()) {
           mf.receiveGameOverNotif();
         }
-      }
-      else {
+      } else {
         this.setNextColor();
         if (this.observerMap != null) {
           this.observerMap.get(this.currColor).receiveTurnNotif();
@@ -182,11 +180,10 @@ class BasicReversi implements MutableModel {
           this.flipAll(this.board.getCellsBetween(cell, connectingCell));
         }
         if (this.isGameOver() && this.observerMap != null) {
-          for(ModelFeatures mf : this.observerMap.values()) {
+          for (ModelFeatures mf : this.observerMap.values()) {
             mf.receiveGameOverNotif();
           }
-        }
-        else {
+        } else {
           this.setNextColor();
           if (this.observerMap != null) {
             this.observerMap.get(this.currColor).receiveTurnNotif();
@@ -252,20 +249,17 @@ class BasicReversi implements MutableModel {
 
   @Override
   public Optional<DiskColor> getWinner() {
-    if(this.isGameOver()) {
+    if (this.isGameOver()) {
       int blackScore = this.getScore(DiskColor.Black);
       int whiteScore = this.getScore(DiskColor.White);
       if (blackScore == whiteScore) {
         return Optional.empty();
-      }
-      else if (blackScore > whiteScore) {
+      } else if (blackScore > whiteScore) {
         return Optional.of(DiskColor.Black);
-      }
-      else {
+      } else {
         return Optional.of(DiskColor.White);
       }
-    }
-    else {
+    } else {
       throw new IllegalStateException("Game is not over yet");
     }
   }

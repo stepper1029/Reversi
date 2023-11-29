@@ -25,7 +25,7 @@ public class InfallibleReversiStrategy {
    * Determines if the player should pass or not.
    *
    * @param model the model to make moves based on
-   *    * @param color the player to move for
+   * @param color the player to move for
    * @return true if the player should pass
    */
   public boolean shouldPass(ReadOnlyModel model, DiskColor color) {

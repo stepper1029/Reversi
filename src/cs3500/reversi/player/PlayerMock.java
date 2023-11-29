@@ -15,6 +15,7 @@ public class PlayerMock implements Player {
     this.log = log;
     this.player = player;
   }
+
   @Override
   public DiskColor getColor() {
     return this.player.getColor();

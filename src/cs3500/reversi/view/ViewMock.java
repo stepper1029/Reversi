@@ -31,7 +31,7 @@ public class ViewMock implements ReversiView {
 
   @Override
   public void makeVisible() {
-
+    // no necessary to implement for the mock
   }
 
   @Override
@@ -53,10 +53,13 @@ public class ViewMock implements ReversiView {
   }
 
   private void addKeyListener(KeyListener keyListener) {
+    // no necessary to implement for the mock
   }
 
   @Override
-  public void update() {}
+  public void update() {
+    // no necessary to implement for the mock
+  }
 
   @Override
   public void place(DiskColor color) {

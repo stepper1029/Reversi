@@ -23,7 +23,7 @@ import cs3500.reversi.model.ReadOnlyModel;
 import cs3500.reversi.model.ReversiCell;
 
 /**
- * Mock
+ * Mock for the panel that displays the board.
  */
 public class BoardPanelMock extends JPanel {
 

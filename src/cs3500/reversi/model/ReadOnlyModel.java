@@ -3,8 +3,6 @@ package cs3500.reversi.model;
 import java.util.List;
 import java.util.Optional;
 
-import javax.swing.text.html.Option;
-
 /**
  * An interface to represent the mutable methods of a model. The two phase interface is used
  * to restrict access to the methods of a model, only giving observable methods to classes that

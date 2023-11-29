@@ -1,12 +1,21 @@
 package cs3500.reversi.view;
 
-import java.awt.*;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.util.Objects;
 import java.util.Optional;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.BoxLayout;
+import javax.swing.Box;
+import javax.swing.JOptionPane;
+
 
 import cs3500.reversi.controller.PlayerActions;
 import cs3500.reversi.model.DiskColor;
@@ -80,26 +89,26 @@ public class GraphicalView extends JFrame implements ReversiView {
   public void addFeatures(PlayerActions playerActions) {
     this.addKeyListener(new KeyListener() {
       @Override
-      public void keyTyped(KeyEvent e) { update(); }
+      public void keyTyped(KeyEvent e) {
+        update();
+      }
 
       @Override
       public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()) {
-          case KeyEvent.VK_P:
-            playerActions.receivePass();
-            break;
-
-          case KeyEvent.VK_ENTER:
-            if (getSelectedX().isPresent() && getSelectedY().isPresent()) {
-              playerActions.receivePlace(
-                      model.getCellAt(getSelectedX().get(), getSelectedY().get()));
-            }
-            break;
+        if (e.getKeyCode() == KeyEvent.VK_P) {
+          playerActions.receivePass();
+        } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+          if (getSelectedX().isPresent() && getSelectedY().isPresent()) {
+            playerActions.receivePlace(
+                    model.getCellAt(getSelectedX().get(), getSelectedY().get()));
+          }
         }
       }
 
       @Override
-      public void keyReleased(KeyEvent e) {  }
+      public void keyReleased(KeyEvent e) {
+        // no events need to happen when the key is released
+      }
     });
   }
 

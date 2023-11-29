@@ -1,11 +1,7 @@
 package cs3500.reversi.player;
 
-import java.util.Optional;
-
 import cs3500.reversi.controller.PlayerActions;
 import cs3500.reversi.model.DiskColor;
-import cs3500.reversi.model.MutableModel;
-import cs3500.reversi.model.ReversiCell;
 
 /**
  * Represents a player in the game of Reversi: can be a person or an AI player.

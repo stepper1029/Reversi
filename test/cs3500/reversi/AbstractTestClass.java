@@ -1,11 +1,8 @@
 package cs3500.reversi;
 
-import javax.swing.text.View;
-
 import cs3500.reversi.controller.Controller;
 import cs3500.reversi.controller.ListenerMock;
 import cs3500.reversi.model.DiskColor;
-import cs3500.reversi.controller.ModelFeatures;
 import cs3500.reversi.model.ModelMock;
 import cs3500.reversi.model.MutableModel;
 import cs3500.reversi.model.ReversiCreator;

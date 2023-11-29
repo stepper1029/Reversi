@@ -3,8 +3,6 @@ package cs3500.reversi;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.concurrent.BlockingDeque;
-
 import cs3500.reversi.model.DiskColor;
 
 /**
@@ -32,8 +30,8 @@ public class TestPlayerActions extends AbstractTestClass {
     this.initMocks();
     this.viewMockBlack.addFeatures(this.listenerMockBlack);
     this.viewMockBlack.addFeatures(this.listenerMockWhite);
-    Assert.assertTrue(this.log.toString().contains("Listener is receiving notification to place a " +
-            "piece at: Cell: q: 0 r: 0 s: 0\nListener is receiving notification to pass"));
+    Assert.assertTrue(this.log.toString().contains("Listener is receiving notification to place a "
+            + "piece at: Cell: q: 0 r: 0 s: 0\nListener is receiving notification to pass"));
   }
 
   @Test
@@ -43,5 +41,6 @@ public class TestPlayerActions extends AbstractTestClass {
     this.mock.place(this.mock.getCellAt(0, 1), DiskColor.Black);
     this.listenerMockWhite.receiveTurnNotif();
     System.out.println(this.log);
+    Assert.assertTrue(this.log.toString().contains("black disk"));
   }
- }
+}

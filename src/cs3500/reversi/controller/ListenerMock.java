@@ -10,7 +10,6 @@ import cs3500.reversi.player.Player;
 public class ListenerMock implements PlayerActions, ModelFeatures {
   private final StringBuilder log;
   private final Player player;
-  private final Controller controller;
 
   /**
    * Constructor to initialize the log.
@@ -20,7 +19,6 @@ public class ListenerMock implements PlayerActions, ModelFeatures {
   public ListenerMock(StringBuilder log, Player player, Controller controller) {
     this.log = log;
     this.player = player;
-    this.controller = controller;
   }
 
   @Override
