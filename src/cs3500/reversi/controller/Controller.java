@@ -80,7 +80,6 @@ public class Controller implements PlayerActions, ModelFeatures {
 
   @Override
   public void receiveGameOverNotif() {
-    //view.update();
     view.gameOver();
   }
 }

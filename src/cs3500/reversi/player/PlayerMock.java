@@ -30,7 +30,7 @@ public class PlayerMock implements Player {
 
   @Override
   public void play() {
-    this.log.append("Making a move for " + this.player.getColor() + " player");
+    this.log.append("Making a move for " + this.player.getColor() + " player\n");
     this.player.play();
   }
 }

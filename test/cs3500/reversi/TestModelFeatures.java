@@ -53,7 +53,18 @@ public class TestModelFeatures extends AbstractTestClass {
     this.model4.addListener(DiskColor.White, this.listenerMockWhite);
     this.model4.startGame();
     this.model4.pass(DiskColor.Black);
-    System.out.println(this.model4.getTurn());
     this.model4.pass(DiskColor.White);
+    Assert.assertTrue(this.log.toString().contains("Listener is receiving game over notification"));
+  }
+
+  @Test
+  public void testListenerCallsModel() {
+    this.initMocks();
+    this.controllerBlack.receiveTurnNotif();
+    this.model3.place(this.model3.getCellAt(0, 1), DiskColor.Black);
+    Assert.assertTrue(this.log.toString().contains("Checking/ placing white disk at Cell: q: -2 r: " +
+            "1 s: 1\n" +
+            "Returning score: 4\n" +
+            "Making a move for black disk player"));
   }
 }
