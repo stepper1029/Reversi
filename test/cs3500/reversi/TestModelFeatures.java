@@ -62,8 +62,8 @@ public class TestModelFeatures extends AbstractTestClass {
     this.initMocks();
     this.controllerBlack.receiveTurnNotif();
     this.model3.place(this.model3.getCellAt(0, 1), DiskColor.Black);
-    Assert.assertTrue(this.log.toString().contains("Checking/ placing white disk at Cell: q: -2 r: " +
-            "1 s: 1\n" +
+    Assert.assertTrue(this.log.toString().contains("Checking/ placing white disk at Cell: q: -2 r:"
+            + " 1 s: 1\n" +
             "Returning score: 4\n" +
             "Making a move for black disk player"));
   }
