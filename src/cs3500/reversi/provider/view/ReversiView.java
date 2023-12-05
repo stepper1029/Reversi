@@ -1,4 +1,4 @@
-package view;
+package cs3500.reversi.provider.view;
 
 /**
  * <h3>ReversiView Interface</h3>

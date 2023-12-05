@@ -1,12 +1,12 @@
-package strategies;
+package cs3500.reversi.provider.strategy;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Coordinate;
-import model.GamePieceColor;
-import model.ReadonlyReversiModel;
-import model.ReversiModel;
+import cs3500.reversi.provider.model.Coordinate;
+import cs3500.reversi.provider.model.GamePieceColor;
+import cs3500.reversi.provider.model.ReadonlyReversiModel;
+import cs3500.reversi.provider.model.ReversiModel;
 
 /**
  * <h3>MinMaxStrategy Class</h3>

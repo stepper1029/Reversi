@@ -1,7 +1,7 @@
-package view;
+package cs3500.reversi.provider.view;
 
-import model.Coordinate;
-import model.GamePieceColor;
+import cs3500.reversi.provider.model.Coordinate;
+import cs3500.reversi.provider.model.GamePieceColor;
 
 /**
  * <h3>ViewFeatures Interface</h3>

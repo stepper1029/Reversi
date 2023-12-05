@@ -1,20 +1,19 @@
-package strategies;
+package cs3500.reversi.provider.strategy;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import model.Coordinate;
-import model.GamePiece;
-import model.GamePieceColor;
-import model.Piece;
-import model.ReadonlyReversiModel;
+import cs3500.reversi.provider.model.Coordinate;
+import cs3500.reversi.provider.model.GamePieceColor;
+import cs3500.reversi.provider.model.Piece;
+import cs3500.reversi.provider.model.ReadonlyReversiModel;
 
 /**
  * <h3>MaximumCaptures Class</h3>>
  * This strategy finds the piece of the game board in a given model that will capture the most
- *     amount of {@link GamePiece} for the given {@link GamePieceColor}. If there are multiple
+ *     amount of game pieces for the given {@link GamePieceColor}. If there are multiple
  *     moves that would yield the same maximum, the method findBestTurn() returns the top-leftmost
  *     {@link Coordinate}.
  * @see ReversiStrategy

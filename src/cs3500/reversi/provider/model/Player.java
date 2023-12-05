@@ -1,6 +1,6 @@
 package cs3500.reversi.provider.model;
 
-import view.ViewFeatures;
+import cs3500.reversi.provider.view.ViewFeatures;
 
 /**
  * <h3>Player Interface</h3>

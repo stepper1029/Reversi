@@ -1,9 +1,9 @@
-package strategies;
+package cs3500.reversi.provider.strategy;
 
-import model.Coordinate;
-import model.GamePieceColor;
-import model.ReadonlyReversiModel;
-import model.ReversiModel;
+import cs3500.reversi.provider.model.Coordinate;
+import cs3500.reversi.provider.model.GamePieceColor;
+import cs3500.reversi.provider.model.ReadonlyReversiModel;
+import cs3500.reversi.provider.model.ReversiModel;
 
 /**
  * <h3>ReversiStrategy Interface</h3>
@@ -13,7 +13,6 @@ import model.ReversiModel;
  *     {@link ReversiModel} and a {@link GamePieceColor}.
  */
 public interface ReversiStrategy {
-
   /**
    * Finds the best turn available for the given strategy. This method will
    *     return the {@link Coordinate} of the tile that has the best move.

@@ -1,8 +1,8 @@
-package view;
+package cs3500.reversi.provider.view;
 
 import java.awt.Polygon;
 
-import model.Coordinate;
+import cs3500.reversi.provider.model.Coordinate;
 
 /**
  * <h3>ReversiPolygon Abstract Class</h3>

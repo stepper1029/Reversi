@@ -1,4 +1,4 @@
-package view;
+package cs3500.reversi.provider.view;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -10,10 +10,9 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
-import model.Coordinate;
-import model.GamePiece;
-import model.GamePieceColor;
-import model.Piece;
+import cs3500.reversi.provider.model.Coordinate;
+import cs3500.reversi.provider.model.GamePieceColor;
+import cs3500.reversi.provider.model.Piece;
 
 /**
  * <h3>ReversiPanel Class</h3>
@@ -22,7 +21,6 @@ import model.Piece;
  *     and each game piece present on the board.
  * @see Hexagon
  * @see ReversiPolygon
- * @see GamePiece
  * @see GamePieceColor
  */
 public class ReversiPanel extends JPanel implements IReversiPanel {

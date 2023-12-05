@@ -1,7 +1,7 @@
-package strategies;
+package cs3500.reversi.provider.strategy;
 
-import model.GamePieceColor;
-import model.ReadonlyReversiModel;
+import cs3500.reversi.provider.model.GamePieceColor;
+import cs3500.reversi.provider.model.ReadonlyReversiModel;
 
 /**
  * <h3>ReversiStrategyExceptions Abstract Class</h3>
