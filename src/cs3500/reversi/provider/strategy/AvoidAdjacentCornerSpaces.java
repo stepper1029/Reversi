@@ -1,12 +1,12 @@
-package cs3500.reversi.provider.strategy;
+package strategies;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cs3500.reversi.provider.model.Coordinate;
-import cs3500.reversi.provider.model.GamePieceColor;
-import cs3500.reversi.provider.model.Piece;
-import cs3500.reversi.provider.model.ReadonlyReversiModel;
+import model.Coordinate;
+import model.GamePieceColor;
+import model.Piece;
+import model.ReadonlyReversiModel;
 
 /**
  * <h3>AvoidAdjacentCornerSpaces Class</h3>

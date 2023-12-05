@@ -1,11 +1,11 @@
-package cs3500.reversi.provider.strategy;
+package strategies;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cs3500.reversi.provider.model.Coordinate;
-import cs3500.reversi.provider.model.ReadonlyReversiModel;
-import cs3500.reversi.provider.model.ReversiModel;
+import model.Coordinate;
+import model.ReadonlyReversiModel;
+import model.ReversiModel;
 
 /**
  * <h3>CornerStrategies Abstract Class</h3>
@@ -14,8 +14,7 @@ import cs3500.reversi.provider.model.ReversiModel;
  *     require a method that returns a list of the corner pieces for the given model.
  * @see ReversiModel
  */
-abstract class CornerStrategies extends cs3500.reversi.provider.strategy.ReversiStrategyExceptions
-{
+abstract class CornerStrategies extends ReversiStrategyExceptions {
 
   /**
    * Finds all the corners of this {@link ReversiModel}'s game board.

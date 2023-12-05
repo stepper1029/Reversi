@@ -1,4 +1,4 @@
-package cs3500.reversi.provider.view;
+package view;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -14,9 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cs3500.reversi.provider.model.Coordinate;
-import cs3500.reversi.provider.model.Piece;
-import cs3500.reversi.provider.model.ReadonlyReversiModel;
+import model.Coordinate;
+import model.Piece;
+import model.ReadonlyReversiModel;
 
 /**
  * <h3>ReversiGUIView Class</h3>

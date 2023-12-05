@@ -1,7 +1,7 @@
-package cs3500.reversi.provider.view;
+package view;
 
 import java.awt.Polygon;
-import cs3500.reversi.provider.model.Coordinate;
+import model.Coordinate;
 
 /**
  * <h3>Hexagon Class</h3>

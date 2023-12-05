@@ -1,14 +1,15 @@
-package cs3500.reversi.provider.strategy;
+package strategies;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import cs3500.reversi.provider.model.Coordinate;
-import cs3500.reversi.provider.model.ReadonlyReversiModel;
-import cs3500.reversi.provider.model.Piece;
-import cs3500.reversi.provider.model.GamePieceColor;
+import model.Coordinate;
+import model.GamePiece;
+import model.GamePieceColor;
+import model.Piece;
+import model.ReadonlyReversiModel;
 
 /**
  * <h3>MaximumCaptures Class</h3>>

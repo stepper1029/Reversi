@@ -1,8 +1,8 @@
-package cs3500.reversi.provider.strategy;
+package strategies;
 
-import cs3500.reversi.provider.model.Coordinate;
-import cs3500.reversi.provider.model.GamePieceColor;
-import cs3500.reversi.provider.model.ReadonlyReversiModel;
+import model.Coordinate;
+import model.GamePieceColor;
+import model.ReadonlyReversiModel;
 
 /**
  * Represents a {@link ReversiStrategy} that tries two Strategies. The first strategy is

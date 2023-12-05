@@ -1,4 +1,4 @@
-package cs3500.reversi.provider.view;
+package view;
 
 /**
  * <h3>Message Enumeration</h3>
