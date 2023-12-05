@@ -10,6 +10,8 @@ import cs3500.reversi.provider.model.GamePieceColor;
 import cs3500.reversi.provider.model.ModelFeatures;
 import cs3500.reversi.provider.model.Piece;
 import cs3500.reversi.provider.model.ReversiModel;
+import cs3500.reversi.model.ReversiCell;
+import cs3500.reversi.model.DiskColor;
 
 public class ModelAdapter implements ReversiModel {
 
@@ -94,7 +96,7 @@ public class ModelAdapter implements ReversiModel {
 
   @Override
   public void startGame() throws IllegalArgumentException, IllegalStateException {
-
+    this.adaptee.startGame();
   }
 
   @Override
@@ -114,17 +116,29 @@ public class ModelAdapter implements ReversiModel {
 
   @Override
   public void setIsGameOver(boolean b) {
-
   }
 
   @Override
   public GamePieceColor passTurn(GamePieceColor color) throws IllegalArgumentException {
-    return null;
+    Optional<DiskColor> dc = ValueClassAdapters.gpcToDC(color);
+    if (dc.isPresent()) {
+      this.adaptee.pass(dc.get());
+      return ValueClassAdapters.dcToGPC(DiskColor.getNextColor(dc.get()));
+    } else {
+      throw new IllegalArgumentException("Empty cannot pass.");
+    }
   }
 
   @Override
   public List<Piece> getBoardCopy() {
-    return null;
+    List<ReversiCell> list = new ArrayList<>(List.of());
+    for (int row = 0; row < this.getNumRows(); row ++) {
+      for (int cell = 0; cell < this.adaptee.getRowSize(row); cell ++) {
+        ReversiCell rc = this.adaptee.getCellAt(row, cell);
+        // fixme : adapt to use Pieces instead of ReversiCells
+        list.add(rc);
+      }
+    }
   }
 
   @Override
