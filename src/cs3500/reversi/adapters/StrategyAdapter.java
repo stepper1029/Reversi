@@ -6,10 +6,7 @@ import java.util.Optional;
 import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.ReadOnlyModel;
 import cs3500.reversi.model.ReversiCell;
-import cs3500.reversi.provider.model.Coordinate;
-import cs3500.reversi.provider.model.GamePieceColor;
-import cs3500.reversi.provider.model.ReadonlyReversiModel;
-import cs3500.reversi.provider.strategy.ReversiStrategy;
+import cs3500.reversi.provider.strategy.ReversiStrategy
 import cs3500.reversi.strategy.FallibleReversiStrategy;
 
 public class StrategyAdapter implements FallibleReversiStrategy {
@@ -24,13 +21,18 @@ public class StrategyAdapter implements FallibleReversiStrategy {
   }
 
   @Override
-  public List<ReversiCell> allGoodMoves(ReadOnlyModel model, DiskColor player, List<ReversiCell> possibleMoves) {
+  public List<ReversiCell> allGoodMoves(ReadOnlyModel model, DiskColor player,
+                                        List<ReversiCell> possibleMoves) {
     return null;
   }
 
   @Override
-  public Optional<ReversiCell> bestPotentialMove(ReadOnlyModel model, DiskColor player, List<ReversiCell> possibleMoves) {
-    return Optional.empty();
+  public Optional<ReversiCell> bestPotentialMove(ReadOnlyModel model, DiskColor player,
+                                                 List<ReversiCell> possibleMoves) {
+    try {
+      return this.adaptee.findBestTurn(new ModelAdapter(model), ValueClassAdapters.dcToGPC(player))
+    }
+    catch ()
   }
 
   @Override
