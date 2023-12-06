@@ -1,9 +1,11 @@
 package cs3500.reversi.adapters;
 
+import java.util.List;
 import java.util.Optional;
 
 import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.MutableModel;
+import cs3500.reversi.model.ReadOnlyModel;
 import cs3500.reversi.model.ReversiCell;
 import cs3500.reversi.provider.model.Coordinate;
 import cs3500.reversi.provider.model.GamePieceColor;
@@ -38,19 +40,52 @@ public class ValueClassAdapters {
     }
   }
 
-  public static ReversiCell PieceToCell(Piece piece, MutableModel model) {
+  public static ReversiCell PieceToCell(Piece piece, ReadOnlyModel model) {
     int x = piece.getCoordinate().getX();
     int y = piece.getCoordinate().getY();
 
-  }
-
-  public static Piece CellToPiece(ReversiCell cell) {
-
-  }
-
-  public static ReversiCell CoordinateToCell(Coordinate coord) {
-    int row;
+    int row = y + ((model.getNumRows() - 1) / 2);
     int col;
+    if (x%2 == 0) {
+      col = ((-1 * x) / 2) + ((model.getNumRows() - 1) / 2);
+    } else {
+      col = (((-1 * x) -1) / 2) + ((model.getNumRows() - 1) / 2);
+    }
 
+    return model.getCellAt(row, col);
+  }
+
+  public static Piece CellToPiece(ReversiCell cell, ReadOnlyModel model) {
+    int q = cell.getCoord('q');
+    int r = cell.getCoord('r');
+    int s = cell.getCoord('s');
+
+
+    int x = -1 * s + q;
+    int y = r;
+
+    Coordinate coord = new Coordinate(x, y);
+    //List<Piece> board = model.getBoard();
+    for (Piece p : board) {
+      if (p.getCoordinate().equals(coord)) {
+        return p;
+      }
+    }
+    throw new IllegalArgumentException("no such cell");
+  }
+
+  public static ReversiCell CoordinateToCell(Coordinate coord, ReadOnlyModel model) {
+    int y = coord.getY();
+    int x = coord.getX();
+
+    int row = y + ((model.getNumRows() - 1) / 2);
+    int col;
+    if (x%2 == 0) {
+      col = ((-1 * x) / 2) + ((model.getNumRows() - 1) / 2);
+    } else {
+      col = (((-1 * x) -1) / 2) + ((model.getNumRows() - 1) / 2);
+    }
+
+    return model.getCellAt(row, col);
   }
 }

@@ -30,7 +30,9 @@ public class StrategyAdapter implements FallibleReversiStrategy {
   public Optional<ReversiCell> bestPotentialMove(ReadOnlyModel model, DiskColor player,
                                                  List<ReversiCell> possibleMoves) {
     try {
-      return this.adaptee.findBestTurn(new ModelAdapter(model), ValueClassAdapters.dcToGPC(player))
+      Coordinate coord = this.adaptee.findBestTurn(new ReadOnlyModelAdapter(model),
+              ValueClassAdapters.dcToGPC(player));
+      return Optional.ofNullable(ValueClassAdapters.CoordinateToCell(coord, model));
     }
     catch ()
   }

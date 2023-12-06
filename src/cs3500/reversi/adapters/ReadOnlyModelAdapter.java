@@ -1,34 +1,34 @@
 package cs3500.reversi.adapters;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import cs3500.reversi.model.MutableModel;
 import cs3500.reversi.provider.model.Coordinate;
 import cs3500.reversi.provider.model.GamePieceColor;
-import cs3500.reversi.provider.model.ModelFeatures;
 import cs3500.reversi.provider.model.Piece;
-import cs3500.reversi.provider.model.ReversiModel;
+import cs3500.reversi.provider.model.ReadonlyReversiModel;
 import cs3500.reversi.model.ReversiCell;
 import cs3500.reversi.model.DiskColor;
 
-public class ModelAdapter implements ReversiModel {
+public class ReadOnlyModelAdapter implements ReadonlyReversiModel {
 
   // from ours to theirs
   // our model needs to fit into their view/strategy
 
   private MutableModel adaptee;
 
-  public ModelAdapter(MutableModel adaptee) {
+  public ReadOnlyModelAdapter(ReadOnlyModel adaptee) {
     this.adaptee = adaptee;
   }
 
   @Override
   public GamePieceColor getColorAt(Coordinate coordinate) throws IllegalArgumentException {
-    // fixme: adapt between coordinate grids and adapt colors
-    ReversiCell cell = this.adaptee.getCellAt(coordinate.getX(), coordinate.getY());
-    return ValueClassAdapters.dcToGPC(this.adaptee.getColorAt(cell));
+    ReversiCell cell = ValueClassAdapters.CoordinateToCell(coordinate, adaptee);
+    DiskColor color = this.adaptee.getColorAt(cell);
+    return ValueClassAdapters.dcToGPC(color);
   }
 
   @Override
@@ -47,7 +47,15 @@ public class ModelAdapter implements ReversiModel {
 
   @Override
   public List<Piece> getBoard() {
-    return null;
+    List<Piece> list = new ArrayList<>(Arrays.asList());
+    for (int row = 0; row < this.adaptee.getNumRows(); row++ ) {
+      for (int col = 0; col < this.adaptee.getRowSize(col); col++ ) {
+        ReversiCell cell = this.adaptee.getCellAt(row, col);
+        ValueClassAdapters.CellToPiece(cell, this.adaptee);
+
+      }
+    }
+    return list;
   }
 
   @Override
@@ -71,6 +79,16 @@ public class ModelAdapter implements ReversiModel {
 
   @Override
   public boolean isMoveValid(Coordinate coor, GamePieceColor color) {
+    ReversiCell cell = ValueClassAdapters.CoordinateToCell(coor, this.adaptee);
+    if (ValueClassAdapters.gpcToDC(color).isPresent()) {
+      List<ReversiCell> list = this.adaptee.allPossibleMoves(
+              ValueClassAdapters.gpcToDC(color).get());
+      for (ReversiCell c : list) {
+        if(c.equals(cell)) {
+          return true;
+        }
+      }
+    }
     return false;
   }
 
@@ -92,57 +110,5 @@ public class ModelAdapter implements ReversiModel {
   @Override
   public boolean noMoves(GamePieceColor color) {
     return false;
-  }
-
-  @Override
-  public void startGame() throws IllegalArgumentException, IllegalStateException {
-    this.adaptee.startGame();
-  }
-
-  @Override
-  public void flipRun(List<Piece> run, GamePieceColor color) {
-
-  }
-
-  @Override
-  public void flipDisc(Piece gp) {
-
-  }
-
-  @Override
-  public void turn(Coordinate destCoordinate, GamePieceColor color) {
-
-  }
-
-  @Override
-  public void setIsGameOver(boolean b) {
-  }
-
-  @Override
-  public GamePieceColor passTurn(GamePieceColor color) throws IllegalArgumentException {
-    Optional<DiskColor> dc = ValueClassAdapters.gpcToDC(color);
-    if (dc.isPresent()) {
-      this.adaptee.pass(dc.get());
-      return ValueClassAdapters.dcToGPC(DiskColor.getNextColor(dc.get()));
-    } else {
-      throw new IllegalArgumentException("Empty cannot pass.");
-    }
-  }
-
-  @Override
-  public List<Piece> getBoardCopy() {
-    List<ReversiCell> list = new ArrayList<>(List.of());
-    for (int row = 0; row < this.getNumRows(); row ++) {
-      for (int cell = 0; cell < this.adaptee.getRowSize(row); cell ++) {
-        ReversiCell rc = this.adaptee.getCellAt(row, cell);
-        // fixme : adapt to use Pieces instead of ReversiCells
-        list.add(rc);
-      }
-    }
-  }
-
-  @Override
-  public void addListener(ModelFeatures listener) {
-    this.adaptee.addListener(listener);
   }
 }

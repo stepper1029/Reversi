@@ -1,6 +1,6 @@
 package cs3500.reversi;
 
-import cs3500.reversi.adapters.ModelAdapter;
+import cs3500.reversi.adapters.ReadOnlyModelAdapter;
 import cs3500.reversi.adapters.StrategyAdapter;
 import cs3500.reversi.adapters.ViewAdapter;
 import cs3500.reversi.controller.Controller;
@@ -22,7 +22,6 @@ import cs3500.reversi.strategy.InfallibleReversiStrategy;
 import cs3500.reversi.strategy.MiniMax;
 import cs3500.reversi.strategy.MostPieces;
 import cs3500.reversi.view.GraphicalView;
-import cs3500.reversi.view.ReversiView;
 
 /**
  * Class Reversi to run the game.
@@ -51,7 +50,7 @@ public class Reversi {
     if (args.length == 0) {
       model = ReversiCreator.create(4);
       view1 = new GraphicalView(model, DiskColor.Black);
-      view2 = new ReversiGUIView(new ModelAdapter(model), 2);
+      view2 = new ReversiGUIView(new ReadOnlyModelAdapter(model), 2);
       p1 = new HumanPlayer(DiskColor.Black);
       p2 = new HumanPlayer(DiskColor.White);
     }
@@ -60,7 +59,7 @@ public class Reversi {
         int boardSize = Integer.parseInt(args[0]);
         model = ReversiCreator.create(boardSize);
         view1 = new GraphicalView(model, DiskColor.Black);
-        view2 = new ReversiGUIView(new ModelAdapter(model), 2);
+        view2 = new ReversiGUIView(new ReadOnlyModelAdapter(model), 2);
         p1 = new HumanPlayer(DiskColor.Black);
         p2 = new HumanPlayer(DiskColor.White);
       } catch (IllegalArgumentException e) {
@@ -76,7 +75,7 @@ public class Reversi {
                 + "size must be at least 3.");
       }
       view1 = new GraphicalView(model, DiskColor.Black);
-      view2 = new ReversiGUIView(new ModelAdapter(model), 2);
+      view2 = new ReversiGUIView(new ReadOnlyModelAdapter(model), 2);
 
       p1 = chooseStrategy(args[1], DiskColor.Black, model);
       if (args[2].contains("provider")) {
