@@ -3,9 +3,8 @@ package cs3500.reversi.adapters;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
-import cs3500.reversi.model.MutableModel;
+import cs3500.reversi.model.ReadOnlyModel;
 import cs3500.reversi.provider.model.Coordinate;
 import cs3500.reversi.provider.model.GamePieceColor;
 import cs3500.reversi.provider.model.Piece;
@@ -18,7 +17,7 @@ public class ReadOnlyModelAdapter implements ReadonlyReversiModel {
   // from ours to theirs
   // our model needs to fit into their view/strategy
 
-  private MutableModel adaptee;
+  protected ReadOnlyModel adaptee;
 
   public ReadOnlyModelAdapter(ReadOnlyModel adaptee) {
     this.adaptee = adaptee;

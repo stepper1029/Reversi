@@ -10,6 +10,7 @@ import cs3500.reversi.model.ReversiCell;
 import cs3500.reversi.provider.model.Coordinate;
 import cs3500.reversi.provider.model.GamePieceColor;
 import cs3500.reversi.provider.model.Piece;
+import cs3500.reversi.provider.model.ReadonlyReversiModel;
 
 public class ValueClassAdapters {
   /**
