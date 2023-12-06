@@ -35,7 +35,9 @@ public class StrategyAdapter implements FallibleReversiStrategy {
               ValueClassAdapters.dcToGPC(player));
       return Optional.ofNullable(ValueClassAdapters.CoordinateToCell(coord, model));
     }
-    catch ()
+    catch (IllegalStateException | IllegalArgumentException e) {
+      return Optional.empty();
+    }
   }
 
   @Override

@@ -65,6 +65,6 @@ public class MutableModelAdapter extends ReadOnlyModelAdapter implements Reversi
 
   @Override
   public void addListener(ModelFeatures listener) {
-
+    this.mutableAdaptee.addListener()
   }
 }
