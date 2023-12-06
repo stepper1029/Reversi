@@ -42,31 +42,23 @@ public class ValueClassAdapters {
   }
 
   public static ReversiCell PieceToCell(Piece piece, ReadOnlyModel model) {
-    int x = piece.getCoordinate().getX();
-    int y = piece.getCoordinate().getY();
-
-    int row = y + ((model.getNumRows() - 1) / 2);
-    int col;
-    if (x%2 == 0) {
-      col = ((-1 * x) / 2) + ((model.getNumRows() - 1) / 2);
-    } else {
-      col = (((-1 * x) -1) / 2) + ((model.getNumRows() - 1) / 2);
-    }
-
-    return model.getCellAt(row, col);
+    Coordinate coord = piece.getCoordinate();
+    return CoordinateToCell(coord, model);
   }
 
-  public static Piece CellToPiece(ReversiCell cell, ReadOnlyModel model) {
+  public static Piece CellToPiece(ReversiCell cell, ReadonlyReversiModel model) {
+    // before I passed in their model (ReadonlyReversiModel) and I could return a Piece that way
+    // but where im calling the method in ModelAdapter I dont have an instance of their model
+    // to pass in
     int q = cell.getCoord('q');
     int r = cell.getCoord('r');
     int s = cell.getCoord('s');
-
 
     int x = -1 * s + q;
     int y = r;
 
     Coordinate coord = new Coordinate(x, y);
-    //List<Piece> board = model.getBoard();
+    List<Piece> board = model.getBoard();
     for (Piece p : board) {
       if (p.getCoordinate().equals(coord)) {
         return p;
