@@ -1,5 +1,8 @@
 package cs3500.reversi;
 
+import cs3500.reversi.adapters.ModelAdapter;
+import cs3500.reversi.adapters.StrategyAdapter;
+import cs3500.reversi.adapters.ViewAdapter;
 import cs3500.reversi.controller.Controller;
 import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.MutableModel;
@@ -7,6 +10,11 @@ import cs3500.reversi.model.ReversiCreator;
 import cs3500.reversi.player.AIPlayer;
 import cs3500.reversi.player.HumanPlayer;
 import cs3500.reversi.player.Player;
+import cs3500.reversi.provider.strategy.AvoidAdjacentCornerSpaces;
+import cs3500.reversi.provider.strategy.MaximumCaptures;
+import cs3500.reversi.provider.strategy.MinMaxStrategy;
+import cs3500.reversi.provider.strategy.PlayCorner;
+import cs3500.reversi.provider.view.ReversiGUIView;
 import cs3500.reversi.strategy.AvoidCornerAdjacent;
 import cs3500.reversi.strategy.ChooseCorners;
 import cs3500.reversi.strategy.CombineStrategies;
@@ -33,8 +41,8 @@ public class Reversi {
    */
   public static void main(String[] args) {
     MutableModel model;
-    ReversiView view1;
-    ReversiView view2;
+    cs3500.reversi.view.ReversiView view1;
+    cs3500.reversi.provider.view.ReversiView view2;
     Player p1;
     Player p2;
     Controller controller1;
@@ -43,7 +51,7 @@ public class Reversi {
     if (args.length == 0) {
       model = ReversiCreator.create(4);
       view1 = new GraphicalView(model, DiskColor.Black);
-      view2 = new GraphicalView(model, DiskColor.White);
+      view2 = new ReversiGUIView(new ModelAdapter(model), 2);
       p1 = new HumanPlayer(DiskColor.Black);
       p2 = new HumanPlayer(DiskColor.White);
     }
@@ -52,7 +60,7 @@ public class Reversi {
         int boardSize = Integer.parseInt(args[0]);
         model = ReversiCreator.create(boardSize);
         view1 = new GraphicalView(model, DiskColor.Black);
-        view2 = new GraphicalView(model, DiskColor.White);
+        view2 = new ReversiGUIView(new ModelAdapter(model), 2);
         p1 = new HumanPlayer(DiskColor.Black);
         p2 = new HumanPlayer(DiskColor.White);
       } catch (IllegalArgumentException e) {
@@ -68,17 +76,21 @@ public class Reversi {
                 + "size must be at least 3.");
       }
       view1 = new GraphicalView(model, DiskColor.Black);
-      view2 = new GraphicalView(model, DiskColor.White);
+      view2 = new ReversiGUIView(new ModelAdapter(model), 2);
 
       p1 = chooseStrategy(args[1], DiskColor.Black, model);
-      p2 = chooseStrategy(args[2], DiskColor.White, model);
+      if (args[2].contains("provider")) {
+        p2 = chooseProviderStrategy(args[2], DiskColor.White, model);
+      } else {
+        p2 = chooseStrategy(args[2], DiskColor.White, model);
+      }
     }
     else {
       throw new IllegalArgumentException("Invalid number of inputs.");
     }
 
     controller1 = new Controller(model, view1, p1);
-    controller2 = new Controller(model, view2, p2);
+    controller2 = new Controller(model, new ViewAdapter(view2), p2);
     model.startGame();
   }
 
@@ -104,6 +116,35 @@ public class Reversi {
         player = new AIPlayer(color, new InfallibleReversiStrategy(new CombineStrategies(
                 new MiniMax(), new CombineStrategies(new ChooseCorners(), new CombineStrategies(
                 new AvoidCornerAdjacent(), new MostPieces())))), model);
+        break;
+      default:
+        throw new IllegalArgumentException("invalid player type");
+    }
+    return player;
+  }
+
+  private static Player chooseProviderStrategy(String arg, DiskColor color, MutableModel model) {
+    Player player;
+    switch (arg) {
+      case "human":
+        player = new HumanPlayer(color);
+        break;
+      case "providerStrategy1":
+        player = new AIPlayer(color, new InfallibleReversiStrategy(new StrategyAdapter(
+                new MaximumCaptures())), model);
+        break;
+      case "providerStrategy2":
+        player = new AIPlayer(color, new InfallibleReversiStrategy(new StrategyAdapter(
+                new AvoidAdjacentCornerSpaces(new MaximumCaptures()))), model);
+        break;
+      case "providerStrategy3":
+        player = new AIPlayer(color, new InfallibleReversiStrategy(new StrategyAdapter(
+                new PlayCorner(new AvoidAdjacentCornerSpaces(new MaximumCaptures())))), model);
+        break;
+      case "providerStrategy4":
+        player = new AIPlayer(color, new InfallibleReversiStrategy(new StrategyAdapter(
+                new MinMaxStrategy(new PlayCorner(new AvoidAdjacentCornerSpaces(
+                        new MaximumCaptures()))))), model);
         break;
       default:
         throw new IllegalArgumentException("invalid player type");

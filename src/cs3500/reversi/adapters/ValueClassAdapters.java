@@ -3,7 +3,11 @@ package cs3500.reversi.adapters;
 import java.util.Optional;
 
 import cs3500.reversi.model.DiskColor;
+import cs3500.reversi.model.MutableModel;
+import cs3500.reversi.model.ReversiCell;
+import cs3500.reversi.provider.model.Coordinate;
 import cs3500.reversi.provider.model.GamePieceColor;
+import cs3500.reversi.provider.model.Piece;
 
 public class ValueClassAdapters {
   /**
@@ -32,5 +36,21 @@ public class ValueClassAdapters {
       default:
         throw new IllegalArgumentException("Illegal DiskColor");
     }
+  }
+
+  public static ReversiCell PieceToCell(Piece piece, MutableModel model) {
+    int x = piece.getCoordinate().getX();
+    int y = piece.getCoordinate().getY();
+
+  }
+
+  public static Piece CellToPiece(ReversiCell cell) {
+
+  }
+
+  public static ReversiCell CoordinateToCell(Coordinate coord) {
+    int row;
+    int col;
+
   }
 }
