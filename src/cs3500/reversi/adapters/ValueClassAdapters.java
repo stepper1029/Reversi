@@ -43,10 +43,12 @@ public class ValueClassAdapters {
 
   public static ReversiCell PieceToCell(Piece piece, ReadOnlyModel model) {
     Coordinate coord = piece.getCoordinate();
-    return CoordinateToCell(coord, model);
+    return coordinateToCell(coord, model);
   }
 
-  public static Piece CellToPiece(ReversiCell cell, ReadonlyReversiModel model) {
+  public static Coordinate
+
+  public static Piece cellToPiece(ReversiCell cell, ReadonlyReversiModel model) {
     // before I passed in their model (ReadonlyReversiModel) and I could return a Piece that way
     // but where im calling the method in ModelAdapter I dont have an instance of their model
     // to pass in
@@ -67,7 +69,7 @@ public class ValueClassAdapters {
     throw new IllegalArgumentException("no such cell");
   }
 
-  public static ReversiCell CoordinateToCell(Coordinate coord, ReadOnlyModel model) {
+  public static ReversiCell coordinateToCell(Coordinate coord, ReadOnlyModel model) {
     int y = coord.getY();
     int x = coord.getX();
 

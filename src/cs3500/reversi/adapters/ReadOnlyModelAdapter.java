@@ -25,7 +25,7 @@ public class ReadOnlyModelAdapter implements ReadonlyReversiModel {
 
   @Override
   public GamePieceColor getColorAt(Coordinate coordinate) throws IllegalArgumentException {
-    ReversiCell cell = ValueClassAdapters.CoordinateToCell(coordinate, adaptee);
+    ReversiCell cell = ValueClassAdapters.coordinateToCell(coordinate, adaptee);
     DiskColor color = this.adaptee.getColorAt(cell);
     return ValueClassAdapters.dcToGPC(color);
   }
@@ -50,7 +50,7 @@ public class ReadOnlyModelAdapter implements ReadonlyReversiModel {
     for (int row = 0; row < this.adaptee.getNumRows(); row++ ) {
       for (int col = 0; col < this.adaptee.getRowSize(col); col++ ) {
         ReversiCell cell = this.adaptee.getCellAt(row, col);
-        ValueClassAdapters.CellToPiece(cell, this.adaptee);
+        ValueClassAdapters.cellToPiece(cell, this.adaptee);
 
       }
     }
@@ -78,7 +78,7 @@ public class ReadOnlyModelAdapter implements ReadonlyReversiModel {
 
   @Override
   public boolean isMoveValid(Coordinate coor, GamePieceColor color) {
-    ReversiCell cell = ValueClassAdapters.CoordinateToCell(coor, this.adaptee);
+    ReversiCell cell = ValueClassAdapters.coordinateToCell(coor, this.adaptee);
     if (ValueClassAdapters.gpcToDC(color).isPresent()) {
       List<ReversiCell> list = this.adaptee.allPossibleMoves(
               ValueClassAdapters.gpcToDC(color).get());

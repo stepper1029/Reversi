@@ -33,7 +33,7 @@ public class StrategyAdapter implements FallibleReversiStrategy {
     try {
       Coordinate coord = this.adaptee.findBestTurn(new ReadOnlyModelAdapter(model),
               ValueClassAdapters.dcToGPC(player));
-      return Optional.ofNullable(ValueClassAdapters.CoordinateToCell(coord, model));
+      return Optional.ofNullable(ValueClassAdapters.coordinateToCell(coord, model));
     }
     catch (IllegalStateException | IllegalArgumentException e) {
       return Optional.empty();

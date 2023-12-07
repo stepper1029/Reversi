@@ -37,7 +37,7 @@ public class MutableModelAdapter extends ReadOnlyModelAdapter implements Reversi
 
   @Override
   public void turn(Coordinate destCoordinate, GamePieceColor color) {
-    ReversiCell cell = ValueClassAdapters.CoordinateToCell(destCoordinate, this.adaptee);
+    ReversiCell cell = ValueClassAdapters.coordinateToCell(destCoordinate, this.adaptee);
     if (ValueClassAdapters.gpcToDC(color).isPresent()) {
       DiskColor dc = ValueClassAdapters.gpcToDC(color).get();
       this.mutableAdaptee.place(cell, dc);
