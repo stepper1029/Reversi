@@ -50,8 +50,8 @@ public class ReadOnlyModelAdapter implements ReadonlyReversiModel {
     for (int row = 0; row < this.adaptee.getNumRows(); row++ ) {
       for (int col = 0; col < this.adaptee.getRowSize(col); col++ ) {
         ReversiCell cell = this.adaptee.getCellAt(row, col);
-        ValueClassAdapters.cellToPiece(cell, this.adaptee);
-
+        Piece p = new CellToPieceAdapter(cell, this.adaptee);
+        list.add(p);
       }
     }
     return list;

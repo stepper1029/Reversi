@@ -42,6 +42,6 @@ public class StrategyAdapter implements FallibleReversiStrategy {
 
   @Override
   public boolean shouldPass(ReadOnlyModel model, DiskColor player) {
-    return false;
+    return model.allPossibleMoves(player).isEmpty();
   }
 }

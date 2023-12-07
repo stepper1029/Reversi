@@ -45,12 +45,7 @@ public class ValueClassAdapters {
     return coordinateToCell(coord, model);
   }
 
-  public static Coordinate
-
-  public static Piece cellToPiece(ReversiCell cell, ReadonlyReversiModel model) {
-    // before I passed in their model (ReadonlyReversiModel) and I could return a Piece that way
-    // but where im calling the method in ModelAdapter I dont have an instance of their model
-    // to pass in
+  public static Coordinate cellToCoordinate(ReversiCell cell) {
     int q = cell.getCoord('q');
     int r = cell.getCoord('r');
     int s = cell.getCoord('s');
@@ -59,9 +54,17 @@ public class ValueClassAdapters {
     int y = r;
 
     Coordinate coord = new Coordinate(x, y);
+    return coord;
+  }
+
+  public static Piece cellToPiece(ReversiCell cell, ReadonlyReversiModel model) {
+    // before I passed in their model (ReadonlyReversiModel) and I could return a Piece that way
+    // but where im calling the method in ModelAdapter I dont have an instance of their model
+    // to pass in
+
     List<Piece> board = model.getBoard();
     for (Piece p : board) {
-      if (p.getCoordinate().equals(coord)) {
+      if (p.getCoordinate().equals(ValueClassAdapters.cellToCoordinate(cell))) {
         return p;
       }
     }
