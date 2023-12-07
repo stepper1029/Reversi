@@ -17,7 +17,6 @@ public class CellToPieceAdapter implements Piece {
 
   @Override
   public void setColor(GamePieceColor color) throws IllegalArgumentException {
-    throw new UnsupportedOperationException("Should not set the color of a piece in an adapter.");
   }
 
   @Override

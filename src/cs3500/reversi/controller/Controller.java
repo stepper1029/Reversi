@@ -50,7 +50,6 @@ public class Controller implements PlayerActions, ModelFeatures {
     try {
       this.model.place(cell, this.player.getColor());
       this.view.place(this.player.getColor());
-      System.out.println("placed");
       view.update();
     }
     catch (IllegalStateException e) {
@@ -62,7 +61,6 @@ public class Controller implements PlayerActions, ModelFeatures {
   public void receivePass() {
     try {
       this.model.pass(this.player.getColor());
-      System.out.println("passed");
       if (!this.model.isGameOver()) {
         this.view.update();
       }

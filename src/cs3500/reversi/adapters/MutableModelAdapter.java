@@ -22,17 +22,18 @@ public class MutableModelAdapter extends ReadOnlyModelAdapter implements Reversi
 
   @Override
   public void startGame() throws IllegalArgumentException, IllegalStateException {
-    this.mutableAdaptee.startGame();
+//    this.mutableAdaptee.startGame();
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public void flipRun(List<Piece> run, GamePieceColor color) {
-
+    throw new UnsupportedOperationException("Our method is private");
   }
 
   @Override
   public void flipDisc(Piece gp) {
-
+    throw new UnsupportedOperationException("Our method is private");
   }
 
   @Override
@@ -45,26 +46,29 @@ public class MutableModelAdapter extends ReadOnlyModelAdapter implements Reversi
   }
 
   @Override
-  public void setIsGameOver(boolean b) {}
+  public void setIsGameOver(boolean b) {
+    throw new UnsupportedOperationException("Used for testing purposes, not relevant");
+  }
 
   @Override
   public GamePieceColor passTurn(GamePieceColor color) throws IllegalArgumentException {
-    Optional<DiskColor> dc = ValueClassAdapters.gpcToDC(color);
-    if (dc.isPresent()) {
-      this.mutableAdaptee.pass(dc.get());
-      return ValueClassAdapters.dcToGPC(DiskColor.getNextColor(dc.get()));
-    } else {
-      throw new IllegalArgumentException("Empty cannot pass.");
-    }
+//    Optional<DiskColor> dc = ValueClassAdapters.gpcToDC(color);
+//    if (dc.isPresent()) {
+//      this.mutableAdaptee.pass(dc.get());
+//      return ValueClassAdapters.dcToGPC(DiskColor.getNextColor(dc.get()));
+//    } else {
+//      throw new IllegalArgumentException("Empty cannot pass.");
+//    }
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public List<Piece> getBoardCopy() {
-    return null;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public void addListener(ModelFeatures listener) {
-    this.mutableAdaptee.addListener()
+    throw new UnsupportedOperationException();
   }
 }

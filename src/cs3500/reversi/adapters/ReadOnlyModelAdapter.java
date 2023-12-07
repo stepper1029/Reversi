@@ -32,16 +32,24 @@ public class ReadOnlyModelAdapter implements ReadonlyReversiModel {
 
   @Override
   public int getScoreForColor(GamePieceColor gpc) {
-    if (gpc.equals(GamePieceColor.Empty)) {
-      return 0;
-    } else {
-      return this.adaptee.getScore(ValueClassAdapters.gpcToDC(gpc).get());
-    }
+//    if (gpc.equals(GamePieceColor.Empty)) {
+//      return 0;
+//    } else {
+//      return this.adaptee.getScore(ValueClassAdapters.gpcToDC(gpc).get());
+//    }
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public List<Piece> getPiecesFromColor(GamePieceColor gpc) {
-    return null;
+//    List<Piece> color = new ArrayList<>(Arrays.asList());
+//    for(Piece p : this.getBoard()) {
+//      if (p.getColor().equals(gpc)) {
+//        color.add(p);
+//      }
+//    }
+//    return color;
+    throw new UnsupportedOperationException();
   }
 
   @Override
@@ -93,21 +101,28 @@ public class ReadOnlyModelAdapter implements ReadonlyReversiModel {
 
   @Override
   public List<List<Piece>> returnRuns() {
-    return null;
+    throw new UnsupportedOperationException("Our method is private.");
   }
 
   @Override
   public boolean isGameOver() {
-    return this.adaptee.isGameOver();
+//    return this.adaptee.isGameOver();
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public boolean didColorWin(GamePieceColor gpc) throws IllegalArgumentException {
-    return this.adaptee.getWinner().equals(ValueClassAdapters.gpcToDC(gpc));
+//    return this.adaptee.getWinner().equals(ValueClassAdapters.gpcToDC(gpc));
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public boolean noMoves(GamePieceColor color) {
-    return false;
+    if (ValueClassAdapters.gpcToDC(color).isPresent()) {
+      return this.adaptee.allPossibleMoves(ValueClassAdapters.gpcToDC(color).get()).isEmpty();
+    }
+    else {
+      return true;
+    }
   }
 }
