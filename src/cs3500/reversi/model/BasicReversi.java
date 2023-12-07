@@ -265,7 +265,7 @@ class BasicReversi implements MutableModel {
     if (numRow >= 0 && numRow < this.getNumRows() && numCell >= 0 && numCell < getRowSize(numRow)) {
       return this.board.getRow(numRow)[numCell];
     } else {
-      throw new IllegalArgumentException("invalid numRow: " + numRow + "or numCell: " + numCell);
+      throw new IllegalArgumentException("invalid numRow: " + numRow + " or numCell: " + numCell);
     }
   }
 

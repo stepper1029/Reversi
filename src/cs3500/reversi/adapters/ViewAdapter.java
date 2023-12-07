@@ -21,7 +21,7 @@ public class ViewAdapter implements cs3500.reversi.view.ReversiView {
   }
   @Override
   public void makeVisible() {
-    throw new UnsupportedOperationException("makeVisible is called in their constructor");
+    this.adaptee.render();
   }
 
   @Override

@@ -7,7 +7,7 @@ import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.ReadOnlyModel;
 import cs3500.reversi.model.ReversiCell;
 import cs3500.reversi.provider.model.Coordinate;
-import cs3500.reversi.provider.strategy.ReversiStrategy
+import cs3500.reversi.provider.strategy.ReversiStrategy;
 import cs3500.reversi.strategy.FallibleReversiStrategy;
 
 public class StrategyAdapter implements FallibleReversiStrategy {
@@ -34,8 +34,7 @@ public class StrategyAdapter implements FallibleReversiStrategy {
       Coordinate coord = this.adaptee.findBestTurn(new ReadOnlyModelAdapter(model),
               ValueClassAdapters.dcToGPC(player));
       return Optional.ofNullable(ValueClassAdapters.coordinateToCell(coord, model));
-    }
-    catch (IllegalStateException | IllegalArgumentException e) {
+    } catch (IllegalStateException | IllegalArgumentException e) {
       return Optional.empty();
     }
   }

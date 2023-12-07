@@ -21,7 +21,12 @@ being for the first player, and args[2] being for the second player. Inputting "
 human player, and inputting "strategy1", "strategy2", "strategy3", or "strategy4" creates and AI 
 player. Strategy1 uses the least complex strategy, MostPieces. Strategy4 chains all the strategies
 together, and so is the hardest AI player to compete against. From Strategy1 to Strategy4, the AI 
-adds a new method of choosing a move and becomes increasingly complex and difficult.
+adds a new method of choosing a move and becomes increasingly complex and difficult. The same rules
+apply for player 2 but "provider" must be put in front of the strategy. For example, the command
+"5 strategy1 providerStrategy3" starts a BasicReversi game with a boardSize 5 where player 1 uses
+our MostPieces strategy and player 2 uses our provider's ChooseCorners strategy. Another example
+"5 strategy3 human" creates a game with our strategy3 and our provider's view, but as a human 
+player. 
 
 ## Key components:
 Components that would "drive" the control-flow of the system would be our Main, Controller

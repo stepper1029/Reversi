@@ -1,0 +1,33 @@
+Design Critique:
+
+    One thing we noticed throughout their code was the consequences of including "empty"
+    as a part of their GamePieceColor enum. Many times they take in this enum assuming it
+    refers to pieces which have been played in (ie. its color is white or black) but empty
+    is an option. We felt this doesn't accurately represent a board with disks and rather melds
+    the board and its disks together. So a cell is either empty, white, or black rather than
+    a cell is empty or full, and if it's full then there is a disk which is white or black.
+
+    Additionally, many of the methods they included in their interfaces as public methods we kept
+    private in our own design. In our implementation, these methods weren't needed outside the
+    scope of the class and were really only helpers for the methods that needed to be included
+    in the interface. Without seeing their implementation, we assume that these methods could
+    have also been private.
+
+Implementation Critique:
+
+
+
+Documentation Critique:
+
+    Their documentation could have been slightly more specific. There were a couple
+    things we had to reach out to clarify. One big one was their coordinate system.
+    They made an effort to describe it in their read me and javadoc but it wasn't enough
+    to fully comprehend and I needed to ask for more clarification. Generally, their javadoc
+    was complete but left out context and details for someone who didn't know anything
+    about their code. Although their documentation was slightly lacking in detail, both members
+    of the team were very responsive, polite, and helpful when we did reach out for clarification.
+
+Design/Code limitations:
+
+    They used
+

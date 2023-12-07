@@ -1,0 +1,17 @@
+What do you wish you had done differently in your design/implementation?
+
+
+
+Did you learn any lessons from the code given to you, or the updates you had to make for your
+customers?
+
+    Our customers didn't ask that any changes be made to our code. Still, through this experience
+    we both came to truly understand the consequences of some designs and thus why they are
+    considered "bad design". We especially came to appreciate code that closely reflects reality
+    rather than what may be more convenient for the programmers.
+
+What was your experience like with your providers?
+
+    Our providers were really nice. We reached out to them a couple of times to ask for questions
+    or their thinking, and they always responded quickly and politely. They were approachable
+    and extremely helpful in their responses.

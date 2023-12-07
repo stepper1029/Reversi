@@ -56,7 +56,7 @@ public class ReadOnlyModelAdapter implements ReadonlyReversiModel {
   public List<Piece> getBoard() {
     List<Piece> list = new ArrayList<>(Arrays.asList());
     for (int row = 0; row < this.adaptee.getNumRows(); row++ ) {
-      for (int col = 0; col < this.adaptee.getRowSize(col); col++ ) {
+      for (int col = 0; col < this.adaptee.getRowSize(row); col++ ) {
         ReversiCell cell = this.adaptee.getCellAt(row, col);
         Piece p = new CellToPieceAdapter(cell, this.adaptee);
         list.add(p);
@@ -72,7 +72,7 @@ public class ReadOnlyModelAdapter implements ReadonlyReversiModel {
 
   @Override
   public int getMaxSize() {
-    return this.adaptee.getRowSize((this.adaptee.getNumRows() + 1) / 2);
+    return this.adaptee.getRowSize((this.adaptee.getNumRows() - 1) / 2);
   }
 
   @Override
