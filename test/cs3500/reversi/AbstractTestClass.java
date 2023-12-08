@@ -16,9 +16,9 @@ import cs3500.reversi.strategy.FallibleReversiStrategy;
 import cs3500.reversi.strategy.InfallibleReversiStrategy;
 import cs3500.reversi.strategy.MiniMax;
 import cs3500.reversi.strategy.MostPieces;
-import cs3500.reversi.view.GraphicalView;
-import cs3500.reversi.view.ReversiView;
-import cs3500.reversi.view.ViewMock;
+import cs3500.reversi.view.gui.GraphicalView;
+import cs3500.reversi.view.gui.ReversiView;
+import cs3500.reversi.view.gui.ViewMock;
 
 /**
  * Abstract class for shared examples and methods for testing.

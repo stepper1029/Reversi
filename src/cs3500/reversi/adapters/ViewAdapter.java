@@ -6,11 +6,12 @@ import cs3500.reversi.controller.PlayerActions;
 import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.provider.view.Message;
 import cs3500.reversi.model.ReadOnlyModel;
+import cs3500.reversi.view.gui.ReversiView;
 
 /**
  * Adapter for the view from our provider's view to ours.
  */
-public class ViewAdapter implements cs3500.reversi.view.ReversiView {
+public class ViewAdapter implements ReversiView {
 
   // from theirs to ours
   // because their view needs to fit into our controller

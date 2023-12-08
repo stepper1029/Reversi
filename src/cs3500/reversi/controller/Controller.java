@@ -3,7 +3,7 @@ package cs3500.reversi.controller;
 import cs3500.reversi.model.MutableModel;
 import cs3500.reversi.model.ReversiCell;
 import cs3500.reversi.player.Player;
-import cs3500.reversi.view.ReversiView;
+import cs3500.reversi.view.gui.ReversiView;
 
 /**
  * Controller class to facilitate interactions between the model and the view. THIS IS A

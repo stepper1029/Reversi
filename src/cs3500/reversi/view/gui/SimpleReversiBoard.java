@@ -1,4 +1,4 @@
-package cs3500.reversi.view;
+package cs3500.reversi.view.gui;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;

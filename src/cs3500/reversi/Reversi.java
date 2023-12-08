@@ -1,8 +1,6 @@
 package cs3500.reversi;
 
-import cs3500.reversi.adapters.ReadOnlyModelAdapter;
 import cs3500.reversi.adapters.StrategyAdapter;
-import cs3500.reversi.adapters.ViewAdapter;
 import cs3500.reversi.controller.Controller;
 import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.MutableModel;
@@ -14,14 +12,14 @@ import cs3500.reversi.provider.strategy.AvoidAdjacentCornerSpaces;
 import cs3500.reversi.provider.strategy.MaximumCaptures;
 import cs3500.reversi.provider.strategy.MinMaxStrategy;
 import cs3500.reversi.provider.strategy.PlayCorner;
-import cs3500.reversi.provider.view.ReversiGUIView;
 import cs3500.reversi.strategy.AvoidCornerAdjacent;
 import cs3500.reversi.strategy.ChooseCorners;
 import cs3500.reversi.strategy.CombineStrategies;
 import cs3500.reversi.strategy.InfallibleReversiStrategy;
 import cs3500.reversi.strategy.MiniMax;
 import cs3500.reversi.strategy.MostPieces;
-import cs3500.reversi.view.GraphicalView;
+import cs3500.reversi.view.gui.GraphicalView;
+import cs3500.reversi.view.gui.ReversiView;
 
 /**
  * Class Reversi to run the game.
@@ -40,8 +38,8 @@ public class Reversi {
    */
   public static void main(String[] args) {
     MutableModel model;
-    cs3500.reversi.view.ReversiView view1;
-    cs3500.reversi.view.ReversiView view2;
+    ReversiView view1;
+    ReversiView view2;
     //cs3500.reversi.provider.view.ReversiView view2;
     Player p1;
     Player p2;

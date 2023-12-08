@@ -31,6 +31,8 @@ class BasicReversi implements MutableModel {
   // a map that stores the connections between player color and the corresponding observer
   private HashMap<DiskColor, ModelFeatures> observerMap;
 
+
+
   /**
    * Constructor for BasicReversi initializes all fields. Takes in a board (which has a size, shape,
    * and cell structure) but is completely empty. Constructor sets the board with the initial
@@ -107,7 +109,6 @@ class BasicReversi implements MutableModel {
 
   @Override
   public int getScore(DiskColor color) {
-
     return this.board.getCells(color).size();
   }
 
@@ -197,6 +198,7 @@ class BasicReversi implements MutableModel {
   private void setNextColor() {
     this.currColor = DiskColor.getNextColor(this.currColor);
   }
+
 
   @Override
   public int getNumRows() {
@@ -350,4 +352,5 @@ class BasicReversi implements MutableModel {
     }
     return new ArrayList<>(new HashSet<>(validMoves));
   }
+
 }

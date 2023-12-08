@@ -113,42 +113,6 @@ class HexBoard extends AbstractBoard {
     }
   }
 
-  // assumes and preserves invariant boardSize > 2
-  @Override
-  public int getBoardSize() {
-    return this.boardSize;
-  }
-
-  @Override
-  public List<ReversiCell> getCells(DiskColor color) {
-    switch (color) {
-      case Black:
-        return Collections.unmodifiableList(this.blackCells);
-      case White:
-        return Collections.unmodifiableList(this.whiteCells);
-      default:
-        throw new IllegalArgumentException("Invalid color");
-    }
-  }
-
-  @Override
-  public void placeDisk(ReversiCell c, DiskColor color) {
-    this.invalidCellException(c);
-    if (!this.isEmpty(c)) {
-      throw new IllegalStateException("You can only place disks in empty cells.");
-    } else if (color.equals(DiskColor.Black)) {
-      this.blackCells.add(c);
-    } else {
-      this.whiteCells.add(c);
-    }
-  }
-
-  @Override
-  public boolean isEmpty(ReversiCell c) {
-    this.invalidCellException(c);
-    return !this.whiteCells.contains(c) && !this.blackCells.contains(c);
-  }
-
   @Override
   public List<ReversiCell> getCellsBetween(ReversiCell cell1, ReversiCell cell2) {
     ReversiCell leftCell;
@@ -181,25 +145,6 @@ class HexBoard extends AbstractBoard {
     return betweenCells;
   }
 
-  @Override
-  public int getTotalNumCells() {
-    int cellNum = 0;
-    for (ReversiCell[] row : this.cells) {
-      cellNum += row.length;
-    }
-    return cellNum;
-  }
-
-  @Override
-  public Board copy() {
-    ReversiCell[][] cellsCopy = new ReversiCell[this.cells.length][];
-    for (int row = 0; row < this.cells.length; row++) {
-      cellsCopy[row] = this.cells[row].clone();
-    }
-    return new HexBoard(this.boardSize, cellsCopy,
-            new ArrayList<>(this.blackCells), new ArrayList<>(this.whiteCells));
-  }
-
   // determines which of the given two cells is on the left. private because this functionality
   // is only relevant to this class. Just a helper that does not need to be in the interface.
   private ReversiCell getLeftCell(ReversiCell cell1, ReversiCell cell2) {
@@ -226,25 +171,10 @@ class HexBoard extends AbstractBoard {
     }
   }
 
-  @Override
-  public void flipDisk(ReversiCell c) {
-    this.invalidCellException(c);
-
-    if (this.isEmpty(c)) {
-      throw new IllegalStateException("Empty cell cannot be flipped.");
-    } else if (this.whiteCells.contains(c)) {
-      this.whiteCells.remove(c);
-      this.blackCells.add(c);
-    } else {
-      this.blackCells.remove(c);
-      this.whiteCells.add(c);
-    }
-  }
-
   // checks that the given cell has valid coordinates within the board. Otherwise, throws an
   // exception. assumes and preserves invariant boardSize > 2. Private because this is only
   // relevant inside the board class.
-  private void invalidCellException(ReversiCell cell) {
+  protected void invalidCellException(ReversiCell cell) {
     if (cell.getCoord('q') > this.boardSize - 1
             || cell.getCoord('q') < (this.boardSize * -1) + 1
             || cell.getCoord('r') > this.boardSize - 1

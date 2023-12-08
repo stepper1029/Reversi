@@ -1,8 +1,10 @@
 package cs3500.reversi.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class AbstractBoard implements Board {
+public abstract class AbstractBoard implements Board {
 
 
   // represents the number of cells that make up one side length of the board. Private field
@@ -35,33 +37,45 @@ public class AbstractBoard implements Board {
   protected List<ReversiCell> whiteCells;
 
   @Override
-  public ReversiCell getNeighborCell(ReversiCell cell, CellDirection direction) {
-    return null;
-  }
+  public abstract ReversiCell getNeighborCell(ReversiCell cell, CellDirection direction);
 
   @Override
   public List<ReversiCell> getCells(DiskColor color) {
-    return null;
+    switch (color) {
+      case Black:
+        return Collections.unmodifiableList(this.blackCells);
+      case White:
+        return Collections.unmodifiableList(this.whiteCells);
+      default:
+        throw new IllegalArgumentException("Invalid color");
+    }
   }
 
   @Override
-  public boolean isEmpty(ReversiCell c) {
-    return false;
-  }
+  public abstract ReversiCell[] getRow(int numRow);
 
-  @Override
-  public ReversiCell[] getRow(int numRow) {
-    return new ReversiCell[0];
-  }
-
+  // assumes and preserves invariant boardSize > 2
   @Override
   public int getBoardSize() {
-    return 0;
+    return this.boardSize;
   }
 
   @Override
   public void placeDisk(ReversiCell c, DiskColor color) {
+    this.invalidCellException(c);
+    if (!this.isEmpty(c)) {
+      throw new IllegalStateException("You can only place disks in empty cells.");
+    } else if (color.equals(DiskColor.Black)) {
+      this.blackCells.add(c);
+    } else {
+      this.whiteCells.add(c);
+    }
+  }
 
+  @Override
+  public boolean isEmpty(ReversiCell c) {
+    this.invalidCellException(c);
+    return !this.whiteCells.contains(c) && !this.blackCells.contains(c);
   }
 
   @Override
@@ -71,7 +85,17 @@ public class AbstractBoard implements Board {
 
   @Override
   public void flipDisk(ReversiCell c) {
+    this.invalidCellException(c);
 
+    if (this.isEmpty(c)) {
+      throw new IllegalStateException("Empty cell cannot be flipped.");
+    } else if (this.whiteCells.contains(c)) {
+      this.whiteCells.remove(c);
+      this.blackCells.add(c);
+    } else {
+      this.blackCells.remove(c);
+      this.whiteCells.add(c);
+    }
   }
 
   @Override
@@ -81,11 +105,22 @@ public class AbstractBoard implements Board {
 
   @Override
   public int getTotalNumCells() {
-    return 0;
+    int cellNum = 0;
+    for (ReversiCell[] row : this.cells) {
+      cellNum += row.length;
+    }
+    return cellNum;
   }
 
   @Override
   public Board copy() {
-    return null;
+    ReversiCell[][] cellsCopy = new ReversiCell[this.cells.length][];
+    for (int row = 0; row < this.cells.length; row++) {
+      cellsCopy[row] = this.cells[row].clone();
+    }
+    return new HexBoard(this.boardSize, cellsCopy,
+            new ArrayList<>(this.blackCells), new ArrayList<>(this.whiteCells));
   }
+
+  protected abstract void invalidCellException(ReversiCell c);
 }

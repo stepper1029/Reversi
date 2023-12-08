@@ -1,4 +1,4 @@
-package cs3500.reversi.view;
+package cs3500.reversi.view.gui;
 
 import java.awt.event.KeyListener;
 import java.util.Optional;
@@ -6,6 +6,8 @@ import java.util.Optional;
 import cs3500.reversi.controller.PlayerActions;
 import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.ReadOnlyModel;
+import cs3500.reversi.view.gui.BoardPanelMock;
+import cs3500.reversi.view.gui.ReversiView;
 
 /**
  * Mock for the view for testing purposes.
