@@ -104,11 +104,11 @@ public class ValueClassAdapters {
         }
       }
     }
-      if (x >= 0) {
-        col = (-1 * holder) - i;
-      } else {
-        col = holder + i;
-      }
+    if (x >= 0) {
+      col = (-1 * holder) - i;
+    } else {
+      col = holder + i;
+    }
     return model.getCellAt(row, col);
   }
 }

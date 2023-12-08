@@ -6,6 +6,9 @@ import cs3500.reversi.provider.model.Coordinate;
 import cs3500.reversi.provider.model.GamePieceColor;
 import cs3500.reversi.provider.model.Piece;
 
+/**
+ * Class to adapt ReversiCell to Piece.
+ */
 public class CellToPieceAdapter implements Piece {
   private ReversiCell adaptee;
   private ReadOnlyModel model;
@@ -17,6 +20,7 @@ public class CellToPieceAdapter implements Piece {
 
   @Override
   public void setColor(GamePieceColor color) throws IllegalArgumentException {
+    // not needed for our purposes.
   }
 
   @Override

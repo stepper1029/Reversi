@@ -10,6 +10,10 @@ import cs3500.reversi.provider.model.Coordinate;
 import cs3500.reversi.provider.strategy.ReversiStrategy;
 import cs3500.reversi.strategy.FallibleReversiStrategy;
 
+
+/**
+ * Adapter class that adapts from their strategy to ours.
+ */
 public class StrategyAdapter implements FallibleReversiStrategy {
 
   // from theirs to ours
