@@ -15,7 +15,8 @@ Design Critique:
 
 Implementation Critique:
 
-
+    We don’t have any critiques on their implementation. Though we had some thoughts on their
+    design, their code worked for our purposes and did not break at all.
 
 Documentation Critique:
 
@@ -29,5 +30,7 @@ Documentation Critique:
 
 Design/Code limitations:
 
-    They used
+    I’m not sure that any of their design “limited” their program. We disagreed with some of their
+    design choices but not because it interfered with their extensibility or anything. They were
+    diligent with using interfaces and not hardcoding for specific implementations.
 

@@ -57,32 +57,45 @@ public class ValueClassAdapters {
     return coord;
   }
 
-  public static Piece cellToPiece(ReversiCell cell, ReadonlyReversiModel model) {
-    // before I passed in their model (ReadonlyReversiModel) and I could return a Piece that way
-    // but where im calling the method in ModelAdapter I dont have an instance of their model
-    // to pass in
 
-    List<Piece> board = model.getBoard();
-    for (Piece p : board) {
-      if (p.getCoordinate().equals(ValueClassAdapters.cellToCoordinate(cell))) {
-        return p;
-      }
-    }
-    throw new IllegalArgumentException("no such cell");
-  }
 
   public static ReversiCell coordinateToCell(Coordinate coord, ReadOnlyModel model) {
     int y = coord.getY();
     int x = coord.getX();
-
     int row = y + ((model.getNumRows() - 1) / 2);
     int col;
-    if (x%2 == 0) {
-      col = ((-1 * x) / 2) + ((model.getNumRows() - 1) / 2);
-    } else {
-      col = (((-1 * x) -1) / 2) + ((model.getNumRows() - 1) / 2);
-    }
+    int i;
+    int holder = (model.getRowSize(row) * -1) + 1;
 
+    if (x == (model.getRowSize(row) * -1) + 1) {
+      col = 0;
+      return model.getCellAt(row, col);
+    } else if (x == (model.getRowSize(row)) - 1) {
+      col = x;
+      return model.getCellAt(row, col);
+    } else {
+      if (x % 2 == 0) {
+        if (x < 0) {
+          i = (x * -1) / 2;
+        } else if (x == 0) {
+          i = (model.getRowSize(row) - 1) / 2;
+        } else {
+          i = x / 2;
+        }
+      } else {
+        if (x < 0) {
+          i = ((x + 1) * -1) / 2;
+        } else {
+          i = (x - 1) / 2;
+
+        }
+      }
+    }
+      if (x >= 0) {
+        col = (-1 * holder) - i;
+      } else {
+        col = holder + i;
+      }
     return model.getCellAt(row, col);
   }
 }

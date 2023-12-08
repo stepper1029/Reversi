@@ -15,8 +15,9 @@ public class ViewAdapter implements cs3500.reversi.view.ReversiView {
   private cs3500.reversi.provider.view.ReversiView adaptee;
   private ReadOnlyModel model;
 
-  public ViewAdapter(cs3500.reversi.provider.view.ReversiView adaptee) {
+  public ViewAdapter(cs3500.reversi.provider.view.ReversiView adaptee, ReadOnlyModel model) {
     this.adaptee = adaptee;
+    this.model = model;
 
   }
   @Override
@@ -48,7 +49,7 @@ public class ViewAdapter implements cs3500.reversi.view.ReversiView {
 
   @Override
   public void place(DiskColor color) {
-    throw new UnsupportedOperationException("Handled in the class");
+    //
   }
 
   @Override
