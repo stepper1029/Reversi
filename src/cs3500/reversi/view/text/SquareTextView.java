@@ -13,7 +13,6 @@ public class SquareTextView extends AbstractTextView {
     this.model = Objects.requireNonNull(model);
   }
 
-
   @Override
   public String toString() {
     String output = "";
