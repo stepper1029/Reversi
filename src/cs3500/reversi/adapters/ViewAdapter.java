@@ -7,6 +7,9 @@ import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.provider.view.Message;
 import cs3500.reversi.model.ReadOnlyModel;
 
+/**
+ * Adapter for the view from our provider's view to ours.
+ */
 public class ViewAdapter implements cs3500.reversi.view.ReversiView {
 
   // from theirs to ours
@@ -15,11 +18,17 @@ public class ViewAdapter implements cs3500.reversi.view.ReversiView {
   private cs3500.reversi.provider.view.ReversiView adaptee;
   private ReadOnlyModel model;
 
+  /**
+   * Constructor to initialize the adaptee and model fields.
+   * @param adaptee provider's view
+   * @param model a copy of our model
+   */
   public ViewAdapter(cs3500.reversi.provider.view.ReversiView adaptee, ReadOnlyModel model) {
     this.adaptee = adaptee;
     this.model = model;
 
   }
+
   @Override
   public void makeVisible() {
     this.adaptee.render();
@@ -34,7 +43,7 @@ public class ViewAdapter implements cs3500.reversi.view.ReversiView {
 
   @Override
   public void gameOver() {
-      this.adaptee.displayPanel(Message.GameWon);
+    this.adaptee.displayPanel(Message.GameWon);
   }
 
   @Override

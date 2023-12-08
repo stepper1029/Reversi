@@ -1,6 +1,5 @@
 package cs3500.reversi.adapters;
 
-import java.util.List;
 import java.util.Optional;
 
 import cs3500.reversi.model.DiskColor;
@@ -8,13 +7,15 @@ import cs3500.reversi.model.ReadOnlyModel;
 import cs3500.reversi.model.ReversiCell;
 import cs3500.reversi.provider.model.Coordinate;
 import cs3500.reversi.provider.model.GamePieceColor;
-import cs3500.reversi.provider.model.Piece;
-import cs3500.reversi.provider.model.ReadonlyReversiModel;
 
+/**
+ * Adapter for value classes like colors and cells, essentially a utils method.
+ */
 public class ValueClassAdapters {
   /**
    * Converts a GamePieceColor from our provider's code to a DiskColor in our code.
-   * @return
+   *
+   * @return the corresponding DiskColor or empty if the game piece color is empty
    */
   public static Optional<DiskColor> gpcToDC(GamePieceColor color) {
     switch (color) {
@@ -29,6 +30,12 @@ public class ValueClassAdapters {
     }
   }
 
+  /**
+   * Converts a DiskColor to a GamePieceColor.
+   *
+   * @param color the given DiskColor
+   * @return the corresponding GamePieceColor
+   */
   public static GamePieceColor dcToGPC(DiskColor color) {
     switch (color) {
       case Black:
@@ -40,11 +47,12 @@ public class ValueClassAdapters {
     }
   }
 
-  public static ReversiCell PieceToCell(Piece piece, ReadOnlyModel model) {
-    Coordinate coord = piece.getCoordinate();
-    return coordinateToCell(coord, model);
-  }
-
+  /**
+   * Converts our cells to our provider's coordinate.
+   *
+   * @param cell our cell
+   * @return the corresponding coordinate
+   */
   public static Coordinate cellToCoordinate(ReversiCell cell) {
     int q = cell.getCoord('q');
     int r = cell.getCoord('r');
@@ -57,8 +65,13 @@ public class ValueClassAdapters {
     return coord;
   }
 
-
-
+  /**
+   * Translates their coordinate to a Reversi cell.
+   *
+   * @param coord coordinate
+   * @param model our model
+   * @return a Reversi Cell
+   */
   public static ReversiCell coordinateToCell(Coordinate coord, ReadOnlyModel model) {
     int y = coord.getY();
     int x = coord.getX();
