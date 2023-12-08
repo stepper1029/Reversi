@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SquareBoard extends AbstractBoard {
+class SquareBoard extends AbstractBoard {
 
   public SquareBoard(int boardSize) {
     super();
@@ -44,7 +44,10 @@ public class SquareBoard extends AbstractBoard {
   }
 
   @Override
-  public ReversiCell getNeighborCell(ReversiCell cell, CellDirection direction) {
+  public List<ReversiCell> getCellsBetween(ReversiCell cell1, ReversiCell cell2) {
+    if(cell1.getCoord('x') == cell2.getCoord('x')) {
+      return null;
+    }
     return null;
   }
 
@@ -62,9 +65,6 @@ public class SquareBoard extends AbstractBoard {
   public boolean isEmpty(ReversiCell c) {
     return !whiteCells.contains(c) && !blackCells.contains(c);
   }
-
-  // todo: getCellsBetween, getLeftCell, getRightCell, getNeighborCell
-
 
   protected void invalidCellException(ReversiCell c) {
     if ((c.getCoord('x') < 0)

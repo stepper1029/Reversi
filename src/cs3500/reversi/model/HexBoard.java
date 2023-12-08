@@ -96,13 +96,6 @@ class HexBoard extends AbstractBoard {
             new HexCell(-1, 0, 1)));
   }
 
-  @Override
-  public ReversiCell getNeighborCell(ReversiCell cell, CellDirection direction) {
-    ReversiCell neighbor = cell.addVector(direction.getHexDirectionCoordinates());
-    this.invalidCellException(neighbor);
-    return neighbor;
-  }
-
   // assumes and preserves invariant boardSize > 2
   @Override
   public ReversiCell[] getRow(int numRow) {
@@ -121,9 +114,9 @@ class HexBoard extends AbstractBoard {
     leftCell = this.getLeftCell(cell1, cell2);
     rightCell = this.getRightCell(cell1, cell2);
     if (leftCell.getCoord('q') == rightCell.getCoord('q')) {
-      int q = leftCell.getCoord('q');
-      for (int r = leftCell.getCoord('r') + 1, s = leftCell.getCoord('s') - 1;
-           r < rightCell.getCoord('r') && s > rightCell.getCoord('s'); r++, s--) {
+      ReversiCell currCell = leftCell;
+      while (!currCell.equals(rightCell)) {
+
         betweenCells.add(new HexCell(q, r, s));
       }
     } else if (leftCell.getCoord('r') == rightCell.getCoord('r')) {

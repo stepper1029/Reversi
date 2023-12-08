@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class AbstractBoard implements Board {
+abstract class AbstractBoard implements Board {
 
 
   // represents the number of cells that make up one side length of the board. Private field
@@ -37,7 +37,11 @@ public abstract class AbstractBoard implements Board {
   protected List<ReversiCell> whiteCells;
 
   @Override
-  public abstract ReversiCell getNeighborCell(ReversiCell cell, CellDirection direction);
+  public ReversiCell getNeighborCell(ReversiCell cell, CellDirection direction) {
+    ReversiCell neighbor = cell.addVector(direction.getHexDirectionCoordinates());
+    this.invalidCellException(neighbor);
+    return neighbor;
+  }
 
   @Override
   public List<ReversiCell> getCells(DiskColor color) {
@@ -99,9 +103,7 @@ public abstract class AbstractBoard implements Board {
   }
 
   @Override
-  public List<ReversiCell> getCellsBetween(ReversiCell cell1, ReversiCell cell2) {
-    return null;
-  }
+  public abstract List<ReversiCell> getCellsBetween(ReversiCell cell1, ReversiCell cell2);
 
   @Override
   public int getTotalNumCells() {

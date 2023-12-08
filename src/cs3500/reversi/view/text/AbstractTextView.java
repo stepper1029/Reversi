@@ -74,5 +74,6 @@ public abstract class AbstractTextView {
         output += whiteStringHelper(numRow, numCell);
       }
     }
+    return output;
   }
 }
