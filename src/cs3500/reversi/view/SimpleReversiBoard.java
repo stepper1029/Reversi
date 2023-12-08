@@ -1,5 +1,6 @@
 package cs3500.reversi.view;
 
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
@@ -8,12 +9,6 @@ import java.util.Objects;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Color;
-import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.util.Optional;
@@ -47,6 +42,8 @@ public class SimpleReversiBoard extends JPanel {
   // color of the play which this view belongs to
   private final DiskColor color;
 
+  private boolean showHint;
+
 
   /**
    * Constructor for the class, initializes the model and cells structure,and the mouse listener.
@@ -62,6 +59,7 @@ public class SimpleReversiBoard extends JPanel {
     this.cells = new Hexagon[this.model.getNumRows()][];
     this.selectedX = Optional.empty();
     this.selectedY = Optional.empty();
+    this.showHint = false;
   }
 
   /**
@@ -115,6 +113,19 @@ public class SimpleReversiBoard extends JPanel {
     repaint();
   }
 
+  void toggleHint() {
+    showHint = !showHint;
+    update();
+  }
+
+  private int numCellsFlipped(ReversiCell cell) {
+    int currScore = this.model.getScore(this.color);
+    MutableModel copy = this.model.copy();
+    copy.place(cell, this.color);
+    int potentialScore = copy.getScore(this.color);
+    return potentialScore - currScore - 1;
+  }
+
   /**
    * Package private so it can be called by the Frame. Returns the X coordinate of the
    * highlighted cell, so it can be observed by the controller and potentially observed by the
@@ -143,6 +154,12 @@ public class SimpleReversiBoard extends JPanel {
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics2D g2d = (Graphics2D) g.create();
+
+    // Set font and draw the text at the center of the shape
+    Font font = new Font("Arial", Font.PLAIN, 16);
+    g2d.setFont(font);
+    FontMetrics metrics = g2d.getFontMetrics();
+
 
     if (this.color == this.model.getTurn()) {
       this.setBackground(new Color(179, 236, 255));
@@ -177,6 +194,17 @@ public class SimpleReversiBoard extends JPanel {
         g2d.fill(currHex);
         g2d.setColor(Color.BLACK);
         g2d.draw(currHex);
+        if (currHex.filled && showHint) {
+          String hint = String.valueOf(numCellsFlipped(currCell));
+          int textWidth = metrics.stringWidth(hint);
+          int textHeight = metrics.getHeight();
+
+          // Calculate text position to center it within the shape
+          int textX = (int) (currHex.center.getX() - textWidth / 2);
+          int textY = (int) (currHex.center.getY() + textHeight / 4); // Adjust for centering
+
+          g2d.drawString(hint, textX, textY);
+        }
 
         // draw disks
         if (!this.model.isEmpty(currCell)) {
@@ -353,6 +381,7 @@ public class SimpleReversiBoard extends JPanel {
       if (this.filled) {
         this.unfill();
       } else if (!this.hasDisk) {
+
         for (int row = 0; row < cells.length; row++) {
           for (int cell = 0; cell < cells[row].length; cell++) {
             if (cells[row][cell].filled) {
@@ -372,6 +401,7 @@ public class SimpleReversiBoard extends JPanel {
    * (with (0,0) in center, width and height our logical size)
    * into screen coordinates (with (0,0) in upper-left,
    * width and height in pixels).
+   *
    * @return The necessary transformation
    */
   protected AffineTransform transformLogicalToPhysical() {

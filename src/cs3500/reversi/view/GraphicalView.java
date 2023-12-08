@@ -102,6 +102,8 @@ public class GraphicalView extends JFrame implements ReversiView {
             playerActions.receivePlace(
                     model.getCellAt(getSelectedX().get(), getSelectedY().get()));
           }
+        } else if (e.getKeyCode() == KeyEvent.VK_H) {
+          boardPanel.toggleHint();
         }
       }
 

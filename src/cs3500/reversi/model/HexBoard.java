@@ -10,36 +10,7 @@ import java.util.List;
  * class is package private because the board itself should only be accessible within the package.
  * Anything outside the model package should use the Model itself to mutate or observe the game.
  */
-class HexBoard implements Board {
-
-  // represents the number of cells that make up one side length of the board. Private field
-  // because any observations on the board should be made through the model. Final because the
-  // reference should not be changed.
-  // INVARIANT: boardSize > 2
-  private final int boardSize;
-
-  // Holds all the cells that are a part of the board. The outer array holds the horizontal rows
-  // of the board, where the 0th index is the top most row. The inner array hold the cells within
-  // a row, where the 0th index is the leftmost cell in the row. Arrays were used because once the
-  // board is created, its size must stay constant. Private field because any observations or
-  // mutations on the board should be made through the model. Final because the
-  // reference should not be changed. This field serves the purpose of holding information about
-  // the structure of the board, and makes it easier to both display the board and
-  // find cells at specific locations within the board.
-
-  private final ReversiCell[][] cells;
-
-  // Holds all the cells that have been captured by the black player, or cells that
-  // have a black game disk on them. Used a list because the number of black cells will
-  // inevitably change throughout the game, therefore the length should be flexible. Final
-  // because the reference should not be changed.
-  private final List<ReversiCell> blackCells;
-
-  // Holds all the cells that have been captured by the white player, or cells that
-  // have a white game disk on them. Used a list because the number of white cells will
-  // inevitably change throughout the game, therefore the length should be flexible.
-  // Final because the reference should not be changed.
-  private final List<ReversiCell> whiteCells;
+class HexBoard extends AbstractBoard {
 
   /**
    * Constructor for the HexBoard class, takes in a board size and initializes the fields.
@@ -54,6 +25,7 @@ class HexBoard implements Board {
    * @param boardSize side length in cells
    */
   HexBoard(int boardSize) {
+    super();
     if (boardSize < 3) {
       throw new IllegalArgumentException("Board size must be at least 3");
     }

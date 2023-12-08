@@ -41,7 +41,8 @@ public class Reversi {
   public static void main(String[] args) {
     MutableModel model;
     cs3500.reversi.view.ReversiView view1;
-    cs3500.reversi.provider.view.ReversiView view2;
+    cs3500.reversi.view.ReversiView view2;
+    //cs3500.reversi.provider.view.ReversiView view2;
     Player p1;
     Player p2;
     Controller controller1;
@@ -50,7 +51,8 @@ public class Reversi {
     if (args.length == 0) {
       model = ReversiCreator.create(4);
       view1 = new GraphicalView(model, DiskColor.Black);
-      view2 = new ReversiGUIView(new ReadOnlyModelAdapter(model), 2);
+      // view2 = new ReversiGUIView(new ReadOnlyModelAdapter(model), 2);
+      view2 = new GraphicalView(model, DiskColor.White);
       p1 = new HumanPlayer(DiskColor.Black);
       p2 = new HumanPlayer(DiskColor.White);
     }
@@ -59,7 +61,7 @@ public class Reversi {
         int boardSize = Integer.parseInt(args[0]);
         model = ReversiCreator.create(boardSize);
         view1 = new GraphicalView(model, DiskColor.Black);
-        view2 = new ReversiGUIView(new ReadOnlyModelAdapter(model), 2);
+        view2 = new GraphicalView(model, DiskColor.White);
         p1 = new HumanPlayer(DiskColor.Black);
         p2 = new HumanPlayer(DiskColor.White);
       } catch (IllegalArgumentException e) {
@@ -75,7 +77,7 @@ public class Reversi {
                 + "size must be at least 3.");
       }
       view1 = new GraphicalView(model, DiskColor.Black);
-      view2 = new ReversiGUIView(new ReadOnlyModelAdapter(model), 2);
+      view2 = new GraphicalView(model, DiskColor.White);
 
       p1 = chooseStrategy(args[1], DiskColor.Black, model);
       if (args[2].contains("provider")) {
@@ -89,7 +91,7 @@ public class Reversi {
     }
 
     controller1 = new Controller(model, view1, p1);
-    controller2 = new Controller(model, new ViewAdapter(view2, model), p2);
+    controller2 = new Controller(model, view2, p2);
     model.startGame();
   }
 
