@@ -1,5 +1,9 @@
 What do you wish you had done differently in your design/implementation?
 
+    Our customers did not ask us to change anything about our design/ implementation, so I'm not
+    sure that we would change much about our design. While designing our code, we were very
+    conscious of using interfaces rather than concrete classes as return types and parameters so
+    that our code could be more flexible as well as making sure our components are not coupled.
 
 
 Did you learn any lessons from the code given to you, or the updates you had to make for your

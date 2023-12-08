@@ -163,4 +163,4 @@ details.
 - There is no longer a keyboard listener and instead the view uses a features interface. So the 
 controller now implements two features interfaces.
 - The view highlights the cells which are valid moves.
-- Implemented all required aspects of part 3 as outlined above. 
+- Implemented all required aspects of part 3 as outlined above.

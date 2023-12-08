@@ -38,7 +38,7 @@ public class ViewAdapter implements cs3500.reversi.view.ReversiView {
 
   @Override
   public void addFeatures(PlayerActions playerActions) {
-    this.adaptee.addFeatures(new PlayerActionsAdapter(playerActions));
+    this.adaptee.addFeatures(new PlayerActionsAdapter(playerActions, model));
   }
 
   @Override

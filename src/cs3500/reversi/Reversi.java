@@ -89,7 +89,7 @@ public class Reversi {
     }
 
     controller1 = new Controller(model, view1, p1);
-    controller2 = new Controller(model, new ViewAdapter(view2), p2);
+    controller2 = new Controller(model, new ViewAdapter(view2, model), p2);
     model.startGame();
   }
 
