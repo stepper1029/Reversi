@@ -82,6 +82,16 @@ class HexBoard extends AbstractBoard {
   }
 
   @Override
+  public Board copy() {
+    ReversiCell[][] cellsCopy = new ReversiCell[this.cells.length][];
+    for (int row = 0; row < this.cells.length; row++) {
+      cellsCopy[row] = this.cells[row].clone();
+    }
+    return new HexBoard(this.boardSize, cellsCopy,
+            new ArrayList<>(this.blackCells), new ArrayList<>(this.whiteCells));
+  }
+
+  @Override
   public ReversiCell getNeighborCell(ReversiCell cell, CellDirection direction) {
     ReversiCell neighbor = cell.addVector(direction.getHexDirectionCoordinates());
     this.invalidCellException(neighbor);

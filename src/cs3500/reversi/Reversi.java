@@ -21,6 +21,7 @@ import cs3500.reversi.strategy.MostPieces;
 import cs3500.reversi.view.gui.GraphicalView;
 import cs3500.reversi.view.gui.HexGUI;
 import cs3500.reversi.view.gui.ReversiView;
+import cs3500.reversi.view.gui.SquareGUI;
 
 /**
  * Class Reversi to run the game.
@@ -48,10 +49,9 @@ public class Reversi {
     Controller controller2;
 
     if (args.length == 0) {
-      model = ReversiCreator.createHex(4);
-      view1 = new GraphicalView(model, DiskColor.Black, new HexGUI(model, DiskColor.Black));
-      // view2 = new ReversiGUIView(new ReadOnlyModelAdapter(model), 2);
-      view2 = new GraphicalView(model, DiskColor.White, new HexGUI(model, DiskColor.White));
+      model = ReversiCreator.createSquare(6);
+      view1 = new GraphicalView(model, DiskColor.Black, new SquareGUI(model, DiskColor.Black));
+      view2 = new GraphicalView(model, DiskColor.White, new SquareGUI(model, DiskColor.White));
       p1 = new HumanPlayer(DiskColor.Black);
       p2 = new HumanPlayer(DiskColor.White);
     }

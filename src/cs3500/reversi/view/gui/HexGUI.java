@@ -8,7 +8,6 @@ import java.awt.geom.Point2D;
 import javax.swing.event.MouseInputAdapter;
 
 import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
 import java.util.Optional;
 
 import cs3500.reversi.model.DiskColor;
@@ -35,7 +34,7 @@ public class HexGUI extends AbstractPanel {
    */
   public HexGUI(ReadOnlyModel model, DiskColor color) {
     super(model, color);
-    this.cells = new HexGUI.Hexagon[this.model.getNumRows()][];
+    this.cells = new Hexagon[this.model.getNumRows()][];
     HexGUI.MouseEventsListener listener = new HexGUI.MouseEventsListener();
     this.addMouseListener(listener);
   }
@@ -145,7 +144,7 @@ public class HexGUI extends AbstractPanel {
     }
   }
 
-  // calculates the width of a cell from the distance between two logical coordinates.
+  @Override
   protected Double getCellWidth() {
     Point2D logicalPointA = new Point2D.Double(0, 0);
     Point2D logicalPointB = new Point2D.Double(1, 0);
@@ -195,18 +194,18 @@ public class HexGUI extends AbstractPanel {
       Point2D currPoint = new Point2D.Double(x, y);
       if (this.cells[rowNum][i] == null) {
         Hexagon currHex = new Hexagon(currPoint);
-        this.place(currHex, rowNum, i);
+        this.placeHex(currHex, rowNum, i);
       } else {
         Hexagon currHex = this.cells[rowNum][i];
         Hexagon newHex = currHex.updateCenter(currPoint);
-        this.place(newHex, rowNum, i);
+        this.placeHex(newHex, rowNum, i);
       }
       x += cellWidth / 2;
     }
   }
 
   // assigns the appropriate grid location to the given cell.
-  private void place(Hexagon hex, int numRow, int numCell) {
+  private void placeHex(Hexagon hex, int numRow, int numCell) {
     this.cells[numRow][numCell] = hex;
   }
 
@@ -250,7 +249,6 @@ public class HexGUI extends AbstractPanel {
       Hexagon copy = new Hexagon(this.center);
       if (this.filled) {
         copy.filled = true;
-        //  copy.fillColor = Color.CYAN;
       }
       if (this.hasDisk) {
         if (this.diskColor.equals(Color.BLACK)) {

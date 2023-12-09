@@ -35,7 +35,6 @@ public class SquareGUI extends AbstractPanel {
   @Override
   void place(DiskColor color) {
     if (selectedX.isPresent() && selectedY.isPresent()) {
-
       Square square = this.cells[selectedX.get()][selectedY.get()];
       square.addDisk(color);
       update();
@@ -83,6 +82,10 @@ public class SquareGUI extends AbstractPanel {
         // draw cells
         if (currSquare.filled) {
           g2d.setColor(Color.CYAN);
+//          System.out.println("squarex: " + row);
+//          System.out.println("squarey: " + cell);
+//          System.out.println("selectedX: " + selectedX);
+//          System.out.println("selectedy: " + selectedY);
         } else if (model.allPossibleMoves(this.color).contains(currCell)
                 && model.getTurn() == this.color) {
           g2d.setColor(new Color(252, 197, 231));
@@ -94,15 +97,17 @@ public class SquareGUI extends AbstractPanel {
         g2d.setColor(Color.BLACK);
         g2d.draw(currSquare);
         if (currSquare.filled && showHint) {
-          String hint = String.valueOf(numCellsFlipped(currCell));
-          int textWidth = metrics.stringWidth(hint);
-          int textHeight = metrics.getHeight();
+          try {
+            String hint = String.valueOf(numCellsFlipped(currCell));
+            int textWidth = metrics.stringWidth(hint);
+            int textHeight = metrics.getHeight();
+            // Calculate text position to center it within the shape
+            int textX = (int) (currSquare.center.getX() - textWidth / 2);
+            int textY = (int) (currSquare.center.getY() + cellWidth + textHeight / 4);
 
-          // Calculate text position to center it within the shape
-          int textX = (int) (currSquare.center.getX() - textWidth / 2);
-          int textY = (int) (currSquare.center.getY() + textHeight / 4); // Adjust for centering
-
-          g2d.drawString(hint, textX, textY);
+            g2d.drawString(hint, textX, textY);
+          } catch(IllegalStateException e) {
+          }
         }
 
         // draw disks
@@ -118,17 +123,52 @@ public class SquareGUI extends AbstractPanel {
 
   @Override
   protected Double getCellWidth() {
-    return null;
+    return (this.getSize().width / this.model.getNumRows()) * .75;
   }
 
   @Override
   protected void makeRow(int rowNum, double x, double y, double cellWidth) {
+    int rowSize = this.model.getRowSize(rowNum);
+    int middle = this.model.getNumRows() / 2;
+    if (rowNum < middle) {
+      y -= (cellWidth * (middle - rowNum)) + (cellWidth  / 2);
+    } else {
+      y += (cellWidth * (rowNum - middle)) - (cellWidth / 2);
+    }
 
+    x -= (cellWidth * (this.model.getNumRows() / 2)) - (cellWidth / 2);
+
+    if (this.cells[rowNum] == null) {
+      this.cells[rowNum] = new Square[rowSize];
+    }
+
+    if (y != this.setPhysicalCoords().getY()) {
+      iterateCells(rowNum, x, y);
+      repaint();
+    }
   }
 
   @Override
   protected void iterateCells(int rowNum, double x, double y) {
+    int rowSize = this.model.getRowSize(rowNum);
+    double cellWidth = this.getCellWidth();
+    for (int i = 0; i < rowSize; i++) {
+      Point2D currPoint = new Point2D.Double(x, y);
+      if (this.cells[rowNum][i] == null) {
+        Square currSquare = new Square(currPoint);
+        this.placeSquare(currSquare, rowNum, i);
+      } else {
+        Square currSquare = this.cells[rowNum][i];
+        Square newSquare = currSquare.updateCenter(currPoint);
+        this.placeSquare(newSquare, rowNum, i);
+      }
+      x += cellWidth;
+    }
+  }
 
+  // assigns the appropriate grid location to the given cell.
+  private void placeSquare(Square square, int numRow, int numCell) {
+    this.cells[numRow][numCell] = square;
   }
 
 
@@ -171,7 +211,6 @@ public class SquareGUI extends AbstractPanel {
       Square copy = new Square(this.center);
       if (this.filled) {
         copy.filled = true;
-        //  copy.fillColor = Color.CYAN;
       }
       if (this.hasDisk) {
         if (this.diskColor.equals(Color.BLACK)) {
@@ -199,7 +238,7 @@ public class SquareGUI extends AbstractPanel {
         this.diskColor = Color.WHITE;
       }
       return new Ellipse2D.Double(this.center.getX() - (size * .25),
-              this.center.getY() - (size * .25), (size * .5), (size * .5));
+              this.center.getY() - (size * .25) + getCellWidth(), (size * .5), (size * .5));
     }
 
     // unhighlights this square
@@ -222,6 +261,9 @@ public class SquareGUI extends AbstractPanel {
             }
             if (cells[row][cell].equals(this)) {
               this.filled = true;
+              selectedX = Optional.of(row);
+              selectedY = Optional.of(cell);
+
             }
           }
         }
@@ -243,7 +285,6 @@ public class SquareGUI extends AbstractPanel {
           if (square.contains(physicalPoint) && model.getTurn() == color) {
             selectedX = Optional.of(row);
             selectedY = Optional.of(cell);
-            System.out.printf("SquareCell(%d, %d)%n", selectedX.get(), selectedY.get());
             square.fill();
             repaint();
             pointIsInBorder = true;

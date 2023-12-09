@@ -47,6 +47,21 @@ public abstract class AbstractModel implements MutableModel {
     this.currColor = DiskColor.Black;
   }
 
+  /**
+   *  Constructor to initialize the fields to all the given values. Used for creating a copy
+   *  of the model. Package-private because it is only used to create a copy of the model within
+   *  the subclasses.
+   *
+   * @param board
+   * @param numPasses
+   * @param color
+   */
+  AbstractModel(Board board, int numPasses, DiskColor color) {
+    this.board = board;
+    this.numPasses = numPasses;
+    this.currColor = color;
+  }
+
   @Override
   public void addListener(DiskColor color, ModelFeatures listener) {
     if (this.observerMap == null) {

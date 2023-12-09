@@ -20,6 +20,7 @@ public class SquareReversi extends AbstractModel {
     super(board);
   }
 
+
   /**
    * Constructor to initialize the fields to all the given values. Used for creating a copy
    * of the model. Private because it is only used to create a copy of the model within this class.
@@ -29,7 +30,7 @@ public class SquareReversi extends AbstractModel {
    * @param currColor the current color of the disc being placed
    */
   private SquareReversi(Board board, int numPasses, DiskColor currColor) {
-    super(board);
+    super(board, numPasses, currColor);
   }
 
   public int getNumRows() {

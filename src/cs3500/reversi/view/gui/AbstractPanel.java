@@ -107,6 +107,7 @@ public abstract class AbstractPanel extends JPanel {
 
   protected abstract void paintComponentHelper(Graphics2D g2d);
 
+  // calculates the width of a cell from the distance between two logical coordinates.
   protected abstract Double getCellWidth();
 
   protected void makeRows(double x, double y, double cellWidth) {

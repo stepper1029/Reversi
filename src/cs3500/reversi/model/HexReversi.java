@@ -41,7 +41,7 @@ class HexReversi extends AbstractModel {
    * @param currColor the current color of the disc being placed
    */
   private HexReversi(Board board, int numPasses, DiskColor currColor) {
-    super(board);
+    super(board, numPasses, currColor);
   }
 
   @Override
