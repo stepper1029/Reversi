@@ -53,7 +53,7 @@ class SquareCell implements ReversiCell {
     if (directions.length != 2) {
       throw new IllegalArgumentException("Directional array length should be 2");
     }
-    return new SquareCell(this.x + directions[0], this.y+ directions[1]);
+    return new SquareCell(this.x + directions[0], this.y + directions[1]);
   }
 
   @Override
