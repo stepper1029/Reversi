@@ -155,7 +155,7 @@ public class TestView {
 
   @Test
   public void testToStringAfterAMoveFlipsInTwoDirectionsSquare() {
-    MutableModel model = ReversiCreator.createSquare(3);
+    MutableModel model = ReversiCreator.createSquare(4);
     model.place(model.getCellAt(0, 1), DiskColor.Black);
     model.place(model.getCellAt(1, 3), DiskColor.White);
     model.place(model.getCellAt(3, 3), DiskColor.Black);
@@ -170,7 +170,7 @@ public class TestView {
 
   @Test
   public void testToStringAfterAMoveFlipsTwoInARowSquare() {
-    MutableModel model = ReversiCreator.createSquare(3);
+    MutableModel model = ReversiCreator.createSquare(4);
     model.place(model.getCellAt(0, 1), DiskColor.Black);
     model.place(model.getCellAt(1, 3), DiskColor.White);
     model.place(model.getCellAt(3, 3), DiskColor.Black);

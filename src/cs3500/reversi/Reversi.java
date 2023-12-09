@@ -19,6 +19,7 @@ import cs3500.reversi.strategy.InfallibleReversiStrategy;
 import cs3500.reversi.strategy.MiniMax;
 import cs3500.reversi.strategy.MostPieces;
 import cs3500.reversi.view.gui.GraphicalView;
+import cs3500.reversi.view.gui.HexGUI;
 import cs3500.reversi.view.gui.ReversiView;
 
 /**
@@ -48,9 +49,9 @@ public class Reversi {
 
     if (args.length == 0) {
       model = ReversiCreator.createHex(4);
-      view1 = new GraphicalView(model, DiskColor.Black);
+      view1 = new GraphicalView(model, DiskColor.Black, new HexGUI(model, DiskColor.Black));
       // view2 = new ReversiGUIView(new ReadOnlyModelAdapter(model), 2);
-      view2 = new GraphicalView(model, DiskColor.White);
+      view2 = new GraphicalView(model, DiskColor.White, new HexGUI(model, DiskColor.White));
       p1 = new HumanPlayer(DiskColor.Black);
       p2 = new HumanPlayer(DiskColor.White);
     }
@@ -58,8 +59,8 @@ public class Reversi {
       try {
         int boardSize = Integer.parseInt(args[0]);
         model = ReversiCreator.createHex(boardSize);
-        view1 = new GraphicalView(model, DiskColor.Black);
-        view2 = new GraphicalView(model, DiskColor.White);
+        view1 = new GraphicalView(model, DiskColor.Black, new HexGUI(model, DiskColor.Black));
+        view2 = new GraphicalView(model, DiskColor.White, new HexGUI(model, DiskColor.White));
         p1 = new HumanPlayer(DiskColor.Black);
         p2 = new HumanPlayer(DiskColor.White);
       } catch (IllegalArgumentException e) {
@@ -74,8 +75,8 @@ public class Reversi {
         throw new IllegalArgumentException("First argument must be the desired board size. Board "
                 + "size must be at least 3.");
       }
-      view1 = new GraphicalView(model, DiskColor.Black);
-      view2 = new GraphicalView(model, DiskColor.White);
+      view1 = new GraphicalView(model, DiskColor.Black, new HexGUI(model, DiskColor.Black));
+      view2 = new GraphicalView(model, DiskColor.White, new HexGUI(model, DiskColor.Black));
 
       p1 = chooseStrategy(args[1], DiskColor.Black, model);
       if (args[2].contains("provider")) {

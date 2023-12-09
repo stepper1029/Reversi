@@ -17,6 +17,7 @@ import cs3500.reversi.strategy.InfallibleReversiStrategy;
 import cs3500.reversi.strategy.MiniMax;
 import cs3500.reversi.strategy.MostPieces;
 import cs3500.reversi.view.gui.GraphicalView;
+import cs3500.reversi.view.gui.HexGUI;
 import cs3500.reversi.view.gui.ReversiView;
 import cs3500.reversi.view.gui.ViewMock;
 
@@ -94,8 +95,10 @@ public abstract class AbstractTestClass {
     this.playerBlack = new HumanPlayer(DiskColor.Black);
     this.playerWhite = new AIPlayer(DiskColor.White,
             new InfallibleReversiStrategy(new MostPieces()), this.model4);
-    this.viewBlack = new GraphicalView(this.model4, DiskColor.Black);
-    this.viewWhite = new GraphicalView(this.model4, DiskColor.White);
+    this.viewBlack = new GraphicalView(this.model4, DiskColor.Black, new HexGUI(this.model3,
+            DiskColor.Black));
+    this.viewWhite = new GraphicalView(this.model4, DiskColor.White, new HexGUI(this.model4,
+            DiskColor.White));
     this.controllerBlack = new Controller(this.model4, this.viewBlack, this.playerBlack);
     this.controllerWhite = new Controller(this.model4, this.viewWhite, this.playerWhite);
   }
@@ -104,8 +107,10 @@ public abstract class AbstractTestClass {
     this.initModels();
     this.playerBlack = new HumanPlayer(DiskColor.Black);
     this.playerWhite = new HumanPlayer(DiskColor.White);
-    this.viewBlack = new GraphicalView(this.model4, DiskColor.Black);
-    this.viewWhite = new GraphicalView(this.model4, DiskColor.White);
+    this.viewBlack = new GraphicalView(this.model4, DiskColor.Black, new HexGUI(this.model3,
+            DiskColor.Black));
+    this.viewWhite = new GraphicalView(this.model4, DiskColor.White, new HexGUI(this.model3,
+            DiskColor.White));
     this.controllerBlack = new Controller(this.model4, this.viewBlack, this.playerBlack);
     this.controllerWhite = new Controller(this.model4, this.viewWhite, this.playerWhite);
   }

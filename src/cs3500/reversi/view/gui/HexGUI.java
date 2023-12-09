@@ -4,9 +4,7 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
-import java.util.Objects;
 
-import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 
 import java.awt.event.MouseEvent;
@@ -14,7 +12,6 @@ import java.awt.geom.AffineTransform;
 import java.util.Optional;
 
 import cs3500.reversi.model.DiskColor;
-import cs3500.reversi.model.MutableModel;
 import cs3500.reversi.model.ReadOnlyModel;
 import cs3500.reversi.model.ReversiCell;
 
@@ -25,26 +22,10 @@ import cs3500.reversi.model.ReversiCell;
  */
 public class HexGUI extends AbstractPanel {
 
-  // Private final ReadOnlyModel so the model can be observed but not mutated. Does not need to
-  // reassigned or visible outside of this class.
-  private final ReadOnlyModel model;
-
   // Protected final cells to hold the rendered Hexagons in the same coordinate grid as the Board
   // holds ReversiCells. The subclasses Hexagon and MouseEventsListener need access.
   // outer array holds rows (Hexagon[]), inner array holds Hexagons
-  protected final Hexagon[][] cells;
-
-  // the X (or row) coordinate of the currently highlighted cell.
-  private Optional<Integer> selectedX; // optional: null when nothing is highlighted
-
-  // the Y (or Hexagon / column) coordinate of the currently highlighted cell.
-  private Optional<Integer> selectedY; // optional: null when nothing is highlighted
-
-  // color of the play which this view belongs to
-  private final DiskColor color;
-
-  private boolean showHint;
-
+  protected HexGUI.Hexagon[][] cells;
 
   /**
    * Constructor for the class, initializes the model and cells structure,and the mouse listener.
@@ -53,25 +34,10 @@ public class HexGUI extends AbstractPanel {
    * @param model ReadOnlyModel because the view is only allowed observability not mutability.
    */
   public HexGUI(ReadOnlyModel model, DiskColor color) {
-    this.color = color;
-    this.model = Objects.requireNonNull(model);
-    MouseEventsListener listener = new MouseEventsListener();
+    super(model, color);
+    this.cells = new HexGUI.Hexagon[this.model.getNumRows()][];
+    HexGUI.MouseEventsListener listener = new HexGUI.MouseEventsListener();
     this.addMouseListener(listener);
-    this.cells = new Hexagon[this.model.getNumRows()][];
-    this.selectedX = Optional.empty();
-    this.selectedY = Optional.empty();
-    this.showHint = false;
-  }
-
-  /**
-   * This method tells Swing what the "natural" size should be
-   * for this panel.  Here, we set it to 500x425 pixels.
-   *
-   * @return Our preferred *physical* size.
-   */
-  @Override
-  public Dimension getPreferredSize() {
-    return new Dimension(500, 425);
   }
 
   /**
@@ -80,7 +46,7 @@ public class HexGUI extends AbstractPanel {
    *
    * @return Our preferred *logical* size.
    */
-  private Dimension getPreferredLogicalSize() {
+  protected Dimension getPreferredLogicalSize() {
     return new Dimension(this.model.getRowSize(this.model.getBoardSize() / 4),
             (this.model.getNumRows()));
   }
@@ -94,7 +60,6 @@ public class HexGUI extends AbstractPanel {
    */
   void place(DiskColor color) {
     if (selectedX.isPresent() && selectedY.isPresent()) {
-      //update();
       Hexagon hex = this.cells[selectedX.get()][selectedY.get()];
       hex.addDisk(color);
       update();
@@ -114,48 +79,10 @@ public class HexGUI extends AbstractPanel {
     repaint();
   }
 
-  void toggleHint() {
-    showHint = !showHint;
-    update();
-  }
 
-  private int numCellsFlipped(ReversiCell cell) {
-    int currScore = this.model.getScore(this.color);
-    MutableModel copy = this.model.copy();
-    copy.place(cell, this.color);
-    int potentialScore = copy.getScore(this.color);
-    return potentialScore - currScore - 1;
-  }
-
-  /**
-   * Package private so it can be called by the Frame. Returns the X coordinate of the
-   * highlighted cell, so it can be observed by the controller and potentially observed by the
-   * model. Returns and Optional Integer because there is not always a highlighted cell of which
-   * to observe an X coordinate.
-   *
-   * @return optional Integer x coordinate of the highlighted cell.
-   */
-  Optional<Integer> getSelectedX() {
-    return this.selectedX;
-  }
-
-  /**
-   * Package private so it can be called by the Frame. Returns the Y coordinate of the
-   * highlighted cell, so it can be observed by the controller and potentially observed by the
-   * model. Returns and Optional Integer because there is not always a highlighted cell of which
-   * to observe an Y coordinate.
-   *
-   * @return optional Integer Y coordinate of the highlighted cell.
-   */
-  Optional<Integer> getSelectedY() {
-    return this.selectedY;
-  }
 
   @Override
-  protected void paintComponent(Graphics g) {
-    super.paintComponent(g);
-    Graphics2D g2d = (Graphics2D) g.create();
-
+  protected void paintComponentHelper(Graphics2D g2d) {
     // Set font and draw the text at the center of the shape
     Font font = new Font("Arial", Font.PLAIN, 16);
     g2d.setFont(font);
@@ -219,7 +146,7 @@ public class HexGUI extends AbstractPanel {
   }
 
   // calculates the width of a cell from the distance between two logical coordinates.
-  private Double getCellWidth() {
+  protected Double getCellWidth() {
     Point2D logicalPointA = new Point2D.Double(0, 0);
     Point2D logicalPointB = new Point2D.Double(1, 0);
     Point2D physicalPointA = new Point2D.Double();
@@ -230,15 +157,9 @@ public class HexGUI extends AbstractPanel {
     return physicalPointB.getX() - physicalPointA.getX();
   }
 
-  // initializes the rows
-  private void makeRows(double x, double y, double cellWidth) {
-    for (int i = 0; i < this.model.getNumRows(); i++) {
-      makeRow(i, x, y, cellWidth);
-    }
-  }
 
   // initializes a row. Calculates physical x and y coordinates for the cells
-  private void makeRow(int rowNum, double x, double y, double cellWidth) {
+  protected void makeRow(int rowNum, double x, double y, double cellWidth) {
     int rowSize = this.model.getRowSize(rowNum);
     double cellHeight = (cellWidth / Math.sqrt(3)) * 2;
     int midRowNum;
@@ -267,33 +188,25 @@ public class HexGUI extends AbstractPanel {
   }
 
   // helper for makeRow. should resize the cells and update coordinates if the frame changes size.
-  private void iterateCells(int rowNum, double x, double y) {
+  protected void iterateCells(int rowNum, double x, double y) {
     int rowSize = this.model.getRowSize(rowNum);
     double cellWidth = this.getCellWidth();
     for (int i = 0; i < rowSize; i++) {
       Point2D currPoint = new Point2D.Double(x, y);
       if (this.cells[rowNum][i] == null) {
         Hexagon currHex = new Hexagon(currPoint);
-        this.placeHex(currHex, rowNum, i);
+        this.place(currHex, rowNum, i);
       } else {
         Hexagon currHex = this.cells[rowNum][i];
         Hexagon newHex = currHex.updateCenter(currPoint);
-        this.placeHex(newHex, rowNum, i);
+        this.place(newHex, rowNum, i);
       }
       x += cellWidth / 2;
     }
   }
 
-  // finds the physical center by transforming the logical center.
-  private Point2D setPhysicalCoords() {
-    Point2D logicalCenterCell = new Point2D.Double(0, 0);
-    Point2D physicalCenterCell = new Point2D.Double();
-    transformLogicalToPhysical().transform(logicalCenterCell, physicalCenterCell);
-    return physicalCenterCell;
-  }
-
   // assigns the appropriate grid location to the given cell.
-  private void placeHex(Hexagon hex, int numRow, int numCell) {
+  private void place(Hexagon hex, int numRow, int numCell) {
     this.cells[numRow][numCell] = hex;
   }
 
@@ -395,23 +308,6 @@ public class HexGUI extends AbstractPanel {
         }
       }
     }
-  }
-
-  /**
-   * Computes the transformation that converts board coordinates
-   * (with (0,0) in center, width and height our logical size)
-   * into screen coordinates (with (0,0) in upper-left,
-   * width and height in pixels).
-   *
-   * @return The necessary transformation
-   */
-  protected AffineTransform transformLogicalToPhysical() {
-    AffineTransform ret = new AffineTransform();
-    Dimension preferred = getPreferredLogicalSize();
-    ret.translate(getWidth() / 2., getHeight() / 2.);
-    ret.scale(getWidth() / preferred.getWidth(), getHeight() / preferred.getHeight());
-    ret.scale(1, -1);
-    return ret;
   }
 
   // Private class MouseEventsListener extends MouseInputAdapter to listen for mouse clicks from
