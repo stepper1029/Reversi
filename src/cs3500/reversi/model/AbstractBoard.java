@@ -60,11 +60,7 @@ abstract class AbstractBoard implements Board {
   protected abstract ReversiCell[][] getBoard();
 
   @Override
-  public ReversiCell getNeighborCell(ReversiCell cell, CellDirection direction) {
-    ReversiCell neighbor = cell.addVector(direction.getHexDirectionCoordinates());
-    this.invalidCellException(neighbor);
-    return neighbor;
-  }
+  public abstract ReversiCell getNeighborCell(ReversiCell cell, CellDirection direction);
 
   @Override
   public List<ReversiCell> getCells(DiskColor color) {

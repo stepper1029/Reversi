@@ -46,6 +46,13 @@ class SquareBoard extends AbstractBoard {
   }
 
   @Override
+  public ReversiCell getNeighborCell(ReversiCell cell, CellDirection direction) {
+    ReversiCell neighbor = cell.addVector(direction.getSquareDirectionCoordinates());
+    this.invalidCellException(neighbor);
+    return neighbor;
+  }
+
+  @Override
   public List<ReversiCell> getInitPositions() {
     int topLeftX = (boardSize / 2) - 1;
     int topLeftY = (boardSize / 2) - 1;

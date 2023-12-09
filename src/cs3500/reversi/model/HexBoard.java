@@ -82,6 +82,13 @@ class HexBoard extends AbstractBoard {
   }
 
   @Override
+  public ReversiCell getNeighborCell(ReversiCell cell, CellDirection direction) {
+    ReversiCell neighbor = cell.addVector(direction.getHexDirectionCoordinates());
+    this.invalidCellException(neighbor);
+    return neighbor;
+  }
+
+  @Override
   public List<ReversiCell> getInitPositions() {
     return new ArrayList<>(Arrays.asList(new HexCell(0, -1, 1),
             new HexCell(1, -1, 0), new HexCell(1, 0, -1),
