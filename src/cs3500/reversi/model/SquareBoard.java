@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 class SquareBoard extends AbstractBoard {
-
   public SquareBoard(int boardSize) {
     super(boardSize);
     if (boardSize < 4) {
@@ -159,5 +158,15 @@ class SquareBoard extends AbstractBoard {
       throw new IllegalArgumentException("Cell coordinates must be between 0 and " +
               this.boardSize);
     }
+  }
+
+  @Override
+  public Board copy() {
+    ReversiCell[][] cellsCopy = new ReversiCell[this.cells.length][];
+    for (int row = 0; row < this.cells.length; row++) {
+      cellsCopy[row] = this.cells[row].clone();
+    }
+    return new SquareBoard(this.boardSize, cellsCopy,
+            new ArrayList<>(this.blackCells), new ArrayList<>(this.whiteCells));
   }
 }

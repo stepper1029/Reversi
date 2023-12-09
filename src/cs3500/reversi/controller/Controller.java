@@ -48,7 +48,6 @@ public class Controller implements PlayerActions, ModelFeatures {
   @Override
   public void receivePlace(ReversiCell cell) {
     try {
-      System.out.println("placed");
       this.model.place(cell, this.player.getColor());
       this.view.place(this.player.getColor());
       view.update();
@@ -61,7 +60,6 @@ public class Controller implements PlayerActions, ModelFeatures {
   @Override
   public void receivePass() {
     try {
-      System.out.println("passed");
       this.model.pass(this.player.getColor());
       if (!this.model.isGameOver()) {
         this.view.update();

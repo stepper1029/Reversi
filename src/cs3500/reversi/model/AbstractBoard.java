@@ -143,14 +143,7 @@ abstract class AbstractBoard implements Board {
   protected abstract ReversiCell getLeftCell(ReversiCell cell1, ReversiCell cell2);
 
   @Override
-  public Board copy() {
-    ReversiCell[][] cellsCopy = new ReversiCell[this.cells.length][];
-    for (int row = 0; row < this.cells.length; row++) {
-      cellsCopy[row] = this.cells[row].clone();
-    }
-    return new HexBoard(this.boardSize, cellsCopy,
-            new ArrayList<>(this.blackCells), new ArrayList<>(this.whiteCells));
-  }
+  public abstract Board copy();
 
   protected abstract void invalidCellException(ReversiCell c);
 }
