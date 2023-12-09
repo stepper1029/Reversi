@@ -2,7 +2,6 @@ package cs3500.reversi.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,6 +28,7 @@ class HexBoard extends AbstractBoard {
     if (boardSize < 3) {
       throw new IllegalArgumentException("Board size must be at least 3");
     }
+    this.cells = this.getBoard();
   }
 
   /**

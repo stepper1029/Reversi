@@ -3,6 +3,10 @@ package cs3500.reversi.model;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 public class PackagePrivateSquareModelTests {
   // square cells to initialize
   private SquareCell cell00;
@@ -67,17 +71,18 @@ public class PackagePrivateSquareModelTests {
 
   // initialize the board
   private void initBoard() {
+    this.initCells();
     this.board4 = new SquareBoard(4);
   }
 
   // SquareBoard tests
   @Test
   public void testConstructor() {
-    Assert.assertThrows(IllegalArgumentException.class, () -> new HexBoard(0));
-    Assert.assertThrows(IllegalArgumentException.class, () -> new HexBoard(-1));
-    Assert.assertThrows(IllegalArgumentException.class, () -> new HexBoard(2));
-    Assert.assertThrows(IllegalArgumentException.class, () -> new HexBoard(3));
-    Assert.assertThrows(IllegalArgumentException.class, () -> new HexBoard(1));
+    Assert.assertThrows(IllegalArgumentException.class, () -> new SquareBoard(0));
+    Assert.assertThrows(IllegalArgumentException.class, () -> new SquareBoard(-1));
+    Assert.assertThrows(IllegalArgumentException.class, () -> new SquareBoard(2));
+    Assert.assertThrows(IllegalArgumentException.class, () -> new SquareBoard(3));
+    Assert.assertThrows(IllegalArgumentException.class, () -> new SquareBoard(1));
   }
 
   @Test
@@ -100,10 +105,61 @@ public class PackagePrivateSquareModelTests {
             this.board4.getNeighborCell(this.cell11, CellDirection.Left));
     // moving off of the board (invalid tests)
     Assert.assertThrows(IllegalArgumentException.class, () ->
-            this.board4.getNeighborCell(this.bottomLeftMiddle, CellDirection.Left));
+            this.board4.getNeighborCell(this.cell30, CellDirection.Right));
     Assert.assertThrows(IllegalArgumentException.class, () ->
-            this.board4.getNeighborCell(this.outerUpperLeft, CellDirection.UpperLeft));
+            this.board4.getNeighborCell(this.cell31, CellDirection.BottomRight));
     Assert.assertThrows(IllegalArgumentException.class, () ->
-            this. board3.getNeighborCell(this.upperRightMiddle, CellDirection.UpperRight));
+            this.board4.getNeighborCell(this.cell10, CellDirection.UpperLeft));
+  }
+
+  @Test
+  public void testGetRow() {
+    this.initBoard();
+    ReversiCell[] row0 =
+            new ReversiCell[]{this.cell00, this.cell10, this.cell20, this.cell30};
+    Assert.assertArrayEquals(row0, this.board4.getRow(0));
+    Assert.assertThrows(IllegalArgumentException.class, () ->
+            this.board4.getRow(10));
+    Assert.assertThrows(IllegalArgumentException.class, () ->
+            this.board4.getRow(-2));
+    Assert.assertThrows(IllegalArgumentException.class, () ->
+            this.board4.getRow(4));
+  }
+
+  // tests placeDesk, getCells, and isEmpty
+  @Test
+  public void testPlaceDiskGetCellsisEmpty() {
+    this.initBoard();
+    Assert.assertEquals(new ArrayList<>(), this.board4.getCells(DiskColor.White));
+    Assert.assertEquals(new ArrayList<>(), this.board4.getCells(DiskColor.Black));
+    Assert.assertTrue(this.board4.isEmpty(this.cell00));
+    Assert.assertTrue(this.board4.isEmpty(this.cell31));
+    Assert.assertTrue(this.board4.isEmpty(this.cell30));
+    Assert.assertTrue(this.board4.isEmpty(this.cell22));
+    this.board4.placeDisk(this.cell00, DiskColor.Black);
+    this.board4.placeDisk(this.cell31, DiskColor.White);
+    this.board4.placeDisk(this.cell30, DiskColor.Black);
+    this.board4.placeDisk(this.cell22, DiskColor.White);
+    Assert.assertEquals(new ArrayList<>(Arrays.asList(this.cell00, this.cell30)),
+            this.board4.getCells(DiskColor.Black));
+    Assert.assertEquals(new ArrayList<>(Arrays.asList(this.cell31, this.cell22)),
+            this.board4.getCells(DiskColor.White));
+    Assert.assertFalse(this.board4.isEmpty(this.cell00));
+    Assert.assertFalse(this.board4.isEmpty(this.cell31));
+    Assert.assertFalse(this.board4.isEmpty(this.cell30));
+    Assert.assertFalse(this.board4.isEmpty(this.cell22));
+  }
+
+  @Test
+  public void testGetCellsBetween() {
+    this.initBoard();
+    Assert.assertEquals(new ArrayList<ReversiCell>(Arrays.asList(this.cell10, this.cell20)),
+            this.board4.getCellsBetween(this.cell00, this.cell30));
+    Assert.assertEquals(new ArrayList<ReversiCell>(Collections.singletonList(this.cell11)),
+            this.board4.getCellsBetween(this.cell00, this.cell22));
+    Assert.assertEquals(new ArrayList<ReversiCell>(),
+            this.board4.getCellsBetween(this.cell00, this.cell11));
+    Assert.assertThrows(IllegalArgumentException.class, () ->
+            this.board4.getCellsBetween(this.cell00, this.cell12));
   }
 }

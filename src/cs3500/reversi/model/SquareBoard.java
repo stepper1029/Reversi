@@ -10,6 +10,7 @@ class SquareBoard extends AbstractBoard {
     if (boardSize < 4) {
       throw new IllegalArgumentException("Board size must be at least 4");
     }
+    this.cells = this.getBoard();
   }
 
   /**

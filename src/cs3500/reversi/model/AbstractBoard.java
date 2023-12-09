@@ -45,7 +45,6 @@ abstract class AbstractBoard implements Board {
     this.blackCells = new ArrayList<>();
     this.whiteCells = new ArrayList<>();
     this.boardSize = boardSize;
-    this.cells = this.getBoard();
   }
 
 

@@ -30,7 +30,7 @@ public class TestModel {
   private MutableModel model3;
   private MutableModel model4;
 
-  // initializes models to be testing
+  // initializes models to be tested
   private void initModels() {
     this.model3 = ReversiCreator.createHex(3);
     this.model4 = ReversiCreator.createHex(4);

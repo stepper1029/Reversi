@@ -5,7 +5,9 @@ or disable hints, which tell you the number of pieces that move will flip.
 ## Level 1: 
 We implemented level 1 by creating an abstract model class called AbstractModel and making our
 HexReversi and SquareReversi classes extend this class. We also had to include a new SquareCell 
-class, which implements our ReversiCell interface as well as a new SquareBoard class. .
+class, which implements our ReversiCell interface as well as a new SquareBoard class. Tests for 
+this can be found in the test package. Package-private methods are tested in the 
+PackagePrivateSquareModelTests class, and other methods are tested within the TestSquareModel class.
 
 ## Level 2: 
 We implemented level 2 by abstracting our board panel which is now extended by the classes HexPanel 
