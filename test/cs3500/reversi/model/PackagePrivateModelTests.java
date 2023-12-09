@@ -385,6 +385,6 @@ public class PackagePrivateModelTests {
   @Test
   public void testNullBoard() {
     Assert.assertThrows(NullPointerException.class, () ->
-            new BasicReversi(null));
+            new HexReversi(null));
   }
 }

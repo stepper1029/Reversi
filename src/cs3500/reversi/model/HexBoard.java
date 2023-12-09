@@ -57,7 +57,7 @@ class HexBoard extends AbstractBoard {
   // generates the cells within the board by position, starting at the top left of the board
   // and working left to right, top to bottom. private because no other class needs to generate
   // a board of cells.
-  private ReversiCell[][] getBoard() {
+  protected ReversiCell[][] getBoard() {
     ReversiCell[][] cells = new ReversiCell[(boardSize * 2) - 1][];
     int width = boardSize;
 
@@ -116,8 +116,8 @@ class HexBoard extends AbstractBoard {
     if (leftCell.getCoord('q') == rightCell.getCoord('q')) {
       ReversiCell currCell = leftCell;
       while (!currCell.equals(rightCell)) {
-
-        betweenCells.add(new HexCell(q, r, s));
+        betweenCells.add(currCell);
+        currCell = this.getNeighborCell(currCell, CellDirection.BottomRight);
       }
     } else if (leftCell.getCoord('r') == rightCell.getCoord('r')) {
       int r = leftCell.getCoord('r');

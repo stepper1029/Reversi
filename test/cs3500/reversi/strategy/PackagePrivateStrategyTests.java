@@ -21,7 +21,7 @@ public class PackagePrivateStrategyTests {
 
   // initializes the model to a board of size 4
   private void initModel() {
-    this.model = ReversiCreator.create(4);
+    this.model = ReversiCreator.createHex(4);
   }
 
   @Test

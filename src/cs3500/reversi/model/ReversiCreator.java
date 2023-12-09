@@ -7,11 +7,11 @@ package cs3500.reversi.model;
 public class ReversiCreator {
   public static MutableModel createHex(int boardSize) {
     Board board = new HexBoard(boardSize);
-    return new BasicReversi(board);
+    return new HexReversi(board);
   }
 
   public static MutableModel createSquare(int boardSize) {
     Board board = new SquareBoard(boardSize);
-    return new BasicReversi(board);
+    return new SquareReversi(board);
   }
 }

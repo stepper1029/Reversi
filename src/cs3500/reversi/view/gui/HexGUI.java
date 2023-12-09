@@ -23,7 +23,7 @@ import cs3500.reversi.model.ReversiCell;
  * the current board in a game of Reversi. This class has features that allow the user to highlight
  * cells using mouse clicks as well as place disks.
  */
-public class SimpleReversiBoard extends JPanel {
+public class HexGUI extends AbstractPanel {
 
   // Private final ReadOnlyModel so the model can be observed but not mutated. Does not need to
   // reassigned or visible outside of this class.
@@ -52,7 +52,7 @@ public class SimpleReversiBoard extends JPanel {
    *
    * @param model ReadOnlyModel because the view is only allowed observability not mutability.
    */
-  public SimpleReversiBoard(ReadOnlyModel model, DiskColor color) {
+  public HexGUI(ReadOnlyModel model, DiskColor color) {
     this.color = color;
     this.model = Objects.requireNonNull(model);
     MouseEventsListener listener = new MouseEventsListener();

@@ -35,7 +35,7 @@ public class GraphicalView extends JFrame implements ReversiView {
   //be visible outside the class.
   private final ReadOnlyModel model;
   //Private final custom JPanel class to hold the rendering of the board.
-  private final SimpleReversiBoard boardPanel;
+  private final HexGUI boardPanel;
   // private panel to display a message when the game is over
   private final JPanel gameOverPanel;
   // color of the player who this view belongs to
@@ -74,7 +74,7 @@ public class GraphicalView extends JFrame implements ReversiView {
     scorePanel.add(Box.createHorizontalGlue());
 
     // board panel
-    boardPanel = new SimpleReversiBoard(model, this.color);
+    boardPanel = new HexGUI(model, this.color);
     this.add(boardPanel, BorderLayout.CENTER);
 
     this.pack();

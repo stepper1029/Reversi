@@ -62,18 +62,4 @@ public abstract class AbstractTextView {
   }
 
   public abstract String toString();
-
-  protected String cellIterator(String output, int numRow) {
-    for (int numCell = 0; numCell < model.getRowSize(numRow); numCell++) {
-      ReversiCell currCell = model.getCellAt(numRow, numCell);
-      if (model.isEmpty(currCell)) {
-        output += emptyStringHelper(numRow, numCell);
-      } else if (model.getColorAt(currCell).equals(DiskColor.Black)) {
-        output += blackStringHelper(numRow, numCell);
-      } else {
-        output += whiteStringHelper(numRow, numCell);
-      }
-    }
-    return output;
-  }
 }

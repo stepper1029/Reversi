@@ -10,7 +10,7 @@ import cs3500.reversi.model.ReversiCell;
  * HexTextView gives a text-based view of a game of Reversi where black disks are represented by
  * "X", white disks by "O", and empty cells as "_".
  */
-public class HexTextView extends AbstractTextView{
+public class HexTextView extends AbstractTextView {
 
 
   /**
@@ -41,7 +41,16 @@ public class HexTextView extends AbstractTextView{
         output += " ";
         widthCount++;
       }
-      output += cellIterator(output, numRow);
+      for (int numCell = 0; numCell < model.getRowSize(numRow); numCell++) {
+        ReversiCell currCell = model.getCellAt(numRow, numCell);
+        if (model.isEmpty(currCell)) {
+          output += emptyStringHelper(numRow, numCell);
+        } else if (model.getColorAt(currCell).equals(DiskColor.Black)) {
+          output += blackStringHelper(numRow, numCell);
+        } else {
+          output += whiteStringHelper(numRow, numCell);
+        }
+      }
       if (numRow < boardSize - 1) {
         numSpaces--;
       } else {

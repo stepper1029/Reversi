@@ -16,7 +16,7 @@ public class ExampleTests {
   // tests a small game from start to finish
   @Test
   public void testFullGame() {
-    this.model = ReversiCreator.create(3);
+    this.model = ReversiCreator.createHex(3);
     Assert.assertEquals(3, this.model.getScore(DiskColor.White));
     Assert.assertEquals(3, this.model.getScore(DiskColor.Black));
     this.model.place(this.model.getCellAt(0, 1), DiskColor.Black);
@@ -37,7 +37,7 @@ public class ExampleTests {
   // checks that the game is over after passing twice in a row
   @Test
   public void testPass() {
-    this.model = ReversiCreator.create(3);
+    this.model = ReversiCreator.createHex(3);
     this.model.pass(DiskColor.Black);
     this.model.pass(DiskColor.White);
     Assert.assertTrue(this.model.isGameOver());
@@ -45,7 +45,7 @@ public class ExampleTests {
 
   @Test
   public void testPlace() {
-    this.model = ReversiCreator.create(3);
+    this.model = ReversiCreator.createHex(3);
     Assert.assertTrue(model.isEmpty(model.getCellAt(0, 1)));
     Assert.assertEquals(3, model.getScore(DiskColor.Black));
     Assert.assertEquals(3, model.getScore(DiskColor.White));

@@ -14,7 +14,7 @@ import cs3500.reversi.provider.model.Coordinate;
 public class ValueClassAdapterTests {
   @Test
   public void testCoordinateToCell() {
-    ReadOnlyModel model = ReversiCreator.create(4);
+    ReadOnlyModel model = ReversiCreator.createHex(4);
     Assert.assertEquals(ValueClassAdapters.coordinateToCell(new Coordinate(-3, -3), model),
             model.getCellAt(0,0));
     Assert.assertEquals(ValueClassAdapters.coordinateToCell(new Coordinate(-3, 3), model),

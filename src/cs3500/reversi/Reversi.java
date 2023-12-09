@@ -47,7 +47,7 @@ public class Reversi {
     Controller controller2;
 
     if (args.length == 0) {
-      model = ReversiCreator.create(4);
+      model = ReversiCreator.createHex(4);
       view1 = new GraphicalView(model, DiskColor.Black);
       // view2 = new ReversiGUIView(new ReadOnlyModelAdapter(model), 2);
       view2 = new GraphicalView(model, DiskColor.White);
@@ -57,7 +57,7 @@ public class Reversi {
     else if (args.length == 1) {
       try {
         int boardSize = Integer.parseInt(args[0]);
-        model = ReversiCreator.create(boardSize);
+        model = ReversiCreator.createHex(boardSize);
         view1 = new GraphicalView(model, DiskColor.Black);
         view2 = new GraphicalView(model, DiskColor.White);
         p1 = new HumanPlayer(DiskColor.Black);
@@ -69,7 +69,7 @@ public class Reversi {
     } else if (args.length == 3) {
       try {
         int boardSize = Integer.parseInt(args[0]);
-        model = ReversiCreator.create(boardSize);
+        model = ReversiCreator.createHex(boardSize);
       } catch (IllegalArgumentException e) {
         throw new IllegalArgumentException("First argument must be the desired board size. Board "
                 + "size must be at least 3.");

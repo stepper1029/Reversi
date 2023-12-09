@@ -14,16 +14,16 @@ public class TestModel {
   // ReversiCreator tests
   @Test
   public void testReversiCreator() {
-    Assert.assertTrue(ReversiCreator.create(10) instanceof MutableModel);
-    Assert.assertTrue(ReversiCreator.create(3) instanceof MutableModel);
+    Assert.assertTrue(ReversiCreator.createHex(10) instanceof MutableModel);
+    Assert.assertTrue(ReversiCreator.createHex(3) instanceof MutableModel);
     Assert.assertThrows(IllegalArgumentException.class, () ->
-            ReversiCreator.create(2));
+            ReversiCreator.createHex(2));
     Assert.assertThrows(IllegalArgumentException.class, () ->
-            ReversiCreator.create(1));
+            ReversiCreator.createHex(1));
     Assert.assertThrows(IllegalArgumentException.class, () ->
-            ReversiCreator.create(0));
+            ReversiCreator.createHex(0));
     Assert.assertThrows(IllegalArgumentException.class, () ->
-            ReversiCreator.create(-1));
+            ReversiCreator.createHex(-1));
   }
 
   // Model tests
@@ -32,8 +32,8 @@ public class TestModel {
 
   // initializes models to be testing
   private void initModels() {
-    this.model3 = ReversiCreator.create(3);
-    this.model4 = ReversiCreator.create(4);
+    this.model3 = ReversiCreator.createHex(3);
+    this.model4 = ReversiCreator.createHex(4);
   }
 
   @Test

@@ -36,6 +36,29 @@ abstract class AbstractBoard implements Board {
   // Final because the reference should not be changed.
   protected List<ReversiCell> whiteCells;
 
+  /**
+   * Constructor for AbstractBoard class.
+   *
+   * @param boardSize side length in cells
+   */
+  AbstractBoard(int boardSize) {
+    this.blackCells = new ArrayList<>();
+    this.whiteCells = new ArrayList<>();
+    this.boardSize = boardSize;
+    this.cells = this.getBoard();
+  }
+
+
+  AbstractBoard(int boardSize, ReversiCell[][] cells, List<ReversiCell> blackCells,
+                  List<ReversiCell> whiteCells) {
+    this.boardSize = boardSize;
+    this.cells = cells;
+    this.blackCells = blackCells;
+    this.whiteCells = whiteCells;
+  }
+
+  protected abstract ReversiCell[][] getBoard();
+
   @Override
   public ReversiCell getNeighborCell(ReversiCell cell, CellDirection direction) {
     ReversiCell neighbor = cell.addVector(direction.getHexDirectionCoordinates());

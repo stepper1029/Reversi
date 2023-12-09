@@ -7,29 +7,25 @@ import java.util.List;
 class SquareBoard extends AbstractBoard {
 
   public SquareBoard(int boardSize) {
-    super();
-    if (boardSize < 3) {
-      throw new IllegalArgumentException("Board size must be at least 3");
+    super(boardSize);
+    if (boardSize < 4) {
+      throw new IllegalArgumentException("Board size must be at least 4");
     }
-    this.blackCells = new ArrayList<>();
-    this.whiteCells = new ArrayList<>();
-    this.boardSize = boardSize;
-    this.cells = this.getBoard();
   }
 
-  // assumes and preserves field invariant boardSize > 2
+  // assumes and preserves field invariant boardSize > 3
   // generates the cells within the board by position, starting at the top left of the board
   // and working left to right, top to bottom. private because no other class needs to generate
   // a board of cells.
-  private ReversiCell[][] getBoard() {
-    ReversiCell[][] cells = new ReversiCell[(boardSize * 2)][];
+  protected ReversiCell[][] getBoard() {
+    ReversiCell[][] cells = new ReversiCell[boardSize][];
 
-    for(int x = 0; x < this.boardSize; x ++) {
+    for(int y = 0; y < this.boardSize; y ++) {
       ReversiCell[] row = new ReversiCell[boardSize];
-      for(int y = 0; y < this.boardSize; y ++) {
-        row[y] = new SquareCell(x, y);
+      for(int x = 0; x < this.boardSize; x ++) {
+        row[x] = new SquareCell(x, y);
       }
-      cells[x] = row;
+      cells[y] = row;
     }
     return cells;
   }
@@ -39,8 +35,9 @@ class SquareBoard extends AbstractBoard {
     int topLeftX = (boardSize / 2) - 1;
     int topLeftY = (boardSize / 2) - 1;
     return new ArrayList<>(Arrays.asList(new SquareCell(topLeftX, topLeftY),
-            new SquareCell(topLeftX, topLeftY + 1), new SquareCell(topLeftX + 1, topLeftY),
-            new SquareCell(topLeftX + 1, topLeftY + 1)));
+            new SquareCell(topLeftX, topLeftY + 1),
+            new SquareCell(topLeftX + 1, topLeftY + 1),
+            new SquareCell(topLeftX + 1, topLeftY)));
   }
 
   @Override
@@ -51,7 +48,7 @@ class SquareBoard extends AbstractBoard {
     return null;
   }
 
-  // assumes and preserves invariant boardSize > 2
+  // assumes and preserves invariant boardSize > 3
   @Override
   public ReversiCell[] getRow(int numRow) {
     if (numRow < this.boardSize && numRow >= 0) {

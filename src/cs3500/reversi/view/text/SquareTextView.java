@@ -17,7 +17,16 @@ public class SquareTextView extends AbstractTextView {
   public String toString() {
     String output = "";
     for (int numRow = 0; numRow < model.getNumRows(); numRow++) {
-      output += cellIterator(output, numRow);
+      for (int numCell = 0; numCell < model.getRowSize(numRow); numCell++) {
+        ReversiCell currCell = model.getCellAt(numRow, numCell);
+        if (model.isEmpty(currCell)) {
+          output += emptyStringHelper(numRow, numCell);
+        } else if (model.getColorAt(currCell).equals(DiskColor.Black)) {
+          output += blackStringHelper(numRow, numCell);
+        } else {
+          output += whiteStringHelper(numRow, numCell);
+        }
+      }
     }
     return output;
   }

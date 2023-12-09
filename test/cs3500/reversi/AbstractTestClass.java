@@ -66,8 +66,8 @@ public abstract class AbstractTestClass {
 
   // initializes the models
   protected void initModels() {
-    this.model3 = ReversiCreator.create(3);
-    this.model4 = ReversiCreator.create(4);
+    this.model3 = ReversiCreator.createHex(3);
+    this.model4 = ReversiCreator.createHex(4);
   }
 
   // initializes strategies
