@@ -1,32 +1,35 @@
 ## Overview: 
-This project aims to make a playable Reversi game. As of now, this assumes the
-standard rules and game play of Reversi, also known as Othello, but on a hexagonal board.
-This means there are disks of colors white and black which can be placed on the board to
-flip pieces of the opposite color and capture them. The winner is the one who captures the most
-pieces. We made the code extensible for different board shapes, cell shapes, views, and even
+This project makes a playable Reversi game. As of now, this assumes the
+standard rules and game play of Reversi, also known as Othello, either on a hexagonal
+or square board. This means there are disks of colors white and black which can be placed on the 
+board to flip pieces of the opposite color and capture them. The winner is the one who captures the 
+most pieces. We made the code extensible for different board shapes, cell shapes, views, and even
 alternate rule sets by making each of these things interfaces. The game allows for 2-players, which
 can be either human or AI players. Most classes and interfaces assume that they are working with 
 interfaces rather than individual classes when applicable. For example, a board class in the Board 
 interface can work with any type of cell, so it only works with the ReversiCell interface rather 
-than, say, the HexCell class. This way, if we wanted to add square cells in a SquareCell class, 
-the board still works.
+than, say, the HexCell class.
 
 ## Quick Start:
 To get started, a user can run the main class and begin interacting with the displayed view. This 
-game will have BasicReversi rules on a hexagonal board with hexagonal cells. To customize the game,
-the player can input 1 or 3 args into the main method in the Reversi class. If only one arg is 
-input, it should be an int to change the board size. If three args are input, the first one remains 
-an int to customize the board size. The following two args are to specify the player types, args[1] 
-being for the first player, and args[2] being for the second player. Inputting "human" creates a 
-human player, and inputting "strategy1", "strategy2", "strategy3", or "strategy4" creates and AI 
-player. Strategy1 uses the least complex strategy, MostPieces. Strategy4 chains all the strategies
-together, and so is the hardest AI player to compete against. From Strategy1 to Strategy4, the AI 
-adds a new method of choosing a move and becomes increasingly complex and difficult. The same rules
-apply for player 2 but "provider" must be put in front of the strategy. For example, the command
-"5 strategy1 providerStrategy3" starts a BasicReversi game with a boardSize 5 where player 1 uses
-our MostPieces strategy and player 2 uses our provider's ChooseCorners strategy. Another example
-"5 strategy3 human" creates a game with our strategy3 and our provider's view, but as a human 
-player. 
+game will have BasicReversi rules on either a hexagonal board with hexagonal cells or a square
+board with square cells. To customize the game, the player can input 0, 1, 2 or 4 args into the 
+command line for the main method in the Reversi class. If no arguments are input, the default game
+is a hexagonal game of board size 4. If only one arg is input, it should be either "square" for a 
+square board or "hex" for a hexagonal board. The have default sizes as well. If 2 args are input,
+the first one is for the shape of the board like before, and the second is to specify a size for 
+the board so it should be an int. If 4 args are input, the first two are the same as before and 
+the following two args are to specify the player types, args[2] being for the first player, and 
+args[3] being for the second player. Inputting "human" creates a human player, and inputting 
+"strategy1", "strategy2", "strategy3", or "strategy4" creates and AI player. Strategy1 uses the 
+least complex strategy, MostPieces. Strategy4 chains all the strategies together, and so is the 
+hardest AI player to compete against. From Strategy1 to Strategy4, the AI adds a new method of 
+choosing a move and becomes increasingly complex and difficult. The same rules apply for player 2 
+but "provider" must be put in front of the strategy. For example, the command "square 5 strategy1 
+providerStrategy3" starts a BasicReversi game with a boardSize 5 on a square board where player 1 
+uses our MostPieces strategy and player 2 uses our provider's ChooseCorners strategy. Another 
+example "hex 5 strategy3 human" creates a hexagonal game with our strategy3 and our provider's view, 
+but as a human player. 
 
 ## Key components:
 Components that would "drive" the control-flow of the system would be our Main, Controller
@@ -36,15 +39,17 @@ interactions.
 
 ## Key subcomponents:
 
-### Interface ReversiCell and Class HexCell:
+### Interface ReversiCell and Classes HexCell and SquareCell:
 The smallest subcomponent of the program is a single Cell. There is an interface for all cells, but
 so far we have implemented only one HexCell class. This class has three fields, q, r, and s each 
 representing a plane in the 3D cubic coordinate system we used to keep track of cells and the board.
 The origin is at (0, 0, 0), which is in the center of the board. q moves from bottom left
 to top right of the grid. r moves from top to bottom of the grid. s moves from bottom right to 
-top left of the grid (see the HexCell class for more details).
+top left of the grid (see the HexCell class for more details). The SquareCell class uses x and y
+coordinates with (0, 0) being in the top left corner. As you move to the right, x increases,
+and as you move down, y increases.
 
-### Interface Board and Class HexBoard:
+### Interface Board and Classes HexBoard and SquareBoard:
 A Board is the next noun which itself has the cells which make it up and black and white pieces. 
 Because the board stores the cells in an array of arrays, to represent the rows and columns, there
 are now two ways to access a cell. Either through the index of the row and column or through 
@@ -52,7 +57,8 @@ the coordinates q, r, s. We found to do background math q, r, s was more efficie
 and column was more readable and will make more sense to use in the view and controller later on.
 Rows are organized by horizontal rows of the hexagonal board. The origin (0, 0) is in the top left
 of the board, and row number increases vertically down, while cell number increases horizontally 
-to the right(see the HexBoard class for more details).
+to the right(see the HexBoard class for more details). SquareBoard works similarly, also being
+stored in 
 
 ### Model:
 Next we have the Model. The model contains a board, and the number of consecutive
@@ -89,7 +95,9 @@ and does not allow for any interactions with the board. In addition to the backg
 blue, all possible moves for the current player are highlighted in light pink. When the user 
 selects a cell with their mouse, it is highlighted in cyan. A user cannot select a cell that
 already has a disk placed on it. It has the ability to register a PlayerActions listener to notify
-the controller when a human player makes a move. 
+the controller when a human player makes a move. We have also added optional hints to the board.
+If the player presses the 'H' key, it will show them how many disks a selected move would flip.
+They can toggle hints by pressing the 'H' key again.
 
 ## PlayerActions
 An interface to represent player actions that come from either a human player through the view or

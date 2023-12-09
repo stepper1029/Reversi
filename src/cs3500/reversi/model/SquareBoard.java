@@ -4,11 +4,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Class SquareBoard extends AbstractBoard and represents a Reversi game board with Square shape.
+ * The class is package private because the board itself should only be accessible within the
+ * package. Anything outside the model package should use the Model itself to mutate or observe
+ * the game.
+ */
 class SquareBoard extends AbstractBoard {
   public SquareBoard(int boardSize) {
     super(boardSize);
-    if (boardSize < 4) {
-      throw new IllegalArgumentException("Board size must be at least 4");
+    if (boardSize < 4 || boardSize % 2 != 0) {
+      throw new IllegalArgumentException("Board size must be at least 4 and must be even.");
     }
     this.cells = this.getBoard();
   }
@@ -28,16 +34,16 @@ class SquareBoard extends AbstractBoard {
     super(boardSize, cells, blackCells, whiteCells);
   }
 
-  // assumes and preserves field invariant boardSize > 3
+  // assumes and preserves field invariant boardSize > 3 and even.
   // generates the cells within the board by position, starting at the top left of the board
   // and working left to right, top to bottom. private because no other class needs to generate
   // a board of cells.
   protected ReversiCell[][] getBoard() {
     ReversiCell[][] cells = new ReversiCell[boardSize][];
 
-    for(int y = 0; y < this.boardSize; y ++) {
+    for (int y = 0; y < this.boardSize; y ++) {
       ReversiCell[] row = new ReversiCell[boardSize];
-      for(int x = 0; x < this.boardSize; x ++) {
+      for (int x = 0; x < this.boardSize; x ++) {
         row[x] = new SquareCell(x, y);
       }
       cells[y] = row;
@@ -68,7 +74,7 @@ class SquareBoard extends AbstractBoard {
     ReversiCell rightCell;
     List<ReversiCell> betweenCells = new ArrayList<>();
     leftCell = this.getLeftCell(cell1, cell2);
-    if(!leftCell.equals(cell1)) {
+    if (!leftCell.equals(cell1)) {
       rightCell = cell1;
     }
     else {

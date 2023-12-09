@@ -39,53 +39,72 @@ public class Reversi {
    * @param args input
    */
   public static void main(String[] args) {
-    MutableModel model;
-    ReversiView view1;
-    ReversiView view2;
-    //cs3500.reversi.provider.view.ReversiView view2;
-    Player p1;
-    Player p2;
+    MutableModel model = ReversiCreator.createHex(4);
+    ReversiView view1 = new GraphicalView(model, DiskColor.Black,
+            new HexGUI(model, DiskColor.Black));
+    ReversiView view2 = new GraphicalView(model, DiskColor.White,
+            new HexGUI(model, DiskColor.White));
+    Player p1 = new HumanPlayer(DiskColor.Black);
+    Player p2 = new HumanPlayer(DiskColor.White);
     Controller controller1;
     Controller controller2;
 
-    if (args.length == 0) {
-      model = ReversiCreator.createSquare(6);
-      view1 = new GraphicalView(model, DiskColor.Black, new SquareGUI(model, DiskColor.Black));
-      view2 = new GraphicalView(model, DiskColor.White, new SquareGUI(model, DiskColor.White));
+    if (args.length == 1) {
+      if (args[0].equals("square")) {
+        model = ReversiCreator.createSquare(5);
+        view1 = new GraphicalView(model, DiskColor.Black, new SquareGUI(model, DiskColor.Black));
+        view2 = new GraphicalView(model, DiskColor.White, new SquareGUI(model, DiskColor.White));
+      } else if (args[0].equals("hex")) {
+        model = ReversiCreator.createHex(4);
+        view1 = new GraphicalView(model, DiskColor.Black, new HexGUI(model, DiskColor.Black));
+        view2 = new GraphicalView(model, DiskColor.White, new HexGUI(model, DiskColor.White));
+      } else {
+        throw new IllegalArgumentException("Must choose square or hex game board.");
+      }
       p1 = new HumanPlayer(DiskColor.Black);
       p2 = new HumanPlayer(DiskColor.White);
     }
-    else if (args.length == 1) {
+    else if (args.length == 2) {
       try {
-        int boardSize = Integer.parseInt(args[0]);
-        model = ReversiCreator.createHex(boardSize);
-        view1 = new GraphicalView(model, DiskColor.Black, new HexGUI(model, DiskColor.Black));
-        view2 = new GraphicalView(model, DiskColor.White, new HexGUI(model, DiskColor.White));
+        int boardSize = Integer.parseInt(args[1]);
+        if (args[0].equals("square")) {
+          model = ReversiCreator.createSquare(boardSize);
+          view1 = new GraphicalView(model, DiskColor.Black, new SquareGUI(model, DiskColor.Black));
+          view2 = new GraphicalView(model, DiskColor.White, new SquareGUI(model, DiskColor.White));
+        } else if (args[0].equals("hex")) {
+          model = ReversiCreator.createHex(boardSize);
+          view1 = new GraphicalView(model, DiskColor.Black, new HexGUI(model, DiskColor.Black));
+          view2 = new GraphicalView(model, DiskColor.White, new HexGUI(model, DiskColor.White));
+        }
         p1 = new HumanPlayer(DiskColor.Black);
         p2 = new HumanPlayer(DiskColor.White);
       } catch (IllegalArgumentException e) {
-        throw new IllegalArgumentException("If there is only one argument, it must be the desired "
-                + "board size. Board size must be at least 3.");
+        throw new IllegalArgumentException("Specify square or hex and a game board size. Square" +
+                "boards cannot have an odd size.");
       }
-    } else if (args.length == 3) {
+    } else if (args.length == 4) {
       try {
-        int boardSize = Integer.parseInt(args[0]);
-        model = ReversiCreator.createHex(boardSize);
+        int boardSize = Integer.parseInt(args[1]);
+        if (args[0].equals("square")) {
+          model = ReversiCreator.createSquare(boardSize);
+          view1 = new GraphicalView(model, DiskColor.Black, new SquareGUI(model, DiskColor.Black));
+          view2 = new GraphicalView(model, DiskColor.White, new SquareGUI(model, DiskColor.White));
+        } else if (args[0].equals("hex")) {
+          model = ReversiCreator.createHex(boardSize);
+          view1 = new GraphicalView(model, DiskColor.Black, new HexGUI(model, DiskColor.Black));
+          view2 = new GraphicalView(model, DiskColor.White, new HexGUI(model, DiskColor.White));
+        }
       } catch (IllegalArgumentException e) {
-        throw new IllegalArgumentException("First argument must be the desired board size. Board "
-                + "size must be at least 3.");
+        throw new IllegalArgumentException("Board size must be at least 3 for hex and at least 4 " +
+                "for square boards. Square boards cannot have odd sizes.");
       }
-      view1 = new GraphicalView(model, DiskColor.Black, new HexGUI(model, DiskColor.Black));
-      view2 = new GraphicalView(model, DiskColor.White, new HexGUI(model, DiskColor.Black));
-
-      p1 = chooseStrategy(args[1], DiskColor.Black, model);
-      if (args[2].contains("provider")) {
-        p2 = chooseProviderStrategy(args[2], DiskColor.White, model);
+      p1 = chooseStrategy(args[2], DiskColor.Black, model);
+      if (args[3].contains("provider")) {
+        p2 = chooseProviderStrategy(args[3], DiskColor.White, model);
       } else {
-        p2 = chooseStrategy(args[2], DiskColor.White, model);
+        p2 = chooseStrategy(args[3], DiskColor.White, model);
       }
-    }
-    else {
+    } else if (args.length > 4) {
       throw new IllegalArgumentException("Invalid number of inputs.");
     }
 

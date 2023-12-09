@@ -1,9 +1,10 @@
 package cs3500.reversi.view.text;
 
-import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.ReadOnlyModel;
-import cs3500.reversi.model.ReversiCell;
 
+/**
+ * Abstract class for fields and methods shared by Hexagonal and Square textViews.
+ */
 public abstract class AbstractTextView {
 
   // model is final because it should not be change in the view. ReadOnlyModel is passed

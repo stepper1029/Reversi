@@ -1,11 +1,18 @@
 package cs3500.reversi.view.gui;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Color;
+import java.awt.Shape;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.util.Optional;
+
 
 import javax.swing.event.MouseInputAdapter;
 
@@ -13,6 +20,9 @@ import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.ReadOnlyModel;
 import cs3500.reversi.model.ReversiCell;
 
+/**
+ * Class to render a square board panel. Extends AbstractPanel.
+ */
 public class SquareGUI extends AbstractPanel {
 
   // Protected final cells to hold the rendered Hexagons in the same coordinate grid as the Board
@@ -20,6 +30,11 @@ public class SquareGUI extends AbstractPanel {
   // outer array holds rows (Hexagon[]), inner array holds Hexagons
   protected Square[][] cells;
 
+  /**
+   * Constructor initializes cells and mouseListener.
+   * @param model model that this view is representing
+   * @param color the color corresponding to the player
+   */
   public SquareGUI(ReadOnlyModel model, DiskColor color) {
     super(model, color);
     this.cells = new Square[this.model.getNumRows()][];
@@ -82,10 +97,6 @@ public class SquareGUI extends AbstractPanel {
         // draw cells
         if (currSquare.filled) {
           g2d.setColor(Color.CYAN);
-//          System.out.println("squarex: " + row);
-//          System.out.println("squarey: " + cell);
-//          System.out.println("selectedX: " + selectedX);
-//          System.out.println("selectedy: " + selectedY);
         } else if (model.allPossibleMoves(this.color).contains(currCell)
                 && model.getTurn() == this.color) {
           g2d.setColor(new Color(252, 197, 231));
@@ -97,17 +108,19 @@ public class SquareGUI extends AbstractPanel {
         g2d.setColor(Color.BLACK);
         g2d.draw(currSquare);
         if (currSquare.filled && showHint) {
+          String hint = "";
           try {
-            String hint = String.valueOf(numCellsFlipped(currCell));
-            int textWidth = metrics.stringWidth(hint);
-            int textHeight = metrics.getHeight();
-            // Calculate text position to center it within the shape
-            int textX = (int) (currSquare.center.getX() - textWidth / 2);
-            int textY = (int) (currSquare.center.getY() + cellWidth + textHeight / 4);
-
-            g2d.drawString(hint, textX, textY);
-          } catch(IllegalStateException e) {
+            hint = String.valueOf(numCellsFlipped(currCell));
+          } catch (IllegalStateException e) {
+            hint = "0";
           }
+          int textWidth = metrics.stringWidth(hint);
+          int textHeight = metrics.getHeight();
+          // Calculate text position to center it within the shape
+          int textX = (int) (currSquare.center.getX() - textWidth / 2);
+          int textY = (int) (currSquare.center.getY() + cellWidth + textHeight / 4);
+
+          g2d.drawString(hint, textX, textY);
         }
 
         // draw disks

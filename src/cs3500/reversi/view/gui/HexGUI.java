@@ -1,6 +1,12 @@
 package cs3500.reversi.view.gui;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Color;
+import java.awt.Shape;
+import java.awt.Point;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
@@ -15,9 +21,9 @@ import cs3500.reversi.model.ReadOnlyModel;
 import cs3500.reversi.model.ReversiCell;
 
 /**
- * SimpleReversiBoard extends JPanel. This class represents a JPanel which holds a rendering of
- * the current board in a game of Reversi. This class has features that allow the user to highlight
- * cells using mouse clicks as well as place disks.
+ * SimpleReversiBoard extends AbstractPanel. This class represents a JPanel which holds a rendering
+ * of the current board in a game of Reversi. This class has features that allow the user to
+ * highlight cells using mouse clicks as well as place disks.
  */
 public class HexGUI extends AbstractPanel {
 
@@ -122,7 +128,12 @@ public class HexGUI extends AbstractPanel {
         g2d.setColor(Color.BLACK);
         g2d.draw(currHex);
         if (currHex.filled && showHint) {
-          String hint = String.valueOf(numCellsFlipped(currCell));
+          String hint = "";
+          try {
+            hint = String.valueOf(numCellsFlipped(currCell));
+          } catch (IllegalStateException e) {
+            hint = "0";
+          }
           int textWidth = metrics.stringWidth(hint);
           int textHeight = metrics.getHeight();
 

@@ -6,8 +6,17 @@ import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.ReadOnlyModel;
 import cs3500.reversi.model.ReversiCell;
 
+/**
+ * Square Text view shows the current state of the game board as a string of characters.
+ * X represents a black piece on the board, O represents a white piece on the board, _ represents
+ * and empty square on the board.
+ */
 public class SquareTextView extends AbstractTextView {
 
+  /**
+   * Constructor takes in an observable model.
+   * @param model ReadOnlyModel
+   */
   public SquareTextView(ReadOnlyModel model) {
     super();
     this.model = Objects.requireNonNull(model);

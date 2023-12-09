@@ -12,8 +12,8 @@ import cs3500.reversi.provider.model.Direction;
 public class SquareReversi extends AbstractModel {
 
   /**
-   * Constructor for BasicReversi initializes all fields. Takes in a board (which has a size, shape,
-   * and cell structure) but is completely empty. Constructor sets the board with the initial
+   * Constructor for SquareReversi initializes all fields. Takes in a board (which has a size,
+   * shape, and cell structure) but is completely empty. Constructor sets the board with the initial
    * starting piece required to play the game. numPasses is initialized to zero because when no
    * moves have been made, no player could have passed. currColor begins at black as is
    * convention in Reversi, black moves first. The ObserverMap is not initialized because it is not

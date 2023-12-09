@@ -1,37 +1,46 @@
 package cs3500.reversi.view.gui;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.Objects;
 import java.util.Optional;
+import javax.swing.JPanel;
 
-import javax.swing.*;
 
 import cs3500.reversi.model.DiskColor;
 import cs3500.reversi.model.MutableModel;
 import cs3500.reversi.model.ReadOnlyModel;
 import cs3500.reversi.model.ReversiCell;
 
+/**
+ * Abstract class for the board Panel for any fields and methods that are shared between Square and
+ * Hexagonal boards.
+ */
 public abstract class AbstractPanel extends JPanel {
-  // Private final ReadOnlyModel so the model can be observed but not mutated. Does not need to
-  // reassigned or visible outside of this class.
+  // Protected ReadOnlyModel so the model can be observed but not mutated. Needs to be inherited
+  // by the classes which extend the abstract class.
   protected ReadOnlyModel model;
 
   // the X (or row) coordinate of the currently highlighted cell.
+  // Needs to be inherited by the classes which extend the abstract class.
   protected Optional<Integer> selectedX; // optional: null when nothing is highlighted
 
   // the Y (or Hexagon / column) coordinate of the currently highlighted cell.
+  // Needs to be inherited by the classes which extend the abstract class.
   protected Optional<Integer> selectedY; // optional: null when nothing is highlighted
 
   // color of the play which this view belongs to
+  // Needs to be inherited by the classes which extend the abstract class.
   protected DiskColor color;
 
+  // Needs to be inherited by the classes which extend the abstract class.
   protected boolean showHint;
 
   /**
-   * Constructor for the class, initializes the model and cells structure,and the mouse listener.
-   * Creates a new instance of the Panel.
+   * Constructor for the class, initializes shared fields.
    *
    * @param model ReadOnlyModel because the view is only allowed observability not mutability.
    */

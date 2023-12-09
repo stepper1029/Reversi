@@ -156,14 +156,14 @@ public class TestView {
   @Test
   public void testToStringAfterAMoveFlipsInTwoDirectionsSquare() {
     MutableModel model = ReversiCreator.createSquare(4);
-    model.place(model.getCellAt(0, 1), DiskColor.Black);
-    model.place(model.getCellAt(1, 3), DiskColor.White);
-    model.place(model.getCellAt(3, 3), DiskColor.Black);
+    model.place(model.getCellAt(0, 2), DiskColor.Black);
+    model.place(model.getCellAt(0, 1), DiskColor.White);
+    model.place(model.getCellAt(2, 0), DiskColor.Black);
     SquareTextView tv = new SquareTextView(model);
     String actual = tv.toString();
-    String expected = "_ _ X _\n"
-                    + "_ X X O\n"
-                    + "_ X X X\n"
+    String expected = "_ O X _\n"
+                    + "_ X X _\n"
+                    + "X X X _\n"
                     + "_ _ _ _";
     Assert.assertEquals(expected, actual);
   }
@@ -171,16 +171,16 @@ public class TestView {
   @Test
   public void testToStringAfterAMoveFlipsTwoInARowSquare() {
     MutableModel model = ReversiCreator.createSquare(4);
-    model.place(model.getCellAt(0, 1), DiskColor.Black);
-    model.place(model.getCellAt(1, 3), DiskColor.White);
+    model.place(model.getCellAt(0, 2), DiskColor.Black);
+    model.place(model.getCellAt(2, 3), DiskColor.White);
     model.place(model.getCellAt(3, 3), DiskColor.Black);
-    model.place(model.getCellAt(1, 0), DiskColor.White);
+    model.place(model.getCellAt(0, 1), DiskColor.White);
     SquareTextView tv = new SquareTextView(model);
     String actual = tv.toString();
-    String expected = "_ _ X _\n"
-                    + "O O O O\n"
-                    + "_ X X X\n"
-                    + "_ _ _ _";
+    String expected = "_ O X _\n" +
+            "_ O O _\n" +
+            "_ O X O\n" +
+            "_ _ _ X";
     Assert.assertEquals(expected, actual);
   }
 

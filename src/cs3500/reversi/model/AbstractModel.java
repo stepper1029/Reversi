@@ -9,6 +9,9 @@ import java.util.Optional;
 
 import cs3500.reversi.controller.ModelFeatures;
 
+/**
+ * Abstract class for the fields and methods shared by Hexagonal and Square models.
+ */
 public abstract class AbstractModel implements MutableModel {
 
   // keeps track of the color that should be placed by the current player. Each player should
@@ -52,9 +55,9 @@ public abstract class AbstractModel implements MutableModel {
    *  of the model. Package-private because it is only used to create a copy of the model within
    *  the subclasses.
    *
-   * @param board
-   * @param numPasses
-   * @param color
+   * @param board board
+   * @param numPasses number of passes
+   * @param color color for the copy
    */
   AbstractModel(Board board, int numPasses, DiskColor color) {
     this.board = board;

@@ -5,9 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Class HexBoard implements Board and represents a Reversi game board with Hexagonal shape. The
- * class is package private because the board itself should only be accessible within the package.
- * Anything outside the model package should use the Model itself to mutate or observe the game.
+ * Class HexBoard extends AbstractBoard and represents a Reversi game board with Hexagonal shape.
+ * The class is package private because the board itself should only be accessible within the
+ * package. Anything outside the model package should use the Model itself to mutate or observe
+ * the game.
  */
 class HexBoard extends AbstractBoard {
 
@@ -122,7 +123,7 @@ class HexBoard extends AbstractBoard {
     ReversiCell rightCell;
     List<ReversiCell> betweenCells = new ArrayList<>();
     leftCell = this.getLeftCell(cell1, cell2);
-    if(!leftCell.equals(cell1)) {
+    if (!leftCell.equals(cell1)) {
       rightCell = cell1;
     }
     else {
