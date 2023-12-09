@@ -137,6 +137,15 @@ abstract class AbstractBoard implements Board {
     return cellNum;
   }
 
+  /**
+   * determines which of the given two cells is on the left. protected because this functionality
+   * is only relevant to subclasses. Just a helper that does not need to be in the interface.
+   * @param cell1 cell to compare
+   * @param cell2 cell to compare
+   * @return whichever cell is farther left
+   */
+  protected abstract ReversiCell getLeftCell(ReversiCell cell1, ReversiCell cell2);
+
   @Override
   public Board copy() {
     ReversiCell[][] cellsCopy = new ReversiCell[this.cells.length][];

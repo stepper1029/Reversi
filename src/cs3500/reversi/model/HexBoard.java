@@ -25,14 +25,10 @@ class HexBoard extends AbstractBoard {
    * @param boardSize side length in cells
    */
   HexBoard(int boardSize) {
-    super();
+    super(boardSize);
     if (boardSize < 3) {
       throw new IllegalArgumentException("Board size must be at least 3");
     }
-    this.blackCells = new ArrayList<>();
-    this.whiteCells = new ArrayList<>();
-    this.boardSize = boardSize;
-    this.cells = this.getBoard();
   }
 
   /**
@@ -45,12 +41,9 @@ class HexBoard extends AbstractBoard {
    * @param blackCells a list of all cells with black pieces
    * @param whiteCells a list of all cells with white pieces
    */
-  public HexBoard(int boardSize, ReversiCell[][] cells, List<ReversiCell> blackCells,
+  HexBoard(int boardSize, ReversiCell[][] cells, List<ReversiCell> blackCells,
                   List<ReversiCell> whiteCells) {
-    this.boardSize = boardSize;
-    this.cells = cells;
-    this.blackCells = blackCells;
-    this.whiteCells = whiteCells;
+    super(boardSize, cells, blackCells, whiteCells);
   }
 
   // assumes and preserves field invariant boardSize > 2
@@ -112,24 +105,30 @@ class HexBoard extends AbstractBoard {
     ReversiCell rightCell;
     List<ReversiCell> betweenCells = new ArrayList<>();
     leftCell = this.getLeftCell(cell1, cell2);
-    rightCell = this.getRightCell(cell1, cell2);
+    if(!leftCell.equals(cell1)) {
+      rightCell = cell1;
+    }
+    else {
+      rightCell = cell2;
+    }
+    ReversiCell currCell;
     if (leftCell.getCoord('q') == rightCell.getCoord('q')) {
-      ReversiCell currCell = leftCell;
+      currCell = this.getNeighborCell(leftCell, CellDirection.BottomRight);
       while (!currCell.equals(rightCell)) {
         betweenCells.add(currCell);
         currCell = this.getNeighborCell(currCell, CellDirection.BottomRight);
       }
     } else if (leftCell.getCoord('r') == rightCell.getCoord('r')) {
-      int r = leftCell.getCoord('r');
-      for (int q = leftCell.getCoord('q') + 1, s = leftCell.getCoord('s') - 1;
-           q < rightCell.getCoord('q') && s > rightCell.getCoord('s'); q++, s--) {
-        betweenCells.add(new HexCell(q, r, s));
+      currCell = this.getNeighborCell(leftCell, CellDirection.Right);
+      while (!currCell.equals(rightCell)) {
+        betweenCells.add(currCell);
+        currCell = this.getNeighborCell(currCell, CellDirection.Right);
       }
     } else if (leftCell.getCoord('s') == rightCell.getCoord('s')) {
-      int s = leftCell.getCoord('s');
-      for (int q = leftCell.getCoord('q') + 1, r = leftCell.getCoord('r') - 1;
-           q < rightCell.getCoord('q') && r > rightCell.getCoord('r'); q++, r--) {
-        betweenCells.add(new HexCell(q, r, s));
+      currCell = this.getNeighborCell(leftCell, CellDirection.UpperRight);
+      while (!currCell.equals(rightCell)) {
+        betweenCells.add(currCell);
+        currCell = this.getNeighborCell(currCell, CellDirection.UpperRight);
       }
     } else {
       throw new IllegalArgumentException("Given cells are not in a row and do not have " +
@@ -138,9 +137,8 @@ class HexBoard extends AbstractBoard {
     return betweenCells;
   }
 
-  // determines which of the given two cells is on the left. private because this functionality
-  // is only relevant to this class. Just a helper that does not need to be in the interface.
-  private ReversiCell getLeftCell(ReversiCell cell1, ReversiCell cell2) {
+  @Override
+  protected ReversiCell getLeftCell(ReversiCell cell1, ReversiCell cell2) {
     if (cell1.getCoord('q') < cell2.getCoord('q')) {
       return cell1;
     } else if (cell1.getCoord('q') == cell2.getCoord('q')) {
@@ -151,16 +149,6 @@ class HexBoard extends AbstractBoard {
       }
     } else {
       return cell2;
-    }
-  }
-
-  // determines which of the given two cells is on the right. private because this functionality
-  // is only relevant to this class. Just a helper that does not need to be in the interface.
-  private ReversiCell getRightCell(ReversiCell cell1, ReversiCell cell2) {
-    if (this.getLeftCell(cell1, cell2).equals(cell1)) {
-      return cell2;
-    } else {
-      return cell1;
     }
   }
 

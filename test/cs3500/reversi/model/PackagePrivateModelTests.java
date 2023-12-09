@@ -13,7 +13,7 @@ import java.util.Collections;
 public class PackagePrivateModelTests {
   // CellDirection tests
   @Test
-  public void testgetHexDirectionCoordinates() {
+  public void testGetHexDirectionCoordinates() {
     Assert.assertArrayEquals(new int[]{-1, 0, 1},
             CellDirection.Left.getHexDirectionCoordinates());
     Assert.assertArrayEquals(new int[]{1, 0, -1},
@@ -175,7 +175,7 @@ public class PackagePrivateModelTests {
     Assert.assertTrue(this.outerUpperLeft.containsAllCoords(new int[] {0, 2, -2}));
     Assert.assertTrue(this.right.containsAllCoords(new int[] {1, 0, -1}));
     Assert.assertFalse(this.center.containsAllCoords(new int[] {0, 2, -2}));
-    Assert.assertFalse(this.left.containsAllCoords(new int[] {1, -1, 0}));
+    Assert.assertTrue(this.left.containsAllCoords(new int[] {1, -1, 0}));
 
   }
 
