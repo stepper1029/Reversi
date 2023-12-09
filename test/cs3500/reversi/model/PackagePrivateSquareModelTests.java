@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
+/**
+ * Tests for the package-private model tests for a square board.
+ */
 public class PackagePrivateSquareModelTests {
   // square cells to initialize
   private SquareCell cell00;
@@ -83,6 +86,7 @@ public class PackagePrivateSquareModelTests {
     Assert.assertThrows(IllegalArgumentException.class, () -> new SquareBoard(2));
     Assert.assertThrows(IllegalArgumentException.class, () -> new SquareBoard(3));
     Assert.assertThrows(IllegalArgumentException.class, () -> new SquareBoard(1));
+    Assert.assertThrows(IllegalArgumentException.class, () -> new SquareBoard(7));
   }
 
   @Test

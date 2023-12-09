@@ -70,6 +70,16 @@ public class SquareCell implements ReversiCell {
   }
 
   @Override
+  public char getHorizontalComparisonCoord() {
+    return 'x';
+  }
+
+  @Override
+  public char getVerticalComparisionCoord() {
+    return 'y';
+  }
+
+  @Override
   public String toString() {
     return String.format("SquareCell: %d, %d", this.x, this.y);
   }

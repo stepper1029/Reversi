@@ -52,4 +52,18 @@ class HexReversi extends AbstractModel {
   public MutableModel copy() {
     return new HexReversi(this.board.copy(), this.numPasses, this.currColor);
   }
+
+  @Override
+  public boolean isCorner(ReversiCell cell) {
+    int maxBoardIndex = this.getBoardSize() - 1;
+    return cell.containsAllCoords(new int[]{0, maxBoardIndex, maxBoardIndex * -1});
+  }
+
+  @Override
+  public boolean isCornerAdjacent(ReversiCell cell) {
+    int maxBoardIndex = this.getBoardSize() - 1;
+    return cell.containsAllCoords(new int[] {0, maxBoardIndex - 1, (maxBoardIndex - 1) * -1}) ||
+            (cell.contains(maxBoardIndex) && !cell.contains(0)) ||
+            (cell.contains(maxBoardIndex * -1) && !cell.contains(0));
+  }
 }

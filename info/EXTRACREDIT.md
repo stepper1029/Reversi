@@ -20,4 +20,6 @@ We did not parameterize our controller. Our controller class explicitly works
 through interfaces and did not need to change in order to work with both views.
 
 ## Level 4: 
-\
+We were able to implement all 4 strategies using the same classes. We just had to move some 
+observable methods from the strategy classes to the model/ cell interfaces. Tests for these are
+found in PackagePrivateStrategyTests (at the bottom) and TestSquareStrategy. 

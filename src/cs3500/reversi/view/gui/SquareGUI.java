@@ -53,7 +53,7 @@ public class SquareGUI extends AbstractPanel {
 
   @Override
   protected void paintComponentHelper(Graphics2D g2d) {
-// Set font and draw the text at the center of the shape
+    // Set font and draw the text at the center of the shape
     Font font = new Font("Arial", Font.PLAIN, 16);
     g2d.setFont(font);
     FontMetrics metrics = g2d.getFontMetrics();

@@ -1,7 +1,14 @@
 package cs3500.reversi.model;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
+import cs3500.reversi.provider.model.Direction;
+
+/**
+ * Class to represent a game of Reversi on a Square Board. Extends the
+ * abstractModel class.
+ */
 public class SquareReversi extends AbstractModel {
 
   /**
@@ -19,7 +26,6 @@ public class SquareReversi extends AbstractModel {
   SquareReversi(Board board) {
     super(board);
   }
-
 
   /**
    * Constructor to initialize the fields to all the given values. Used for creating a copy
@@ -39,5 +45,35 @@ public class SquareReversi extends AbstractModel {
 
   public MutableModel copy() {
     return new SquareReversi(this.board.copy(), this.numPasses, this.currColor);
+  }
+
+  private List<ReversiCell> getCorners() {
+    ArrayList<ReversiCell> corners = new ArrayList<>();
+    corners.add(this.getCellAt(0, this.getBoardSize() - 1));
+    corners.add(this.getCellAt(this.getBoardSize() - 1, 0));
+    corners.add(this.getCellAt(0, 0));
+    corners.add(this.getCellAt(this.getBoardSize() - 1, this.getBoardSize() - 1));
+    return corners;
+  }
+
+  @Override
+  public boolean isCorner(ReversiCell cell) {
+    return this.getCorners().contains(cell);
+  }
+
+  @Override
+  public boolean isCornerAdjacent(ReversiCell cell) {
+    for (ReversiCell corner : this.getCorners()) {
+      for (CellDirection d : CellDirection.values()) {
+        try {
+          if (this.board.getNeighborCell(corner, d).equals(cell)) {
+            return true;
+          }
+        }
+        catch (IllegalArgumentException ignored) {
+        }
+      }
+    }
+    return false;
   }
 }

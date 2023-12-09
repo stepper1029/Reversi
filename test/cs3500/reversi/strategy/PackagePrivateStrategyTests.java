@@ -83,4 +83,18 @@ public class PackagePrivateStrategyTests {
             this.model.getCellAt(3, 1),
             this.model.getCellAt(4, 1))));
   }
+
+  // testing TopLeftComparator for a SquareBoard
+  @Test
+  public void testComparatorSquare() {
+    this.model = ReversiCreator.createSquare(4);
+    Assert.assertTrue(new TopLeftComparator().compare(this.model.getCellAt(0, 0),
+            this.model.getCellAt(0, 3)) < 0);
+    Assert.assertTrue(new TopLeftComparator().compare(this.model.getCellAt(0, 2),
+            this.model.getCellAt(1, 0)) < 0);
+    Assert.assertTrue(new TopLeftComparator().compare(this.model.getCellAt(2, 2),
+            this.model.getCellAt(0, 0)) > 0);
+    Assert.assertTrue(new TopLeftComparator().compare(this.model.getCellAt(3, 0),
+            this.model.getCellAt(2, 3)) > 0);
+  }
 }

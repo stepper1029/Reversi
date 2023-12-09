@@ -14,12 +14,6 @@ public class ChooseCorners extends SimpleBreakTiesPassStrategy {
   @Override
   public List<ReversiCell> allGoodMoves(ReadOnlyModel model, DiskColor player,
                                         List<ReversiCell> possibleMoves) {
-    return possibleMoves.stream().filter(c ->
-            this.isCorner(c, model.getBoardSize() - 1)).collect(Collectors.toList());
-  }
-
-  // determines if the given cell is at the corner
-  private boolean isCorner(ReversiCell cell, int maxBoardIndex) {
-    return cell.containsAllCoords(new int[]{0, maxBoardIndex, maxBoardIndex * -1});
+    return possibleMoves.stream().filter(model::isCorner).collect(Collectors.toList());
   }
 }

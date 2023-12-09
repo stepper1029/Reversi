@@ -153,4 +153,14 @@ public class ModelMock implements MutableModel, ReadOnlyModel {
   public Optional<DiskColor> getWinner() {
     return Optional.empty();
   }
+
+  @Override
+  public boolean isCorner(ReversiCell cell) {
+    return this.realModel.isCorner(cell);
+  }
+
+  @Override
+  public boolean isCornerAdjacent(ReversiCell cell) {
+    return this.realModel.isCornerAdjacent(cell);
+  }
 }

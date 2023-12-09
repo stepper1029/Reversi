@@ -69,4 +69,20 @@ public interface ReversiCell {
    * @return true if all values match are contained within this cell's coordinates and false if not
    */
   boolean containsAllCoords(int[] coords);
+
+  /**
+   * Determines which coordinate should be used for comparing horizontally. Used in the
+   * TopLeftComparator
+   *
+   * @return the coordinate associated with the horizontal direction
+   */
+  char getHorizontalComparisonCoord();
+
+  /**
+   * Determines which coordinate should be used for comparing horizontally. Used in the
+   * TopLeftComparator
+   *
+   * @return the coordinate associated with the horizontal direction
+   */
+  char getVerticalComparisionCoord();
 }

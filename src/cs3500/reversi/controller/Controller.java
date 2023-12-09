@@ -81,4 +81,3 @@ public class Controller implements PlayerActions, ModelFeatures {
     view.gameOver();
   }
 }
-

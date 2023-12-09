@@ -344,4 +344,10 @@ public abstract class AbstractModel implements MutableModel {
     }
     return new ArrayList<>(new HashSet<>(validMoves));
   }
+
+  @Override
+  public abstract boolean isCorner(ReversiCell cell);
+
+  @Override
+  public abstract boolean isCornerAdjacent(ReversiCell cell);
 }

@@ -106,6 +106,16 @@ class HexCell implements ReversiCell {
     return true;
   }
 
+  @Override
+  public char getHorizontalComparisonCoord() {
+    return 'q';
+  }
+
+  @Override
+  public char getVerticalComparisionCoord() {
+    return 'r';
+  }
+
   /**
    * toString method to make testing and debugging easier and so that the mock can add the r q s
    * value to the cell.

@@ -17,14 +17,6 @@ public class AvoidCornerAdjacent extends SimpleBreakTiesPassStrategy {
   public List<ReversiCell> allGoodMoves(ReadOnlyModel model, DiskColor player,
                                         List<ReversiCell> possibleMoves) {
     return possibleMoves.stream().filter(c ->
-            !this.isAdjacentToCorner(c,
-                    model.getBoardSize() - 1)).collect(Collectors.toList());
-  }
-
-  // checks if a cell is adjacent to a corner
-  private boolean isAdjacentToCorner(ReversiCell cell, int maxBoardIndex) {
-    return cell.containsAllCoords(new int[] {0, maxBoardIndex - 1, (maxBoardIndex - 1) * -1}) ||
-            (cell.contains(maxBoardIndex) && !cell.contains(0)) ||
-            (cell.contains(maxBoardIndex * -1) && !cell.contains(0));
+            !model.isCornerAdjacent(c)).collect(Collectors.toList());
   }
 }

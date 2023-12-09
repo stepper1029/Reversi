@@ -123,4 +123,18 @@ public interface ReadOnlyModel {
    * @throws IllegalStateException if the game is not over yet
    */
   Optional<DiskColor> getWinner();
+
+  /**
+   * Determines if the given cell is a corner cell on this board.
+   *
+   * @return true if this piece is a corner cell
+   */
+  boolean isCorner(ReversiCell cell);
+
+  /**
+   * Determines if the given cell is adjacent to a corner on this board.
+   *
+   * @return true if this piece is a corner cell
+   */
+  boolean isCornerAdjacent(ReversiCell cell);
 }
