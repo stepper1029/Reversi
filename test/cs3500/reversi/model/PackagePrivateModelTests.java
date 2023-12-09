@@ -225,17 +225,17 @@ public class PackagePrivateModelTests {
             this.board4.getNeighborCell(this.bottomRight, CellDirection.BottomLeft));
     // moving off of the board (invalid tests)
     Assert.assertThrows(IllegalArgumentException.class, () ->
-            this. board3.getNeighborCell(this.bottomLeftMiddle, CellDirection.Left));
+            this.board3.getNeighborCell(this.bottomLeftMiddle, CellDirection.Left));
     Assert.assertThrows(IllegalArgumentException.class, () ->
-            this. board3.getNeighborCell(this.outerUpperLeft, CellDirection.UpperLeft));
+            this.board3.getNeighborCell(this.outerUpperLeft, CellDirection.UpperLeft));
     Assert.assertThrows(IllegalArgumentException.class, () ->
-            this. board3.getNeighborCell(this.upperRightMiddle, CellDirection.UpperRight));
+            this.board3.getNeighborCell(this.upperRightMiddle, CellDirection.UpperRight));
     Assert.assertThrows(IllegalArgumentException.class, () ->
-            this. board3.getNeighborCell(this.bottomRightMiddle, CellDirection.Right));
+            this.board3.getNeighborCell(this.bottomRightMiddle, CellDirection.Right));
     Assert.assertThrows(IllegalArgumentException.class, () ->
-            this. board3.getNeighborCell(this.bottomMiddle, CellDirection.BottomRight));
+            this.board3.getNeighborCell(this.bottomMiddle, CellDirection.BottomRight));
     Assert.assertThrows(IllegalArgumentException.class, () ->
-            this. board3.getNeighborCell(this.outerBottomLeft, CellDirection.BottomLeft));
+            this.board3.getNeighborCell(this.outerBottomLeft, CellDirection.BottomLeft));
   }
 
   @Test

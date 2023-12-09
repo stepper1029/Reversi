@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Abstract class to represent the board and all the shared fields and methods.
+ */
 abstract class AbstractBoard implements Board {
-
-
-  // represents the number of cells that make up one side length of the board. Private field
-  // because any observations on the board should be made through the model. Final because the
-  // reference should not be changed.
-  // INVARIANT: boardSize > 2
+  // represents the number of cells that make up one side length of the board. Protected field
+  // because any observations on the board should be made through the model.
+  // INVARIANT: boardSize > 2 (HexBoard), boardSize > 3 (SquareBoard)
   protected int boardSize;
 
   // Holds all the cells that are a part of the board. The outer array holds the horizontal rows

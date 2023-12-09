@@ -13,6 +13,9 @@ public class PackagePrivateSquareModelTests {
   private SquareCell cell11;
   private SquareCell cell21;
   private SquareCell cell31;
+  private SquareCell cell02;
+  private SquareCell cell12;
+  private SquareCell cell22;
 
   // initializing square cells
   private void initCells() {
@@ -24,6 +27,9 @@ public class PackagePrivateSquareModelTests {
     this.cell11 = new SquareCell(1, 1);
     this.cell21 = new SquareCell(2, 1);
     this.cell31 = new SquareCell(3, 1);
+    this.cell02 = new SquareCell(0, 2);
+    this.cell12 = new SquareCell(1, 2);
+    this.cell22 = new SquareCell(2, 2);
   }
 
   @Test
@@ -67,6 +73,37 @@ public class PackagePrivateSquareModelTests {
   // SquareBoard tests
   @Test
   public void testConstructor() {
-    //Assert.assertThrows(IllegalArgumentException.class)
+    Assert.assertThrows(IllegalArgumentException.class, () -> new HexBoard(0));
+    Assert.assertThrows(IllegalArgumentException.class, () -> new HexBoard(-1));
+    Assert.assertThrows(IllegalArgumentException.class, () -> new HexBoard(2));
+    Assert.assertThrows(IllegalArgumentException.class, () -> new HexBoard(3));
+    Assert.assertThrows(IllegalArgumentException.class, () -> new HexBoard(1));
+  }
+
+  @Test
+  public void testGetNeighborCell() {
+    Assert.assertEquals(this.cell00,
+            this.board4.getNeighborCell(this.cell11, CellDirection.UpperLeft));
+    Assert.assertEquals(this.cell10,
+            this.board4.getNeighborCell(this.cell11, CellDirection.Up));
+    Assert.assertEquals(this.cell20,
+            this.board4.getNeighborCell(this.cell11, CellDirection.UpperRight));
+    Assert.assertEquals(this.cell21,
+            this.board4.getNeighborCell(this.cell11, CellDirection.Right));
+    Assert.assertEquals(this.cell22,
+            this.board4.getNeighborCell(this.cell11, CellDirection.BottomRight));
+    Assert.assertEquals(this.cell12,
+            this.board4.getNeighborCell(this.cell11, CellDirection.Down));
+    Assert.assertEquals(this.cell02,
+            this.board4.getNeighborCell(this.cell11, CellDirection.BottomLeft));
+    Assert.assertEquals(this.cell01,
+            this.board4.getNeighborCell(this.cell11, CellDirection.Left));
+    // moving off of the board (invalid tests)
+    Assert.assertThrows(IllegalArgumentException.class, () ->
+            this.board4.getNeighborCell(this.bottomLeftMiddle, CellDirection.Left));
+    Assert.assertThrows(IllegalArgumentException.class, () ->
+            this.board4.getNeighborCell(this.outerUpperLeft, CellDirection.UpperLeft));
+    Assert.assertThrows(IllegalArgumentException.class, () ->
+            this. board3.getNeighborCell(this.upperRightMiddle, CellDirection.UpperRight));
   }
 }
