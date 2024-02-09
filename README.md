@@ -5,22 +5,22 @@ A popular board game, also known as Othello, where players capture tiles to conq
 # Project Overview
 
 
-- [Model](src/cs3500/model)
+## ← [Model](src/cs3500/model)
 This folder holds all the logic for the rules of the game as well as aspects of the board. This includes,
 possible moves, different boards (square, hexagonal, etc), different pieces, and different rulesets.
 
-## ← src/cs3500/view
+## ← [View](src/cs3500/view)
 This folder holds the view aspect of our MVC framework. There are two types of views, text-based used
 mostly for testing and Swing GUI used for interactive gameplay. This is how we communicate what's happening
 in the game to the players.
 
-## ← src/cs3500/controller
+## ← [Controller](src/cs3500/controller)
 This folder "controls" the flow of the game, passing to the model and view when appropriate. When a player
 interacts with the view in some capacity(mouse clicks, keyboard actions, etc.), the action gets handed to 
 the controller to decide what to do. The controller is what allows us to keep the model and view separate, 
 allowing for varied gameplay and scalable architecture.
 
-## ← src/cs3500/provider
+## ← [Provider](src/cs3500/provider)
 This folder contains code from our "providers", peers who gave us their implemented view that we had to 
 make work with our implemented model. This helped us practice collaboration with other teams as well as 
 working with "clients" to whom we provided our code.
