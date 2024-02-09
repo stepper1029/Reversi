@@ -5,7 +5,7 @@ A popular board game, also known as Othello, where players capture tiles to conq
 # Project Overview
 
 
-## ← src/cs3500/model
+- [Model](src/cs3500/model)
 This folder holds all the logic for the rules of the game as well as aspects of the board. This includes,
 possible moves, different boards (square, hexagonal, etc), different pieces, and different rulesets.
 
