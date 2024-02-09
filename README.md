@@ -23,7 +23,8 @@ allowing for varied gameplay and scalable architecture.
 ## [Provider](src/cs3500/provider)
 This folder contains code from our "providers", peers who gave us their implemented view that we had to 
 make work with our implemented model. This helped us practice collaboration with other teams as well as 
-working with "clients" to whom we provided our code.
+working with "clients" to whom we provided our code. It also ensured that our design cleanly and accurately
+separated responsibilities and did not handle model tasks in the view or vice versa.
 
 These are just a few of the main components, but many folders have their own specific READMEs that go 
 into much more detail about methods and interactions. 
